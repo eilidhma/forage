@@ -82,7 +82,7 @@ export default function LoginUI({
 }) 
 {
     const [isCreate, setIsCreate] = useState(false);
-    const [isVisible, setIsVisible] = useState(true);
+    const [isVisible, setIsVisible] = useState(false);
     const {theme, setTheme} = useTheme();
 
     if(isCreate === false)
