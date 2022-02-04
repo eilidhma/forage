@@ -1,5 +1,6 @@
 export const colors = {
-    orange: "#EF6345"
+    orange: "#EF6345",
+    burntOrange: "#CA4E33"
 }
 
 //For setting up simple global colors. 
