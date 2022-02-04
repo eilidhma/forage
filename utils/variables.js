@@ -14,3 +14,14 @@ export const themes = {
     overlay:'rgba(27,43,71,0.5)'
   }
 }
+
+export const comp_themes = {
+  default: {
+    nav_bg_color:"#FFF",
+    text_color:"#000"
+  },
+  dark: {
+    nav_bg_color:"#000",
+    text_color:"#FFF"
+  }
+}
