@@ -52,8 +52,8 @@ export default function Switch({
     id, 
     toggled, 
     onChange,
-    bgcolor = 'white',
-    borderColor = 'white',
+    bgcolor = '#1B2B47',
+    borderColor = '#1B2B47',
     onClick=()=>{},
 })
 {
