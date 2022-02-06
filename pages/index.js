@@ -4,7 +4,9 @@ import NavBar from '../comps/NavBar'
 import LoginUI from '../comps/LoginUI'
 import Switch from '../comps/Switch'
 import Slider from '../comps/Slider'
-
+import Card from '../comps/Card'
+import Close from '../comps/Close'
+import Heart from '../comps/Heart'
 import { useState } from 'react'
 
 const Wrapper = styled.div`
@@ -38,6 +40,12 @@ export default function Home() {
         visibility={isVisible === true ? "visible" : "hidden"} 
         onCancelClick={()=>{setIsVisible(false)}}
       /> */}
+
+    {/* ------------ Eilidh's comps ------------ */}
+
+      {/* <Card/> */}
+      {/* <Heart/> */}
+      {/* <Close/> */}
     </Wrapper>
     
   </>
