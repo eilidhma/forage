@@ -3,6 +3,7 @@ import Background from '../comps/Background'
 import NavBar from '../comps/NavBar'
 import LoginUI from '../comps/LoginUI'
 import Switch from '../comps/Switch'
+import Slider from '../comps/Slider'
 
 import { useState } from 'react'
 
@@ -25,14 +26,14 @@ export default function Home() {
 
       <Background/>
     <Wrapper>
+      {/* <Slider /> */}
+
       {/* <Switch
       id="test-switch"
       toggled={isToggled}
-      borderColor='#1B2B47'
-      bgcolor='#1B2B47'
       onChange={e => setIsToggled(e.target.checked)}
       /> */}
-      
+
       {/* <LoginUI 
         visibility={isVisible === true ? "visible" : "hidden"} 
         onCancelClick={()=>{setIsVisible(false)}}
