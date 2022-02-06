@@ -25,11 +25,14 @@ export default function Home() {
 
       <Background/>
     <Wrapper>
-    <Switch
-    id="test-switch"
-    toggled={isToggled}
-    onChange={e => setIsToggled(e.target.checked)}
-    />
+      {/* <Switch
+      id="test-switch"
+      toggled={isToggled}
+      borderColor='#1B2B47'
+      bgcolor='#1B2B47'
+      onChange={e => setIsToggled(e.target.checked)}
+      /> */}
+      
       {/* <LoginUI 
         visibility={isVisible === true ? "visible" : "hidden"} 
         onCancelClick={()=>{setIsVisible(false)}}

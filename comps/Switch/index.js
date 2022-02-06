@@ -22,8 +22,8 @@ const SwitchCont = styled.label`
   transition: background-color 0.2s;
 
   ${SwitchInput}:checked + ${SwitchCont} & {
-    background: #1B2B47;
-    border: 2px solid #1B2B47;
+    background-color: ${props=>props.bgcolor};
+    border-color: ${props=>props.borderColor};
   }
 
 `
@@ -51,7 +51,10 @@ const SwitchButton = styled.span`
 export default function Switch({ 
     id, 
     toggled, 
-    onChange, 
+    onChange,
+    bgcolor = 'white',
+    borderColor = 'white',
+    onClick=()=>{},
 })
 {
   return <>
@@ -62,7 +65,15 @@ export default function Switch({
         checked={toggled}
         onChange={onChange}
       />
-        <SwitchCont className="switch-cont" htmlFor={id}>
+        <SwitchCont 
+        className="switch-cont" 
+        htmlFor={id}
+        onClick={onClick}
+        bgcolor={bgcolor}
+        borderColor={borderColor}
+
+        
+        >
         <SwitchButton className="switch-button" />
       </SwitchCont>
     </>
