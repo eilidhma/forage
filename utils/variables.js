@@ -6,7 +6,7 @@ export const themes = {
     accent:'#EF6345',
     overlay:'rgba(255,255,255,0.5)',
     card_bg_color:'#EDF2F4',
-    shadow:'#1B2B47'
+    shadow:'#1B2B47',
   },
   dark:{
     outerGradient:'#000000',
@@ -15,7 +15,7 @@ export const themes = {
     accent:'#EF6345',
     overlay:'rgba(27,43,71,0.5)',
     card_bg_color:'#1B2B47',
-    shadow:'#FFFFFF'
+    shadow:'#FFFFFF',
   }
 }
 
@@ -29,7 +29,9 @@ export const comp_themes = {
     justify_content:'center',
     card_padding:'20px',
     card_text_width:'200px',
-    text_align:'center'
+    text_align:'center',
+    switch_border_color:'white',
+    switch_bg_color:'white',
   },
   dark: {
     nav_bg_color:"#000",
@@ -40,6 +42,8 @@ export const comp_themes = {
     justify_content:'space-between',
     card_padding:'5px',
     card_text_width:'400px',
-    text_align:'left'
+    text_align:'left',
+    switch_border_color:'#1B2B47',
+    switch_bg_color:'#1B2B47',
   }
 }
