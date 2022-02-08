@@ -30,8 +30,9 @@ export const comp_themes = {
     card_padding:'20px',
     card_text_width:'200px',
     text_align:'center',
-    switch_border_color:'white',
-    switch_bg_color:'white',
+    switch_border_color:'#1B2B47',
+    switch_bg_color:'#1B2B47',
+    slider_bg_color:'#1B2B47',
   },
   dark: {
     nav_bg_color:"#000",
@@ -43,7 +44,8 @@ export const comp_themes = {
     card_padding:'5px',
     card_text_width:'400px',
     text_align:'left',
-    switch_border_color:'#1B2B47',
-    switch_bg_color:'#1B2B47',
+    switch_border_color:'white',
+    switch_bg_color:'white',
+    slider_bg_color:'#EDF2F4',
   }
 }

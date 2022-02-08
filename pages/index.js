@@ -28,7 +28,7 @@ export default function Home() {
 
       <Background/>
     <Wrapper>
-      {/* <Slider /> */}
+      <Slider bgcolor='#1B2B47'/>
 
       {/* <Switch
       id="test-switch"
