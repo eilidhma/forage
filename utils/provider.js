@@ -5,12 +5,10 @@ import { themes } from './variables';
 const initialStates = {
     theme:"default",
     setTheme:()=>{},
-    items_view:"list",
+    items_view:"default",
     setItemsView:()=>{},
-    sortBy:"bookID",
-    setSortBy:()=>{},
-    searchBy:"title",
-    setSearchBy:()=>{}
+    items_number:"default",
+    setItemsNumber:()=>{},
 }
 
 const MyContext = createContext(initialStates);
@@ -20,8 +18,7 @@ export default function AppProvider({children}){
 
     const [theme, setTheme] = useState(initialStates.theme)
     const [items_view, setItemsView] = useState(initialStates.items_view)
-    const [sortBy, setSortBy] = useState(initialStates.sortBy)
-    const [searchBy, setSearchBy] = useState(initialStates.searchBy)
+    const [items_number, setItemsNumber] = useState(initialStates.items_number)
 
     //put in the variables you want to share
     return <MyContext.Provider value={{
@@ -29,10 +26,8 @@ export default function AppProvider({children}){
         setTheme,
         items_view,
         setItemsView,
-        sortBy,
-        setSortBy,
-        searchBy,
-        setSearchBy
+        items_number,
+        setItemsNumber
     }}>
         <style jsx global>
             {`
@@ -63,14 +58,10 @@ export function useItemsView(){
     return {items_view, setItemsView};
 }
 
-export function useSorting(){
-    const {sortBy, setSortBy} = useContext(MyContext);
-    return {sortBy, setSortBy};
+export function useItemsNumber(){
+    const {items_number, setItemsNumber} = useContext(MyContext);
+    return {items_number, setItemsNumber};
 }
 
-export function useSearching(){
-    const {searchBy, setSearchBy} = useContext(MyContext);
-    return {searchBy, setSearchBy};
-}
 
 //use the Context to create Hooks like useTheme

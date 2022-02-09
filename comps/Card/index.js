@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { useRouter } from "next/router";
-import { comp_themes, themes } from "../../utils/variables";
+import { comp_themes, themes, view_themes } from "../../utils/variables";
 import { useTheme } from "../../utils/provider";
+import { useItemsView } from "../../utils/provider";
 import { colors } from "../../utils/colors";
 import Dietary from "../Dietary";
 
@@ -12,7 +13,6 @@ const Cont = styled.div`
   flex-direction:${props=>props.flexDirection};
   min-width:${props=>props.width};
   max-width:${props=>props.width};
-  height:${props=>props.height};
   box-shadow: 0px 0px 20px ${props=>props.shadow};
   border-radius: 20px;
   background-color:${props=>props.background};
@@ -58,24 +58,24 @@ const Card = ({
 }) => {
 
   const {theme, setTheme} = useTheme();
+  const {items_view, setItemsView} = useItemsView();
 
   return <Cont 
-    flexDirection={comp_themes[theme].card_flex_direction}
-    width={comp_themes[theme].card_width}
-    height={comp_themes[theme].card_height}
+    flexDirection={view_themes[items_view].card_flex_direction}
+    width={view_themes[items_view].card_width}
     background={themes[theme].card_bg_color}
-    justifyContent={comp_themes[theme].justify_content}
+    justifyContent={view_themes[items_view].justify_content}
     shadow={themes[theme].shadow}
-    padding={comp_themes[theme].card_padding}
+    padding={view_themes[items_view].card_padding}
   >
     <Title>{recipe_name}</Title>
     <Description 
     color={themes[theme].text} 
-    textWidth={comp_themes[theme].text_width}
-    textAlign={comp_themes[theme].text_align}>
+    textWidth={view_themes[items_view].card_text_width}
+    textAlign={view_themes[items_view].text_align}>
       {recipe_description}
     </Description>
-    <Img display={comp_themes[theme].img_display} src={src}></Img>
+    <Img display={view_themes[items_view].img_display} src={src}></Img>
     <DietCont>
       <Dietary/>
       <Dietary diet="GF"/>
