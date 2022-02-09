@@ -13,6 +13,8 @@ const Text = styled.h3`
   font-family: "Poppins", sans-serif;
   font-weight: 700;
   font-size:1.7rem;
+  margin: 5px;
+  text-align: center;
 `
 
 const Title = ({
