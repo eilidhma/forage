@@ -9,7 +9,6 @@ import Title from '../comps/Title'
 import { themes } from "../utils/variables";
 import { useTheme } from "../utils/provider";
 import { useItemsView } from '../utils/provider';
-import Card from '../comps/Card'
 
 const Wrapper = styled.div`
   display: flex;
@@ -60,6 +59,8 @@ const Text = styled.p`
 export default function Settings() {
 
   const [isVisible, setIsVisible] = useState(true);
+  const [isDarkToggled, setIsDarkToggled] = useState(false);
+  const [isModeToggled, setIsModeToggled] = useState(false);
 
   const {theme, setTheme} = useTheme();
   const {items_view, setItemsView} = useItemsView();
@@ -72,7 +73,6 @@ export default function Settings() {
       <Background/>
     <Wrapper>
       <Title title='Settings'/>
-      <Card/>
       <SettingsCont>
         <Setting>
           <Left>
