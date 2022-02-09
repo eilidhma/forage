@@ -6,7 +6,8 @@ export const themes = {
     accent:'#EF6345',
     overlay:'rgba(255,255,255,0.5)',
     card_bg_color:'#EDF2F4',
-    shadow:'#1B2B47'
+    shadow:'#1B2B47',
+    button_shadow:'rgba(0, 0, 0, 0.5)'
   },
   dark:{
     outerGradient:'#000000',
@@ -15,7 +16,8 @@ export const themes = {
     accent:'#EF6345',
     overlay:'rgba(27,43,71,0.5)',
     card_bg_color:'#1B2B47',
-    shadow:'#FFFFFF'
+    shadow:'#FFFFFF',
+    button_shadow:'rgba(255, 255, 255, 0.5)'
   }
 }
 
