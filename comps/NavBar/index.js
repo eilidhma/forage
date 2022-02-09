@@ -69,10 +69,10 @@ export default function NavBar({
             <LinksCont>
                 <NavLink
                     color={comp_themes[theme].text_color}
-                    onClick={()=>{}}>Favourites</NavLink>
+                    onClick={()=>{r.push('/favourites')}}>Favourites</NavLink>
                 <NavLink 
                     color={comp_themes[theme].text_color}
-                    onClick={()=>{}}>Settings</NavLink>
+                    onClick={()=>{r.push('/settings')}}>Settings</NavLink>
                 <NavLink 
                     color={colors.orange}
                     onClick={onLoginClick}>Login</NavLink>
