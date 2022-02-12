@@ -83,16 +83,24 @@ export default function AddIngredients({
     const PushIngredient = () => {
         if(searchVal != "" && !ings.includes(searchVal))
         {
-            let temp = ings
-            temp.push(searchVal)
-            setIngs(temp)
-            setSearchVal("")
-            console.log(ings)
+            // let temp = ings
+            // temp.push(searchVal)
+            // setIngs(temp)
+            // setSearchVal("")
+            // console.log(ings)
+
+            setIngs([...ings, searchVal])
         }
     }
 
-    function SpliceIngredient(){
-       
+    const SpliceIngredient = (e) => {
+        console.log(e.target.getAttribute('data-value'))
+        const oldIngs = ings
+        const index = ings.indexOf(e.target.dataset.value)
+        // console.log(e.target.dataset.value)
+        ings.splice(index, 1)
+        setIngs([...oldIngs])
+        // console.log(e)
     }
 
 
@@ -111,7 +119,7 @@ export default function AddIngredients({
                 </AddButton>
             </SearchBarCont>
                 {ings.map((o, i) => 
-                    <Ingredient 
+                    <Ingredient
                         color={themes[theme].text}
                         borderColor={comp_themes[theme].ingredient_border_color}
                         key={i}>
@@ -119,9 +127,13 @@ export default function AddIngredients({
                             {o}
                         </IngCont>
                         <IngCont justify="flex-end"> 
-                            <AiFillDelete
-                                onClick={()=>SpliceIngredient()}
-                            />
+                            <button
+                            data-value={o}
+                            onClick={(e)=>SpliceIngredient(e)}
+                            >
+                                <AiFillDelete
+                                />
+                            </button>
                         </IngCont> 
                     </Ingredient>
                 )}
