@@ -2,6 +2,8 @@ import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
+import Title from "../Title";
+
 import { themes, comp_themes } from "../../utils/variables";
 import { useTheme } from "../../utils/provider";
 import { colors } from "../../utils/colors";
@@ -11,14 +13,15 @@ const AddIngsCont = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 30vw;
+    width: 40vw;
+    min-height: 20vh;
     flex-direction: column;
 `
 const SearchBarCont = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    width: 80%;
 `
 const SearchBar = styled.input`
     width: 100%;
@@ -35,7 +38,7 @@ const SearchBar = styled.input`
         border: 1px ${colors.orange} solid;
     }
 `
-const AddButton = styled(motion.button)`
+const Button = styled(motion.button)`
     width: 135px;
     height: 40px;
     background-color: ${colors.orange};
@@ -55,7 +58,7 @@ const Ingredient = styled.div`
     align-items: center;
     border: ${props=>props.borderColor} 2px solid;
     border-radius: 10px;
-    width: 100%;
+    width: 80%;
     height: 30px;
     margin: 5px 0 5px 0;
     font-family: "Poppins", sans-serif;
@@ -67,6 +70,22 @@ const IngCont = styled.div`
     flex: 1;
     padding: 10px;
     justify-content: ${props=>props.justify};
+`
+const DeleteButton = styled.button`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 5%;
+    height: 100%;
+    background: none;
+    border: none;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    color: ${props=>props.color};
+    
+    :hover{
+        cursor: pointer;
+    };
 `
 
 
@@ -90,6 +109,7 @@ export default function AddIngredients({
             // console.log(ings)
 
             setIngs([...ings, searchVal])
+            setSearchVal("")
         }
     }
 
@@ -97,26 +117,30 @@ export default function AddIngredients({
         console.log(e.target.getAttribute('data-value'))
         const oldIngs = ings
         const index = ings.indexOf(e.target.dataset.value)
-        // console.log(e.target.dataset.value)
         ings.splice(index, 1)
         setIngs([...oldIngs])
-        // console.log(e)
+    }
+
+    const showRecipes = () => {
+
     }
 
 
     return <>
         <AddIngsCont>
+            <Title title="Let's start by adding in ingredients you have available right now!" />
+
             <SearchBarCont>
                 <SearchBar value={searchVal} onChange={(e)=>{
                 setSearchVal(e.target.value)
             }}/>
-                <AddButton 
+                <Button 
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
                     onClick={()=>PushIngredient()}
                 >
                     Add
-                </AddButton>
+                </Button>
             </SearchBarCont>
                 {ings.map((o, i) => 
                     <Ingredient
@@ -127,16 +151,24 @@ export default function AddIngredients({
                             {o}
                         </IngCont>
                         <IngCont justify="flex-end"> 
-                            <button
-                            data-value={o}
-                            onClick={(e)=>SpliceIngredient(e)}
+                            <DeleteButton
+                                data-value={o}
+                                onClick={(e)=>SpliceIngredient(e)}
+                                color={themes[theme].text}
                             >
-                                <AiFillDelete
-                                />
-                            </button>
+                                X
+                            </DeleteButton>
                         </IngCont> 
                     </Ingredient>
                 )}
+
+                <Button 
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    onClick={()=>showRecipes()}
+                >
+                    Done
+                </Button>
         </AddIngsCont>
     </>
 }
