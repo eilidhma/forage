@@ -1,3 +1,5 @@
+import { colors } from "./colors"
+
 export const themes = {
   default:{
     outerGradient:'#D9ECF3',
@@ -28,6 +30,7 @@ export const comp_themes = {
     switch_border_color:'#1B2B47',
     switch_bg_color:'#1B2B47',
     slider_bg_color:'#1B2B47',
+    ingredient_border_color: colors.orange
   },
   dark: {
     nav_bg_color:"#000",
@@ -35,6 +38,7 @@ export const comp_themes = {
     switch_border_color:'white',
     switch_bg_color:'white',
     slider_bg_color:'#EDF2F4',
+    ingredient_border_color: 'white'
   }
 }
 

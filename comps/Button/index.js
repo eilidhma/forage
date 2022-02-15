@@ -11,7 +11,7 @@ const But = styled.button`
   justify-content:center;
   align-items:center;
   box-shadow: 0px 2px 10px ${props=>props.shadow};
-  border-radius: 20px;
+  border-radius: 10px;
   background-color:#EF6345;
   padding:5px 10px 5px 10px;
   font-family: "Poppins", sans-serif;
@@ -21,6 +21,10 @@ const But = styled.button`
   border:none;
   width:150px;
   height:50px;
+
+  :hover {
+    cursor: pointer;
+  }
 `
 
 const Button = ({

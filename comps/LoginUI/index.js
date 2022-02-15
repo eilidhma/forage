@@ -19,6 +19,10 @@ const Cont = styled(motion.div)`
     border-radius: 30px;
     visibility: ${props=>props.visibility};
     background-color: #D2D2D2;
+    position: absolute;
+    right: 25px;
+    top: 30px;
+    z-index: 10000;
 `
 
 const HeadingCont = styled.div`
