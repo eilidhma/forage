@@ -91,7 +91,8 @@ const DeleteButton = styled.button`
 
 
 export default function AddIngredients({
-    justify="flex-start"
+    justify="flex-start",
+    showRecipes = () => {}
 })
 {   
     const {theme, setTheme} = useTheme();
@@ -120,11 +121,6 @@ export default function AddIngredients({
         ings.splice(index, 1)
         setIngs([...oldIngs])
     }
-
-    const showRecipes = () => {
-
-    }
-
 
     return <>
         <AddIngsCont>
@@ -165,7 +161,7 @@ export default function AddIngredients({
                 <Button 
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
-                    onClick={()=>showRecipes()}
+                    onClick={showRecipes}
                 >
                     Done
                 </Button>
