@@ -1,34 +1,14 @@
-import { connectToDatabase } from '../../utils/mongodb';
-const ObjectId = require('mongodb').ObjectId;
+import { connectToDatabase } from "../../utils/mongodb";
 
-export default async function handler(req, res) {
-    // switch the methods
-    switch (req.method) {
-        case 'GET': {
-            //console.log('hi')
-            return await getRecipes(req, res);
-        }
-    }
-}
+export default async (req, res) => {
+  const { db } = await connectToDatabase();
 
-async function getRecipes(req,res){
-  try {
-        let client = connectToDatabase();
-        await client.connect();
-        let recipes = client.db('recipeDB')
-        .collection('recipes')
-        // return the recipes
-        console.log(recipes)
-        client.close();
-        return res.json({
-            message: JSON.parse(JSON.stringify(recipes)),
-            success: true,
-        });
-  } catch (error) {
-      // return the error
-      return res.json({
-          message: new Error(error).message,
-          success: false,
-      });
-  }
-}
+  const recipesDB = await db
+    .collection("recipes")
+    .find({})
+    .sort({ metacritic: -1 })
+    .limit(100)
+    .toArray();
+
+  res.json(recipesDB);
+};
