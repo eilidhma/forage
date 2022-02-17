@@ -59,6 +59,31 @@ export default function Home({recipes}) {
   const [isToggled, setIsToggled] = useState(false);
   const introText = `Hungry?\n We can help.`
 
+  const [ings, setIngs] = useState([]);
+    const [searchVal, setSearchVal] = useState("");
+    
+    const PushIngredient = () => {
+        if(searchVal != "" && !ings.includes(searchVal))
+        {
+            // let temp = ings
+            // temp.push(searchVal)
+            // setIngs(temp)
+            // setSearchVal("")
+            // console.log(ings)
+
+            setIngs([...ings, searchVal])
+            setSearchVal("")
+        }
+    }
+
+    const SpliceIngredient = (e) => {
+        console.log(e.target.getAttribute('data-value'))
+        const oldIngs = ings
+        const index = ings.indexOf(e.target.dataset.value)
+        ings.splice(index, 1)
+        setIngs([...oldIngs])
+    }
+
 
   return <>      
     <Background/>
@@ -75,10 +100,15 @@ export default function Home({recipes}) {
       </IntroCont>
 
       <SearchCont id="search">
-        <AddIngredients showRecipes={()=>r.push("#results")}/>
+        <AddIngredients 
+        searchVal={searchVal}
+        onClickAdd={()=>PushIngredient()}
+        onClickDelete={(e)=>SpliceIngredient(e)}
+        onChangeSearch={(e)=>setSearchVal(e.target.value)} 
+        showRecipes={()=>r.push("#results")}/>
       </SearchCont>
 
-        <Title title="Here's what you can make!"/>
+      <Title title="Here's what you can make!"/>
       <ResultsCont id="results">
         {recipes.map((recipe, index) => {
           return (

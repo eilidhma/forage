@@ -92,48 +92,26 @@ const DeleteButton = styled.button`
 
 export default function AddIngredients({
     justify="flex-start",
-    showRecipes = () => {}
+    showRecipes = () => {},
+    onChangeSearch = () => {},
+    onClickAdd = () => {},
+    onClickDone = () => {},
+    onClickDelete = () => {},
+    searchVal
 })
 {   
     const {theme, setTheme} = useTheme();
-
-    const [ings, setIngs] = useState([]);
-    const [searchVal, setSearchVal] = useState("");
-    
-    const PushIngredient = () => {
-        if(searchVal != "" && !ings.includes(searchVal))
-        {
-            // let temp = ings
-            // temp.push(searchVal)
-            // setIngs(temp)
-            // setSearchVal("")
-            // console.log(ings)
-
-            setIngs([...ings, searchVal])
-            setSearchVal("")
-        }
-    }
-
-    const SpliceIngredient = (e) => {
-        console.log(e.target.getAttribute('data-value'))
-        const oldIngs = ings
-        const index = ings.indexOf(e.target.dataset.value)
-        ings.splice(index, 1)
-        setIngs([...oldIngs])
-    }
 
     return <>
         <AddIngsCont>
             <Title title="Let's start by adding in ingredients you have available right now!" />
 
             <SearchBarCont>
-                <SearchBar value={searchVal} onChange={(e)=>{
-                setSearchVal(e.target.value)
-            }}/>
+                <SearchBar value={searchVal} onChange={onChangeSearch}/>
                 <Button 
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
-                    onClick={()=>PushIngredient()}
+                    onClick={onClickAdd}
                 >
                     Add
                 </Button>
@@ -149,7 +127,7 @@ export default function AddIngredients({
                         <IngCont justify="flex-end"> 
                             <DeleteButton
                                 data-value={o}
-                                onClick={(e)=>SpliceIngredient(e)}
+                                onClick={onClickDelete}
                                 color={themes[theme].text}
                             >
                                 X
