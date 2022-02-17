@@ -17,6 +17,7 @@ const Cont = styled.div`
   border-radius: 20px;
   background-color:${props=>props.background};
   padding:${props=>props.padding} 20px ${props=>props.padding} 20px;
+  margin: 20px;
 `
 
 const Title = styled.h3`
@@ -24,6 +25,20 @@ const Title = styled.h3`
   font-family: "Poppins", sans-serif;
   font-weight: 500;
   font-size:18px;
+  min-height: 50px;
+  max-height: 50px;
+  text-align: center;
+  min-width: 200px;
+  max-width: 200px;
+`
+
+const DescCont = styled.div`
+  display:flex;
+  justify-content:flex-start;
+  align-items:flex-start;
+  max-height:100px;
+  text-overflow: ellipsis;
+  overflow: hidden;
 `
 
 const Description = styled.p`
@@ -69,12 +84,14 @@ const Card = ({
     padding={view_themes[items_view].card_padding}
   >
     <Title>{recipe_name}</Title>
-    <Description 
-    color={themes[theme].text} 
-    textWidth={view_themes[items_view].card_text_width}
-    textAlign={view_themes[items_view].text_align}>
-      {recipe_description}
-    </Description>
+    <DescCont>
+      <Description 
+      color={themes[theme].text} 
+      textWidth={view_themes[items_view].card_text_width}
+      textAlign={view_themes[items_view].text_align}>
+        {recipe_description}
+      </Description>
+    </DescCont>
     <Img display={view_themes[items_view].img_display} src={src}></Img>
     <DietCont>
       <Dietary/>

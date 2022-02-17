@@ -15,7 +15,7 @@ async function getRecipes(req,res){
   try {
         let client = connectToDatabase();
         await client.connect();
-        let recipes = client.db('recipeDB')
+        let recipes = client.db('recipesDB')
         .collection('recipes')
         // return the recipes
         console.log(recipes)
