@@ -10,6 +10,7 @@ import Button from '../comps/Button'
 import Title from '../comps/Title'
 import AddIngredients from '../comps/AddIngredients'
 import clientPromise from '../lib/mongodb'
+import { filterProps } from 'framer-motion'
 
 
 const Wrapper = styled.div`
@@ -55,37 +56,62 @@ const ResultsCont = styled.div`
 
 export default function Home({recipes}) {
 
+
   const r = useRouter();
   const [isToggled, setIsToggled] = useState(false);
   const introText = `Hungry?\n We can help.`
-
+  const [filteredArr, setFilteredArr] = useState([])
   const [ings, setIngs] = useState([]);
-    const [searchVal, setSearchVal] = useState("");
+  const [searchVal, setSearchVal] = useState("");
     
-    const PushIngredient = () => {
-        if(searchVal != "" && !ings.includes(searchVal))
-        {
-            // let temp = ings
-            // temp.push(searchVal)
-            // setIngs(temp)
-            // setSearchVal("")
-            // console.log(ings)
-
-            setIngs([...ings, searchVal])
-            setSearchVal("")
+  const PushIngredient = () => {
+      if(searchVal != "" && !ings.includes(searchVal))
+      {
+          setIngs([...ings, searchVal])
+          setSearchVal("")
         }
-    }
+      }
+        
+  const SpliceIngredient = (e) => {
+    console.log(e.target.getAttribute('data-value'))
+    const oldIngs = ings
+    const index = ings.indexOf(e.target.dataset.value)
+    ings.splice(index, 1)
+    setIngs([...oldIngs])
+  }
 
-    const SpliceIngredient = (e) => {
-        console.log(e.target.getAttribute('data-value'))
-        const oldIngs = ings
-        const index = ings.indexOf(e.target.dataset.value)
-        ings.splice(index, 1)
-        setIngs([...oldIngs])
-    }
+
+  const ResultsFunc = (filters) => {
+  //console.log("called")
+    let result = []
+    recipes.forEach(r=>{
+      let count = 0;
+      var fail = false
+
+      filters.forEach(element => {
+        if(r.ingredients.includes(element)){
+          count++
+        } else {
+          fail = true;
+        }
 
 
-  return <>      
+      });
+
+      if(count >= 3 && fail === false){
+        result.push(r)
+      }
+      
+    })
+    // return result
+    console.log(result)
+    //let filtered = recipes.filter((r,i)=> result[i])
+  setFilteredArr(result)
+    //console.log(filteredArr)
+  }
+
+        
+    return <>      
     <Background/>
       <Wrapper>
 
@@ -101,25 +127,32 @@ export default function Home({recipes}) {
 
       <SearchCont id="search">
         <AddIngredients 
+        ings={ings}
         searchVal={searchVal}
         onClickAdd={()=>PushIngredient()}
         onClickDelete={(e)=>SpliceIngredient(e)}
         onChangeSearch={(e)=>setSearchVal(e.target.value)} 
-        showRecipes={()=>r.push("#results")}
-        ings={ings}
+        // showRecipes={()=>r.push("#results")}
+        showRecipes={()=>ResultsFunc(ings)}
         />
       </SearchCont>
 
       <Title title="Here's what you can make!"/>
       <ResultsCont id="results">
-        {recipes.map((recipe, index) => {
+
+        {/* {recipes.filter(recipe=>recipe.ingredients.includes(ings[0])).map((recipe, index) => { */}
+        {filteredArr.map((recipe, index) => {
           return (
             <Card 
             key={index} 
             recipe_name={recipe.name} 
-            recipe_description={recipe.description}
+            recipe_description={recipe.ingredients}
+            onCardClick={()=>r.push({
+              pathname:'/recipe/'+recipe.id,
+              query:recipe
+            })}
             />
-          );
+            );
         })}
       </ResultsCont>
     </Wrapper>
@@ -132,7 +165,7 @@ export async function getServerSideProps(context) {
 
   const db = client.db("recipesDB");
 
-  let recipes = await db.collection("recipes").find({}).limit(6).toArray();
+  let recipes = await db.collection("recipes").find({}).limit(110).toArray();
   recipes = JSON.parse(JSON.stringify(recipes));
 
   return {
