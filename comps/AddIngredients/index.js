@@ -97,7 +97,8 @@ export default function AddIngredients({
     onClickAdd = () => {},
     onClickDone = () => {},
     onClickDelete = () => {},
-    searchVal
+    searchVal,
+    ings
 })
 {   
     const {theme, setTheme} = useTheme();
@@ -116,7 +117,7 @@ export default function AddIngredients({
                     Add
                 </Button>
             </SearchBarCont>
-                {ings.map((o, i) => 
+                {ings && ings.map((o, i) => 
                     <Ingredient
                         color={themes[theme].text}
                         borderColor={comp_themes[theme].ingredient_border_color}

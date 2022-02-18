@@ -105,7 +105,9 @@ export default function Home({recipes}) {
         onClickAdd={()=>PushIngredient()}
         onClickDelete={(e)=>SpliceIngredient(e)}
         onChangeSearch={(e)=>setSearchVal(e.target.value)} 
-        showRecipes={()=>r.push("#results")}/>
+        showRecipes={()=>r.push("#results")}
+        ings={ings}
+        />
       </SearchCont>
 
       <Title title="Here's what you can make!"/>

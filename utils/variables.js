@@ -33,7 +33,7 @@ export const comp_themes = {
     ingredient_border_color: colors.orange
   },
   dark: {
-    nav_bg_color:"#000",
+    nav_bg_color:"#101929",
     text_color:"#FFF",
     switch_border_color:'white',
     switch_bg_color:'white',
