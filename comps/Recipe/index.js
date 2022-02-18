@@ -175,7 +175,7 @@ export default function Recipe({
 
             <MainCont>
                 <ImgCont>
-                    <img src="./plate.png" width={250}/>
+                    <img src="/plate.png" width={250}/>
                 </ImgCont>
                 <InfoCont>
                     <InnerCont>

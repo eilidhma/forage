@@ -61,7 +61,7 @@ export default function Home({recipes}) {
   const [isToggled, setIsToggled] = useState(false);
   const introText = `Hungry?\n We can help.`
   const [filteredArr, setFilteredArr] = useState([])
-  const [ings, setIngs] = useState([]);
+  const [ings, setIngs] = useState(["onion", "garlic", "pasta"]);
   const [searchVal, setSearchVal] = useState("");
     
   const PushIngredient = () => {
@@ -147,10 +147,7 @@ export default function Home({recipes}) {
             key={index} 
             recipe_name={recipe.name} 
             recipe_description={recipe.ingredients}
-            onCardClick={()=>r.push({
-              pathname:'/recipe/'+recipe.id,
-              query:recipe
-            })}
+            onCardClick={()=>r.push('/recipe/'+recipe.id)}
             />
             );
         })}

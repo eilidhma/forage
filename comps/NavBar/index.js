@@ -67,8 +67,6 @@ export default function NavBar({
     useEffect(() => {
         
         const changeNavBarOpacity = () => {
-
-            console.log(window.scrollY)
             if(window.scrollY >= 100){
                 setNavbar(true)
             } else {

@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import Router, { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 import Background from '../../comps/Background'
 import Recipe from '../../comps/Recipe'
@@ -21,13 +21,22 @@ const Spacer = styled.div`
 
 export default function Home({recipes}) {
 
+  useEffect(() => {
+   const curRec = recipes.filter((x) => {return x.id === id})
+   console.log(curRec[0].name)
+   setRec(curRec);
+  }, [])
+
+  const [rec, setRec] = useState([])
   const r = useRouter();
   const [isToggled, setIsToggled] = useState(false);
   const introText = `Hungry?\n We can help.`
 
  // console.log(r.query)
 
-  //const { recipe } = r.query
+  const { id } = r.query
+  // console.log(id)
+  //const recipe =
 
   // var meal = null;
   // if(r.params && r.params.meal){
@@ -38,8 +47,15 @@ export default function Home({recipes}) {
     <Background/>
       <Wrapper>
           <Spacer/>
-        <Recipe/>
-
+      {rec && rec.map((o) => (
+        
+        <Recipe
+          key={o.id}
+          recipe_name={o.name}
+          recipe_desc={o.description}
+          recipe_ingredients={o.ingredients}
+        />
+      ))}
     </Wrapper>
     
   </>
