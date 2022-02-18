@@ -89,18 +89,18 @@ const DeleteButton = styled.button`
 `
 
 
-
 export default function AddIngredients({
     justify="flex-start",
     showRecipes = () => {},
     onChangeSearch = () => {},
     onClickAdd = () => {},
-    onClickDone = () => {},
     onClickDelete = () => {},
-    searchVal
+    searchVal,
+    ings
 })
 {   
     const {theme, setTheme} = useTheme();
+
 
     return <>
         <AddIngsCont>
@@ -116,7 +116,7 @@ export default function AddIngredients({
                     Add
                 </Button>
             </SearchBarCont>
-                {ings.map((o, i) => 
+                {ings && ings.map((o, i) => 
                     <Ingredient
                         color={themes[theme].text}
                         borderColor={comp_themes[theme].ingredient_border_color}

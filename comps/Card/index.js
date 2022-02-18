@@ -69,13 +69,14 @@ const DietCont = styled.div`
 const Card = ({
   recipe_name='Recipe Name',
   recipe_description='This is a description of the recipe blah blah blahhhh',
-  src='plate.png'
+  src='plate.png',
+  onCardClick=()=>{}
 }) => {
 
   const {theme, setTheme} = useTheme();
   const {items_view, setItemsView} = useItemsView();
 
-  return <Cont 
+  return <Cont onClick={onCardClick}
     flexDirection={view_themes[items_view].card_flex_direction}
     width={view_themes[items_view].card_width}
     background={themes[theme].card_bg_color}
