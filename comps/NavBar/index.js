@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 import { comp_themes, themes } from "../../utils/variables";
 import { useTheme } from "../../utils/provider";
@@ -12,7 +13,9 @@ const Cont = styled.div`
     justify-content: space-between;
     height: 80px;
     width: 100vw;
-    // background-color: ${props=>props.bgcolor};
+    background-color: ${props=>props.bgcolor};
+    transition: 0.5s;
+    z-index: 1000;
 `
 const LogoCont = styled.div`
     display: flex;
@@ -59,9 +62,26 @@ export default function NavBar({
 {
     const r = useRouter();
     const {theme, setTheme} = useTheme();
+    const [navbar, setNavbar] = useState(false);
+
+    useEffect(() => {
+        
+        const changeNavBarOpacity = () => {
+
+            console.log(window.scrollY)
+            if(window.scrollY >= 100){
+                setNavbar(true)
+            } else {
+                setNavbar(false)
+            }
+        }
+        window.addEventListener("scroll", changeNavBarOpacity)
+    }, [])
+
+
 
     return <>
-        <Cont bgcolor={comp_themes[theme].nav_bg_color}>
+        <Cont bgcolor={navbar ? comp_themes[theme].nav_bg_color : 'transparent'}>
             <LogoCont>
                 <SiteHeader src="/Forage.png" width={150} onClick={()=>r.push(`/`)}/>
             </LogoCont>

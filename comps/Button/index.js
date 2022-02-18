@@ -4,9 +4,10 @@ import { comp_themes, themes, view_themes } from "../../utils/variables";
 import { useTheme } from "../../utils/provider";
 import { useItemsView } from "../../utils/provider";
 import { colors } from "../../utils/colors";
+import { motion } from "framer-motion";
 import Dietary from "../Dietary";
 
-const But = styled.button`
+const But = styled(motion.button)`
   display:flex;
   justify-content:center;
   align-items:center;
@@ -34,7 +35,11 @@ const Button = ({
 
   const {theme, setTheme} = useTheme();
 
-  return <But onClick={onClick} shadow={themes[theme].button_shadow}>
+  return <But 
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          onClick={onClick} shadow={themes[theme].button_shadow}
+          >
     {text}
   </But>
 }

@@ -153,6 +153,10 @@ const QRDesc = styled.div`
 
 export default function Recipe({
     flexdir="row",
+    recipe_name="Recipe Name",
+    recipe_desc="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vel rutrum elit, nec cursus eros. Vestibulum leo justo, cursus nec enim a, efficitur posuere nisl. In dictum egestas est. Quisque non tortor ac sapien eleifend consequat. Aliquam in aliquam leo. Sed vulputate quam a justo tempus, sed lobortis nibh dapibus. Nulla facilisi. Proin in sapien risus ac sapien eleifend.",
+    recipe_ingredients="Ingredient 1",
+    recipe_instructions="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
 })
 {
     const {theme, setTheme} = useTheme();
@@ -177,7 +181,7 @@ export default function Recipe({
                     <InnerCont>
                         <DetailsCont bgcol="yellow" flexdir="column">
                             <RecipeName>
-                                Recipe Name
+                                {recipe_name}
                             </RecipeName>
                             <Heart/>
                         </DetailsCont>
@@ -190,7 +194,7 @@ export default function Recipe({
 
                     <DescCont>
                         <Desc color={comp_themes[theme].text_color}>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vel rutrum elit, nec cursus eros. Vestibulum leo justo, cursus nec enim a, efficitur posuere nisl. In dictum egestas est. Quisque non tortor ac sapien eleifend consequat. Aliquam in aliquam leo. Sed vulputate quam a justo tempus, sed lobortis nibh dapibus. Nulla facilisi. Proin in sapien risus ac sapien eleifend.
+                            {recipe_desc}
                         </Desc>
                     </DescCont>
                 </InfoCont>
@@ -204,7 +208,7 @@ export default function Recipe({
                 <IngredientsCont>
                     <List>
                         <ListItem color={comp_themes[theme].text_color}>
-                            Test
+                            {recipe_ingredients}
                         </ListItem>
                     </List>
                 </IngredientsCont>
@@ -216,7 +220,7 @@ export default function Recipe({
 
                 <List>
                     <ListItem color={comp_themes[theme].text_color}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        {recipe_instructions}
                     </ListItem>
                 </List>
             </SecCont>
