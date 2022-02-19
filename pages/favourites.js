@@ -39,8 +39,13 @@ export default function Favourites({recipes}){
         <Background/>
             <Wrapper>
                 <Spacer/>
-                   {console.log(storage)}
-                <Card/>
+                {rec && rec.filter( x => x.id === storage).map( x => (
+                    <Card
+                        recipe_name={x.name}
+                        recipe_description={x.description}
+                        onCardClick={()=>r.push('/recipe/'+x.id)}
+                    />
+                ))}
             </Wrapper>
 
     </>
