@@ -22,7 +22,7 @@ const LogoCont = styled.div`
     justify-content: flex-start;
     align-items: center;
     height: 100%;
-    width: 30%;
+    min-width: fit-content;
     padding: 15px;
     margin-left: 50px;
 
@@ -91,9 +91,9 @@ export default function NavBar({
                 <NavLink 
                     color={comp_themes[theme].text_color}
                     onClick={()=>{r.push('/settings')}}>Settings</NavLink>
-                <NavLink 
+                {/* <NavLink 
                     color={colors.orange}
-                    onClick={onLoginClick}>Login</NavLink>
+                    onClick={onLoginClick}>Login</NavLink> */}
             </LinksCont>
         </Cont>
     </>
