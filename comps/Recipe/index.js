@@ -156,7 +156,10 @@ export default function Recipe({
     recipe_name="Recipe Name",
     recipe_desc="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vel rutrum elit, nec cursus eros. Vestibulum leo justo, cursus nec enim a, efficitur posuere nisl. In dictum egestas est. Quisque non tortor ac sapien eleifend consequat. Aliquam in aliquam leo. Sed vulputate quam a justo tempus, sed lobortis nibh dapibus. Nulla facilisi. Proin in sapien risus ac sapien eleifend.",
     recipe_ingredients="Ingredient 1",
-    recipe_instructions="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    recipe_instructions="Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    onFavorite=()=>{},
+    onClickFill=()=>{},
+    fill
 })
 {
     const {theme, setTheme} = useTheme();
@@ -183,7 +186,11 @@ export default function Recipe({
                             <RecipeName>
                                 {recipe_name}
                             </RecipeName>
-                            <Heart/>
+                            <Heart
+                                onFavorite={onFavorite}
+                                onClickFill={onClickFill}
+                                fill={fill}
+                            />
                         </DetailsCont>
                         <DetailsCont bgcol="green">
                             <Dietary/>

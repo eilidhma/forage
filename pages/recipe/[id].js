@@ -25,9 +25,19 @@ export default function Home({recipes}) {
    const curRec = recipes.filter((x) => {return x.id === id})
    console.log(curRec[0].name)
    setRec(curRec);
+
+   const CheckFavorite = () => {
+     if(localStorage.getItem("recipe_id", id) === id) {
+       setFill("#EF6345")
+     }
+   }
+   CheckFavorite()
   }, [])
 
-  const [rec, setRec] = useState([])
+  const [rec, setRec] = useState([]);
+  const [isFav, setIsFav] = useState(false);
+  const [fill, setFill] = useState('none')
+
   const r = useRouter();
   const [isToggled, setIsToggled] = useState(false);
   const introText = `Hungry?\n We can help.`
@@ -43,6 +53,30 @@ export default function Home({recipes}) {
   //   meal = r.params.meal;
   // }
 
+  const setFavorite = () => {
+    setIsFav(!isFav)
+    AddFavorite()
+  }
+  
+  const AddFavorite = () => {
+    
+    if(localStorage.getItem("recipe_id", id) !== id) {
+      localStorage.setItem("recipe_id", id)
+    } else if(localStorage.getItem("recipe_id", id) === id) {
+      localStorage.removeItem("recipe_id", id)
+      console.log("running")
+    }
+  }
+
+  
+  const Fill = () => {
+    if(fill === 'none'){
+      setFill('#EF6345')
+    } else {
+      setFill('none')
+    }
+  }
+
   return <>      
     <Background/>
       <Wrapper>
@@ -54,6 +88,9 @@ export default function Home({recipes}) {
           recipe_name={o.name}
           recipe_desc={o.description}
           recipe_ingredients={o.ingredients}
+          onFavorite={setFavorite}
+          onClickFill={Fill}
+          fill={fill}
         />
       ))}
     </Wrapper>
