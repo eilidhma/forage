@@ -56,6 +56,10 @@ const ResultsCont = styled.div`
 
 export default function Home({recipes}) {
 
+  console.log(recipes[0].ingredients)
+  var someStr = 'He said "Hello, my name is Foo"';
+  console.log(someStr);     
+  console.log(someStr.replace(/['"]+/g, ''));     
 
   const r = useRouter();
   const [isToggled, setIsToggled] = useState(false);
@@ -104,7 +108,7 @@ export default function Home({recipes}) {
       
     })
     // return result
-    console.log(result)
+    //console.log(result)
     //let filtered = recipes.filter((r,i)=> result[i])
   setFilteredArr(result)
     //console.log(filteredArr)
@@ -146,7 +150,7 @@ export default function Home({recipes}) {
             <Card 
             key={index} 
             recipe_name={recipe.name} 
-            recipe_description={recipe.ingredients}
+            recipe_description={recipe.ingredients.replace(/['["]+/g, '')}
             onCardClick={()=>r.push('/recipe/'+recipe.id)}
             />
             );

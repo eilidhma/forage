@@ -25,6 +25,7 @@ export default function Home({recipes}) {
    const curRec = recipes.filter((x) => {return x.id === id})
    console.log(curRec[0].name)
    setRec(curRec);
+   console.log(JSON.parse(curRec[0].ingredients.replace(/'/g, '"')))
 
    const CheckFavorite = () => {
      if(localStorage.getItem("recipe_id", id) === id) {
@@ -42,16 +43,7 @@ export default function Home({recipes}) {
   const [isToggled, setIsToggled] = useState(false);
   const introText = `Hungry?\n We can help.`
 
- // console.log(r.query)
-
   const { id } = r.query
-  // console.log(id)
-  //const recipe =
-
-  // var meal = null;
-  // if(r.params && r.params.meal){
-  //   meal = r.params.meal;
-  // }
 
   const setFavorite = () => {
     setIsFav(!isFav)
@@ -67,7 +59,6 @@ export default function Home({recipes}) {
       console.log("running")
     }
   }
-
   
   const Fill = () => {
     if(fill === 'none'){
@@ -76,6 +67,7 @@ export default function Home({recipes}) {
       setFill('none')
     }
   }
+
 
   return <>      
     <Background/>
@@ -87,7 +79,9 @@ export default function Home({recipes}) {
           key={o.id}
           recipe_name={o.name}
           recipe_desc={o.description}
-          recipe_ingredients={o.ingredients}
+          recipe_instructions={JSON.parse(o.steps.replace(/'/g, '"'))}
+          recipe_ingredients={JSON.parse(o.ingredients.replace(/'/g, '"'))}
+          //recipe_ingredients={JSON.parse(o.ingredients.replace(/'/g, '"'))}
           onFavorite={setFavorite}
           onClickFill={Fill}
           fill={fill}
