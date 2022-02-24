@@ -41,11 +41,14 @@ export default function Favourites({recipes}){
                 <Spacer/>
                 {rec && rec.filter( x => x.id === storage).map( x => (
                     <Card
+                        key={x.id}
                         recipe_name={x.name}
                         recipe_description={x.description}
                         onCardClick={()=>r.push('/recipe/'+x.id)}
                     />
                 ))}
+
+                {/* {console.log(storage)} */}
             </Wrapper>
 
     </>

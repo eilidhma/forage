@@ -27,7 +27,7 @@ export default function Home({recipes}) {
    setRec(curRec);
 
    const CheckFavorite = () => {
-     if(localStorage.getItem("recipe_id", id) === id) {
+     if(localStorage.getItem("recipe_id"+id, id) === id) {
        setFill("#EF6345")
      }
    }
@@ -36,6 +36,7 @@ export default function Home({recipes}) {
 
   const [rec, setRec] = useState([]);
   const [isFav, setIsFav] = useState(false);
+  const [idArr, setIdArr] = useState([])
   const [fill, setFill] = useState('none')
 
   const r = useRouter();
@@ -60,10 +61,10 @@ export default function Home({recipes}) {
   
   const AddFavorite = () => {
     
-    if(localStorage.getItem("recipe_id", id) !== id) {
-      localStorage.setItem("recipe_id", id)
-    } else if(localStorage.getItem("recipe_id", id) === id) {
-      localStorage.removeItem("recipe_id", id)
+    if(localStorage.getItem("recipe_id"+id, id) !== id) {
+      localStorage.setItem("recipe_id"+id, id)
+    } else if(localStorage.getItem("recipe_id"+id, id) === id) {
+      localStorage.removeItem("recipe_id"+id, id)
       console.log("running")
     }
   }
