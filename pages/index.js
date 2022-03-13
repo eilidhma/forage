@@ -12,7 +12,6 @@ import AddIngredients from '../comps/AddIngredients'
 import clientPromise from '../lib/mongodb'
 import { filterProps } from 'framer-motion'
 
-
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
