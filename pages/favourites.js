@@ -1,7 +1,8 @@
 import styled from 'styled-components'
 import Router, { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
-
+import { TouchBackend } from 'react-dnd-touch-backend'
+import { DndProvider } from 'react-dnd'
 import Background from '../comps/Background'
 import Recipe from '../comps/Recipe'
 import Card from '../comps/Card'
