@@ -19,8 +19,9 @@ const Cont = styled.div`
   box-shadow: 0px 0px 20px ${props=>props.shadow};
   border-radius: 20px;
   background-color:${props=>props.background};
-  padding:${props=>props.padding} 20px ${props=>props.padding} 20px;
-  margin: 20px;
+  //padding:${props=>props.padding} 20px ${props=>props.padding} 20px;
+  margin: 5px;
+  padding: 5px;
   ${({position, left, top})=> (position === 'fixed' || position === 'absolute') && `
     left:${left}px;
     top:${top}px;
@@ -32,64 +33,27 @@ const Title = styled.h3`
   color:#EF6345;
   font-family: "Poppins", sans-serif;
   font-weight: 500;
-  font-size:18px;
+  font-size:14px;
   min-height: 50px;
   max-height: 50px;
   text-align: center;
-  min-width: 200px;
-  max-width: 200px;
-`
-
-const DescCont = styled.div`
-  display:flex;
-  justify-content:flex-start;
-  align-items:flex-start;
-  max-height:100px;
-  text-overflow: ellipsis;
-  overflow: hidden;
-`
-
-const Description = styled.p`
-  font-family: "Poppins", sans-serif;
-  font-style: italic;
-  font-weight: 300;
-  font-size:14px;
-  color:${props=>props.color};
-  width:${props=>props.textWidth};
-  text-align:${props=>props.textAlign};
-`
-
-const Img = styled.img`
-  display:${props=>props.display};
-  width:150px;
-  padding-bottom:30px;
-  padding-top:30px;
-`
-
-const DietCont = styled.div`
-  display:flex;
-  flex-direction:row;
-  width:200px;
-  justify-content:space-between;
-  align-items:center;
+  min-width: 150px;
+  max-width: 150px;
 `
 
 const Close = styled.div`
   display: flex;
   justify-content: center;
   align-content: center;
-  position: absolute;
-  top:10px;
-  right:10px;
-  width: 30px;
-  height: 30px;
+  position: relative;
+  top: -80;
 `
 
-const DragCard = ({
+const CalendarMeal = ({
   recipe_name='Recipe Name',
   recipe_description='This is a description of the recipe blah blah blahhhh',
   src='plate.png',
-  onCardClick=()=>{},
+  onClose=()=>{},
   onUpdateRecipes=()=>{},
   onDrag=()=>{},
   recipepos=null,
@@ -100,6 +64,8 @@ const DragCard = ({
 
   const {theme, setTheme} = useTheme();
   const {items_view, setItemsView} = useItemsView();
+
+  const [data, setData] = useState({})
 
 
   const [pos, setPos] = useState(recipepos || {
@@ -114,13 +80,6 @@ const DragCard = ({
         pos
       })
     }
-    // if(type === 'recipes'){
-    //   // onCardClick({
-    //   //   recipe_description,
-    //   //   recipe_name,
-    //   //   id
-    //   // })
-    // }
   }, [pos])
 
 
@@ -138,8 +97,9 @@ const DragCard = ({
         setPos({
           left:monitor.getClientOffset().x,
           top:monitor.getClientOffset().y,
-          position: 'absolute'
+          position: 'fixed'
         })
+        //item
       }
     },
 		// The collect function utilizes a "monitor" instance (see the Overview for what this is)
@@ -165,33 +125,19 @@ const DragCard = ({
 
 
 
-  return <Cont ref={dragPreview} {...sty} onClick={onCardClick}
+  return <Cont ref={dragPreview} {...sty}
     flexDirection={view_themes[items_view].card_flex_direction}
     width={view_themes[items_view].card_width}
     background={themes[theme].card_bg_color}
     justifyContent={view_themes[items_view].justify_content}
     shadow={themes[theme].shadow}
     padding={view_themes[items_view].card_padding}
-    onDrop={onCardClick}
-    //onDrop={onDrag} 
   >
-    <Title ref={drag}>{recipe_name}</Title>
-    <DescCont>
-      <Description 
-      color={themes[theme].text} 
-      textWidth={view_themes[items_view].card_text_width}
-      textAlign={view_themes[items_view].text_align}>
-        {recipe_description}
-      </Description>
-    </DescCont>
-    <Img display={view_themes[items_view].img_display} src={src}></Img>
-    <DietCont>
-      <Dietary/>
-      <Dietary diet="GF"/>
-      <Dietary diet="DF"/>
-    </DietCont>
-   {children}
+    <Close onClick={onClose}>
+        <AiOutlineCloseCircle size={25} color="rgba(0,0,0,0.4)"/>
+    </Close>
+    <Title onDrop={onDrag} ref={drag}>{recipe_name}</Title>
   </Cont>
 }
 
-export default DragCard;
+export default CalendarMeal;

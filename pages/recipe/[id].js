@@ -6,6 +6,7 @@ import Background from '../../comps/Background'
 import Recipe from '../../comps/Recipe'
 import Card from '../../comps/Card'
 import clientPromise from '../../lib/mongodb'
+import { useRecipes } from '../../utils/provider'
 
 
 const Wrapper = styled.div`
@@ -59,6 +60,20 @@ export default function Home({recipes}) {
       console.log("running")
     }
   }
+
+  const {favRecipes, setFavRecipes} = useRecipes();
+
+  const HandleUpdateFavs = (id, favRecipesData) => {
+    favRecipes[id] = {
+      ...favRecipes[id],
+      ...favRecipesData
+    }
+
+    setFavRecipes({
+      ...favRecipes
+    })
+    console.log(favRecipes)
+  }
   
   const Fill = () => {
     if(fill === 'none'){
@@ -82,7 +97,8 @@ export default function Home({recipes}) {
           recipe_instructions={JSON.parse(o.steps.replace(/'/g, '"'))}
           recipe_ingredients={JSON.parse(o.ingredients.replace(/'/g, '"'))}
           //recipe_ingredients={JSON.parse(o.ingredients.replace(/'/g, '"'))}
-          onFavorite={setFavorite}
+          //onFavorite={setFavorite}
+          onFavorite={(obj)=>HandleUpdateFavs(o.id, o, obj)}
           onClickFill={Fill}
           fill={fill}
         />
