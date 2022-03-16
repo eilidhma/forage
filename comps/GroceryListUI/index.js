@@ -102,7 +102,7 @@ const Item = styled.div`
     font-size: 14px;
     color: ${props=>props.color};
 
-    box-shadow: 0px 0px 20px #1B2B47;
+    box-shadow: 0px 0px 7px #1B2B47;
 `
 const ItemCont = styled.div`
     display: flex;
@@ -126,6 +126,10 @@ const DeleteButton = styled.button`
         cursor: pointer;
         color: ${colors.orange}
     };
+`
+const CheckboxInput = styled.input`
+    width: 1.25em;
+    height: 1.25em;
 `
 
 
@@ -192,7 +196,7 @@ export default function GroceryListUI({
                     key={i}
                 >
                     <ItemCont justify>
-                        <input type="checkbox"/>
+                        <CheckboxInput type="checkbox"/>
                         {o}
                     </ItemCont>
                     <ItemCont justify="flex-end">
