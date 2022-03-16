@@ -5,6 +5,7 @@ import { useTheme } from '../utils/provider'
 import { themes, comp_themes } from '../utils/variables'
 import GroceryListUI from '../comps/GroceryListUI'
 import Background from '../comps/Background'
+import Button from '../comps/Button'
 
 import { io } from "socket.io-client"
 
@@ -92,10 +93,7 @@ export default function GroceryList() {
             
                 <input type="text" onChange={(e) => setText(e.target.value)} />
 
-                <button onClick={AlertPpl}>
-                    Alert Everyone
-                </button>
-
+                <Button onClick={AlertPpl} text="Alert?" />
                 <div>{Object.keys(users)}</div>
 
                 {blocks.map((o, i) => <div style={{ background: 'red', padding: 10 }}>
