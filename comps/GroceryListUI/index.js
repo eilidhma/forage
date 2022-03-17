@@ -61,7 +61,7 @@ const Input = styled.input`
     width: 100%;
     height: 40px;
     padding: 10px;
-    margin: 5px 0 10px 0;
+    margin: 5px 0 5px 0;
     border-radius: 10px;
     border: none;
     font-family: "Poppins", sans-serif;
@@ -134,31 +134,36 @@ const CheckboxInput = styled.input`
 
 
 export default function GroceryListUI({
-    justify="flex-start"
+    justify="flex-start",
+    onChange=()=>{},
+    onAddClick=()=>{},
+    onDeleteClick=()=>{},
+    value,
+    items
 }) {
 
     const {theme, setTheme} = useTheme();
 
-    const [items, setItems] = useState([]);
-    const [searchVal, setSearchVal] = useState("");
+    // const [items, setItems] = useState([]);
+    // const [searchVal, setSearchVal] = useState("");
 
 
-    const AddItem = () => {
-        if(searchVal != "" && !items.includes(searchVal))
-        {
-            setItems([...items, searchVal])
-            setSearchVal("")
-        }
-        console.log("items", items)
-    }
+    // const AddItem = () => {
+    //     if(searchVal != "" && !items.includes(searchVal))
+    //     {
+    //         setItems([...items, searchVal])
+    //         setSearchVal("")
+    //     }
+    //     console.log("items", items)
+    // }
           
-    const DeleteItem = (e) => {
-      console.log(e.target.getAttribute('data-value'))
-      const oldItems = items
-      const index = items.indexOf(e.target.dataset.value)
-      items.splice(index, 1)
-      setItems([...oldItems])
-    }
+    // const DeleteItem = (e) => {
+    //   console.log(e.target.getAttribute('data-value'))
+    //   const oldItems = items
+    //   const index = items.indexOf(e.target.dataset.value)
+    //   items.splice(index, 1)
+    //   setItems([...oldItems])
+    // }
   
   
 
@@ -177,11 +182,12 @@ export default function GroceryListUI({
             <ListCont>
                 <InputCont>
                     <Input
-                        value={searchVal}
-                        onChange={(e)=>setSearchVal(e.target.value)}
+                        value={value}
+                        // onChange={(e)=>setSearchVal(e.target.value)}
+                        onChange={onChange}
                     />
                     <AddButton 
-                        onClick={AddItem}
+                        onClick={onAddClick}
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
                     >
@@ -189,7 +195,7 @@ export default function GroceryListUI({
                     </AddButton>
                 </InputCont>
 
-            {items && items.map((o,i) => 
+            {/* {items && items.map((o,i) => 
                 <Item 
                     color={themes[theme].text}
                     borderColor={comp_themes[theme].ingredient_border_color}
@@ -202,14 +208,14 @@ export default function GroceryListUI({
                     <ItemCont justify="flex-end">
                         <DeleteButton 
                             data-value={o}
-                            onClick={DeleteItem}
+                            onClick={onDeleteClick}
                             color={themes[theme].text}
                         >
                             X
                         </DeleteButton>
                     </ItemCont>
                 </Item>
-            )}
+            )} */}
             </ListCont>
         </Wrapper>
     </>
