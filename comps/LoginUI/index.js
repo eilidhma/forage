@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { motion } from "framer-motion";
-
+import axios from "axios";
 import { comp_themes, themes } from "../../utils/variables";
 import { useTheme } from "../../utils/provider";
 import { colors } from "../../utils/colors";
@@ -88,6 +88,8 @@ export default function LoginUI({
     const [isCreate, setIsCreate] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
     const {theme, setTheme} = useTheme();
+    const [email, setEmail] = useState("");
+    const [pw, setPw] = useState("");
 
     if(isCreate === false)
     {
@@ -100,12 +102,25 @@ export default function LoginUI({
                 </HeadingCont>
 
                 <InputCont>
-                    <Input type="text" placeholder="Email" />
-                    <Input type="text" placeholder="Password" />
+                    <Input onChange={(e)=>setEmail(e.target.value)} value={email} type="text" placeholder="Email" />
+                    <Input onChange={(e)=>setPw(e.target.value)} value={pw} type="text" placeholder="Password" />
 
                     <ButtonCont>
                         <FormButton buttonText="Cancel" onClick={onCancelClick}/>
-                        <FormButton buttonText="Sign In"/>
+                        <FormButton onClick={async() => {
+                            const result = await axios.post('https://forage-backend-final.herokuapp.com/login', {
+                                email:email,
+                                password:pw
+                            });
+
+                            console.log(result)
+                            if(result.status === 200){
+                                alert('Sign in successful')
+                            } 
+                            else {
+                                alert('incorrect username or password, please try again')
+                            }
+                        }} buttonText="Sign In"/>
                     </ButtonCont>
                 </InputCont>
 
@@ -130,13 +145,20 @@ export default function LoginUI({
 
                 <InputCont>
                     <Input type="text" placeholder="Name" />
-                    <Input type="text" placeholder="Email" />
-                    <Input type="text" placeholder="Password" />
-                    <Input type="text" placeholder="Confirm Password" />
+                    <Input onChange={(e)=>setEmail(e.target.value)} value={email} type="text" placeholder="Email" />
+                    <Input onChange={(e)=>setPw(e.target.value)} value={pw} type="text" placeholder="Password" />
+                    {/* <Input onChange={(e)=>setPw(e.target.value)} type="text" placeholder="Confirm Password" /> */}
 
                     <ButtonCont>
                         <FormButton buttonText="Cancel" onClick={onCancelClick}/>
-                        <FormButton buttonText="Sign Up"/>
+                        <FormButton onClick={async() => {
+                            const result = await axios.post('https://forage-backend-final.herokuapp.com/signup', {
+                                email:email,
+                                password:pw
+                            });
+
+                            console.log(result)
+                        }} buttonText="Sign Up"/>
                     </ButtonCont>
                 </InputCont>
 
