@@ -7,7 +7,6 @@ import Background from '../comps/Background'
 import Recipe from '../comps/Recipe'
 import Card from '../comps/Card'
 import DragCard from '../comps/DragCard'
-import clientPromise from '../lib/mongodb'
 import Dropzone from '../comps/Dropzone'
 import { v4 as uuidv4 } from 'uuid';
 import { AiOutlineCloseCircle } from 'react-icons/ai'
@@ -66,7 +65,7 @@ const CalendarCont = styled.div`
 `
 
 
-export default function Favourites({recipes}){
+export default function Favourites({}){
 
     //const [storage, setStorage] = useState()
 
@@ -333,16 +332,16 @@ export default function Favourites({recipes}){
 }
 
 
-export async function getServerSideProps(context) {
-    const client = await clientPromise;
+// export async function getServerSideProps(context) {
+//     const client = await clientPromise;
   
-    const db = client.db("recipesDB");
+//     const db = client.db("recipesDB");
   
-    let recipes = await db.collection("recipes").find({}).limit(1000).toArray();
-    recipes = JSON.parse(JSON.stringify(recipes));
+//     let recipes = await db.collection("recipes").find({}).limit(1000).toArray();
+//     recipes = JSON.parse(JSON.stringify(recipes));
   
-    return {
-      props: { recipes },
-    };
-  }
+//     return {
+//       props: { recipes },
+//     };
+//   }
   

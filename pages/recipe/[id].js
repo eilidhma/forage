@@ -20,9 +20,15 @@ const Spacer = styled.div`
     height: 20vh;
 `
 
-export default function Home({recipes}) {
+export default function Home({}) {
 
+  const [recipes, setRecipes] = useState({})
   useEffect(() => {
+    async()=>{
+      const result = await axios.get('/recipes');
+      setRecipes(result.data)
+      console.log(recipes)
+    }
    const curRec = recipes.filter((x) => {return x.id === id})
    console.log(curRec[0].name)
    setRec(curRec);
@@ -108,15 +114,15 @@ export default function Home({recipes}) {
   </>
 }
 
-export async function getServerSideProps(context) {
-  const client = await clientPromise;
+// export async function getServerSideProps(context) {
+//   const client = await clientPromise;
 
-  const db = client.db("recipesDB");
+//   const db = client.db("recipesDB");
 
-  let recipes = await db.collection("recipes").find({}).limit(110).toArray();
-  recipes = JSON.parse(JSON.stringify(recipes));
+//   let recipes = await db.collection("recipes").find({}).limit(110).toArray();
+//   recipes = JSON.parse(JSON.stringify(recipes));
 
-  return {
-    props: { recipes },
-  };
-}
+//   return {
+//     props: { recipes },
+//   };
+// }

@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 import Router, { useRouter } from 'next/router'
-import { useState } from 'react'
-
+import { useState, useEffect } from 'react'
 import Background from '../comps/Background'
 import Card from '../comps/Card'
 import Close from '../comps/Close'
@@ -9,8 +8,8 @@ import Heart from '../comps/Heart'
 import Button from '../comps/Button'
 import Title from '../comps/Title'
 import AddIngredients from '../comps/AddIngredients'
-import clientPromise from '../lib/mongodb'
 import { filterProps } from 'framer-motion'
+import axios from 'axios'
 
 const Wrapper = styled.div`
   display: flex;
@@ -53,12 +52,36 @@ const ResultsCont = styled.div`
 `
 
 
-export default function Home({recipes}) {
+export default function Home({}) {
 
-  console.log(recipes[0].ingredients)
+//  axios.create(
+//     {
+//             baseURL: "https://forage-backend-final.herokuapp.com/",
+//             withCredentials: false,
+//             headers: {
+//               'Access-Control-Allow-Credentials':true,
+//               'Access-Control-Allow-Origin' : '*',
+//               'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',   
+//           }
+//       })
+
+  const [recipes, setRecipes] = useState()
+
+  const getData = async() => {
+    const result = await axios.get('https://forage-backend-final.herokuapp.com/recipes');
+    setRecipes(result.data)
+    console.log(recipes)
+  } 
+ 
+  useEffect(async()=>{
+    await getData()
+  },[]) 
+
+//need this later
+  //console.log(recipes[0].ingredients)
   var someStr = 'He said "Hello, my name is Foo"';
-  console.log(someStr);     
-  console.log(someStr.replace(/['"]+/g, ''));     
+  //console.log(someStr);     
+  //console.log(someStr.replace(/['"]+/g, ''));     
 
   const r = useRouter();
   const [isToggled, setIsToggled] = useState(false);
@@ -160,15 +183,15 @@ export default function Home({recipes}) {
   </>
 }
 
-export async function getServerSideProps(context) {
-  const client = await clientPromise;
+// export async function getServerSideProps(context) {
+//   const client = await clientPromise;
 
-  const db = client.db("recipesDB");
+//   const db = client.db("recipesDB");
 
-  let recipes = await db.collection("recipes").find({}).limit(110).toArray();
-  recipes = JSON.parse(JSON.stringify(recipes));
+//   let recipes = await db.collection("recipes").find({}).limit(110).toArray();
+//   recipes = JSON.parse(JSON.stringify(recipes));
 
-  return {
-    props: { recipes },
-  };
-}
+//   return {
+//     props: { recipes },
+//   };
+// }
