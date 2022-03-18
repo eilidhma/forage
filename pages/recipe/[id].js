@@ -5,7 +5,8 @@ import { useState, useEffect } from 'react'
 import Background from '../../comps/Background'
 import Recipe from '../../comps/Recipe'
 import Card from '../../comps/Card'
-import clientPromise from '../../lib/mongodb'
+import axios from 'axios'
+// import clientPromise from '../../lib/mongodb'
 import { useRecipes } from '../../utils/provider'
 
 
@@ -22,25 +23,38 @@ const Spacer = styled.div`
 
 export default function Home({}) {
 
-  const [recipes, setRecipes] = useState({})
-  useEffect(() => {
-    async()=>{
-      const result = await axios.get('/recipes');
-      setRecipes(result.data)
-      console.log(recipes)
-    }
-   const curRec = recipes.filter((x) => {return x.id === id})
-   console.log(curRec[0].name)
-   setRec(curRec);
-   console.log(JSON.parse(curRec[0].ingredients.replace(/'/g, '"')))
+  const [recipes, setRecipes] = useState([])
 
-   const CheckFavorite = () => {
-     if(localStorage.getItem("recipe_id", id) === id) {
-       setFill("#EF6345")
-     }
-   }
-   CheckFavorite()
-  }, [])
+  
+  useEffect(() => {
+    
+    const getData = async() => {
+      const result = await axios.get('https://forage-backend-final.herokuapp.com/recipes');
+      setRecipes(result.data.filter((x) => {return x._id === id}))
+      // console.log(result.data, "data")
+      // return result.data
+    }
+      // setRecipes(result.data)
+    getData()
+    console.log(recipes, "recipes")
+      // getSpecificRecipe()
+    
+    // const getSpecificRecipe = async() => {
+    //   const curRec = recipes.filter((x) => {return x._id === id})
+    //   setRec(curRec);
+    //   console.log(curRec[0], "current recipe")
+    // }
+    
+    
+  //  console.log(JSON.parse(curRec[0].ingredients.replace(/'/g, '"')))
+
+  //  const CheckFavorite = () => {
+  //    if(localStorage.getItem("recipe_id", id) === id) {
+  //      setFill("#EF6345")
+  //    }
+  //  }
+  //  CheckFavorite()
+    }, [])
 
   const [rec, setRec] = useState([]);
   const [isFav, setIsFav] = useState(false);
@@ -94,7 +108,7 @@ export default function Home({}) {
     <Background/>
       <Wrapper>
           <Spacer/>
-      {rec && rec.map((o) => (
+      {recipes && recipes.map((o) => (
         
         <Recipe
           key={o.id}

@@ -10,6 +10,8 @@ import Title from '../comps/Title'
 import AddIngredients from '../comps/AddIngredients'
 import { filterProps } from 'framer-motion'
 import axios from 'axios'
+import { useRecipesData } from '../utils/provider'
+
 
 const Wrapper = styled.div`
   display: flex;
@@ -65,16 +67,18 @@ export default function Home({}) {
 //           }
 //       })
 
-  const [recipes, setRecipes] = useState()
+  // const [recipes, setRecipes] = useState()
+  const {recipes, setRecipes} = useRecipesData();  
 
-  const getData = async() => {
-    const result = await axios.get('https://forage-backend-final.herokuapp.com/recipes');
-    setRecipes(result.data)
-    console.log(recipes)
-  } 
- 
-  useEffect(async()=>{
-    await getData()
+  
+  useEffect(() => {
+
+    const getData = async() => {
+      const result = await axios.get('https://forage-backend-final.herokuapp.com/recipes');
+      setRecipes(result.data)
+      console.log(recipes, "data")
+    } 
+    getData()
   },[]) 
 
 //need this later
@@ -89,7 +93,7 @@ export default function Home({}) {
   const [filteredArr, setFilteredArr] = useState([])
   const [ings, setIngs] = useState(["onion", "garlic", "pasta"]);
   const [searchVal, setSearchVal] = useState("");
-    
+
   const PushIngredient = () => {
       if(searchVal != "" && !ings.includes(searchVal))
       {
@@ -132,9 +136,14 @@ export default function Home({}) {
     // return result
     //console.log(result)
     //let filtered = recipes.filter((r,i)=> result[i])
-  setFilteredArr(result)
+  setFilteredArr(recipes)
     //console.log(filteredArr)
   }
+
+    if(recipes === null){
+      return <>
+      </>
+    }
 
         
     return <>      
@@ -173,7 +182,7 @@ export default function Home({}) {
             key={index} 
             recipe_name={recipe.name} 
             recipe_description={recipe.ingredients.replace(/['["]+/g, '')}
-            onCardClick={()=>r.push('/recipe/'+recipe.id)}
+            onCardClick={()=>r.push('/recipe/'+recipe._id)}
             />
             );
         })}

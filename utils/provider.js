@@ -10,7 +10,9 @@ const initialStates = {
     items_number:"default",
     setItemsNumber:()=>{},
     favRecipes:{},
-    setFavRecipes:()=>{}
+    setFavRecipes:()=>{},
+    recipes: null,
+    setRecipes: ()=>{}
 }
 
 const MyContext = createContext(initialStates);
@@ -22,6 +24,7 @@ export default function AppProvider({children}){
     const [items_view, setItemsView] = useState(initialStates.items_view)
     const [items_number, setItemsNumber] = useState(initialStates.items_number)
     const [favRecipes, setFavRecipes] = useState(initialStates.favRecipes)
+    const [recipes, setRecipes] = useState(initialStates.recipes)
 
     //put in the variables you want to share
     return <MyContext.Provider value={{
@@ -32,7 +35,9 @@ export default function AppProvider({children}){
         items_number,
         setItemsNumber,
         favRecipes,
-        setFavRecipes
+        setFavRecipes,
+        recipes,
+        setRecipes
     }}>
         <style jsx global>
             {`
@@ -74,4 +79,9 @@ export function useItemsNumber(){
 export function useRecipes(){
     const {favRecipes, setFavRecipes} = useContext(MyContext);
     return {favRecipes, setFavRecipes}
+}
+
+export function useRecipesData(){
+    const {recipes, setRecipes} = useContext(MyContext)
+    return {recipes, setRecipes}
 }
