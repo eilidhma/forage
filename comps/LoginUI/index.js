@@ -108,17 +108,20 @@ export default function LoginUI({
                     <ButtonCont>
                         <FormButton buttonText="Cancel" onClick={onCancelClick}/>
                         <FormButton onClick={async() => {
-                            const result = await axios.post('https://forage-backend-final.herokuapp.com/login', {
-                                email:email,
-                                password:pw
-                            });
+                            try {
+                                const result = await axios.post('https://forage-backend-final.herokuapp.com/login', {
+                                    email:email,
+                                    password:pw
+                                });
+    
+                                if(result.status === 200){
+                                    alert('Sign in successful')
+                                } 
+                                console.log(result)
+                            } catch (error) {
+                                alert('Incorrect email or password, please try again')
 
-                            console.log(result)
-                            if(result.status === 200){
-                                alert('Sign in successful')
-                            } 
-                            else {
-                                alert('incorrect username or password, please try again')
+                                console.log(error)
                             }
                         }} buttonText="Sign In"/>
                     </ButtonCont>
