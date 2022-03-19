@@ -111,13 +111,14 @@ export default function Home({}) {
       {recipes && recipes.map((o) => (
         
         <Recipe
+        onClick={()=>{
+          console.log(JSON.parse(o.ingredients.replace(/'/g, '"')))
+        }}
           key={o.id}
           recipe_name={o.name}
           recipe_desc={o.description}
-          recipe_instructions={JSON.parse(o.steps.replace(/'/g, '"'))}
-          recipe_ingredients={JSON.parse(o.ingredients.replace(/'/g, '"'))}
-          //recipe_ingredients={JSON.parse(o.ingredients.replace(/'/g, '"'))}
-          //onFavorite={setFavorite}
+          recipe_instructions={JSON.parse(o.steps.replace(/'/g, '"')).map(list=> {return <li>{list}</li>})}
+          recipe_ingredients={JSON.parse(o.ingredients.replace(/'/g, '"')).map(list=> {return <li>{list}</li>})}
           onFavorite={(obj)=>HandleUpdateFavs(o.id, o, obj)}
           onClickFill={Fill}
           fill={fill}
@@ -128,15 +129,3 @@ export default function Home({}) {
   </>
 }
 
-// export async function getServerSideProps(context) {
-//   const client = await clientPromise;
-
-//   const db = client.db("recipesDB");
-
-//   let recipes = await db.collection("recipes").find({}).limit(110).toArray();
-//   recipes = JSON.parse(JSON.stringify(recipes));
-
-//   return {
-//     props: { recipes },
-//   };
-// }
