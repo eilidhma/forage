@@ -12,6 +12,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { AiOutlineCloseCircle } from 'react-icons/ai'
 import { useRecipes } from '../utils/provider'
 import CalendarMeal from '../comps/CalendarMeal'
+import axios from 'axios'
+import { useRecipesData } from '../utils/provider'
 
 const Wrapper = styled.div`
   display: flex;
@@ -64,12 +66,23 @@ const CalendarCont = styled.div`
     height: 100%;
 `
 
+const FavsCont = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 80vw;
+    flex-wrap: wrap;
+`
+
 
 export default function Favourites({}){
+
 
     //const [storage, setStorage] = useState()
 
     const [rs, setRs] = useState({})
+    const [favs, setFavs] = useState(null);
+    const [currentUser, setCurrentUser] = useState();
 
     const [curRecipe, setCurRecipe] = useState({})
 
@@ -82,14 +95,42 @@ export default function Favourites({}){
     const [sat, setSat] = useState({})
 
     const {favRecipes, setFavRecipes} = useRecipes();
+    const {recipes, setRecipes} = useRecipesData();
 
-    
+    function getCookie(name) {
+        var cookieArr = document.cookie.split(";");
+
+        for (var i = 0; i < cookieArr.length; i++) {
+            var cookiePair = cookieArr[i].split("=");
+
+            if (name == cookiePair[0].trim()) {
+                return decodeURIComponent(cookiePair[1]);
+            }
+        }
+        return null;
+    }
+
     useEffect(() => {
-        setRs(favRecipes)
-        setCurRecipe(favRecipes)
-        //console.log(curRecipe)
-        console.log("favs",favRecipes)
-    }, [])
+        
+        const getFavs = async() => {
+            const result = await axios.get('https://forage-backend-final.herokuapp.com/getfavs')
+            setFavs(result.data.favorites)
+            // return result.data.favorites
+            // console.log(result.data.favorites.length)
+        }
+        // setFavs(result.data.favorites);
+        getFavs()
+        // getFavs(setFavs(result.data.favorites))
+        console.log(favs, 'da favs')
+        setCurrentUser(getCookie("user_id"))
+
+        console.log(currentUser, "da cookie")
+        
+        // setRs(favRecipes)
+        // setCurRecipe(favRecipes)
+    }, [currentUser])
+
+
 
     // const DeleteRecipe = (id) => {
     //     if(curRecipe[id]){
@@ -155,6 +196,22 @@ export default function Favourites({}){
         }}>
         <Background/>
             <Wrapper>
+            <Spacer/>
+            <FavsCont>
+                {
+                  favs !== null && favs[0].user_id === currentUser && recipes.filter((x) => {return x._id === favs[0].recipe_id}).map((o, i) => {
+                        return (
+                            <Card 
+                            key={i} 
+                            recipe_name={o.name} 
+                            recipe_description={o.ingredients.replace(/['["]+/g, '')}
+                            // onCardClick={()=>r.push('/recipe/'+recipe._id)}
+                            />
+                        );
+                        
+                    })
+                }
+            </FavsCont>
             <Spacer/>
             <Favs>
                 {Object.values(rs).map(o=><Card 

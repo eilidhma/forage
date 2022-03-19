@@ -7,7 +7,6 @@ import { comp_themes, themes } from "../../utils/variables";
 import { useTheme } from "../../utils/provider";
 import { colors } from "../../utils/colors";
 import FormButton from "../FormButton";
-import { useCurrentUser } from "../../utils/provider";
 
 const Cont = styled(motion.div)`
     display: flex;
@@ -85,11 +84,11 @@ export default function LoginUI({
     visibility,
     onCancelClick=()=>{}
 }) 
+
 {
     const [isCreate, setIsCreate] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
     const {theme, setTheme} = useTheme();
-    const {currentUser, setCurrentUser} = useCurrentUser()
     const [email, setEmail] = useState("");
     const [pw, setPw] = useState("");
 
@@ -118,9 +117,8 @@ export default function LoginUI({
                                 
                                 if(result.status === 200){
                                     alert('Sign in successful')
-                                    setCurrentUser(result.data.user._id)
-                                    console.log(currentUser, "CURRENT USER ID")
-                                    console.log(result.data.user._id, "login result")
+                                    localStorage.setItem("user_id", result.data.user._id)
+                                    document.cookie = `user_id=${result.data.user._id}`
                                     // setCurrentUser
                                 } 
                                 console.log(result)
