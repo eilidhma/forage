@@ -7,6 +7,7 @@ import { comp_themes, themes } from "../../utils/variables";
 import { useTheme } from "../../utils/provider";
 import { colors } from "../../utils/colors";
 import FormButton from "../FormButton";
+import { useCurrentUser } from "../../utils/provider";
 
 const Cont = styled(motion.div)`
     display: flex;
@@ -88,6 +89,7 @@ export default function LoginUI({
     const [isCreate, setIsCreate] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
     const {theme, setTheme} = useTheme();
+    const {currentUser, setCurrentUser} = useCurrentUser()
     const [email, setEmail] = useState("");
     const [pw, setPw] = useState("");
 
@@ -113,9 +115,13 @@ export default function LoginUI({
                                     email:email,
                                     password:pw
                                 });
-    
+                                
                                 if(result.status === 200){
                                     alert('Sign in successful')
+                                    setCurrentUser(result.data.user._id)
+                                    console.log(currentUser, "CURRENT USER ID")
+                                    console.log(result.data.user._id, "login result")
+                                    // setCurrentUser
                                 } 
                                 console.log(result)
                             } catch (error) {
