@@ -12,10 +12,12 @@ export default function Model({ ...props }) {
 
   useFrame(() => {
     const a = window.pageYOffset;
-    const rx = a * -0.005;
+    const rx = a * -0.003;
     group.current.rotation.x = rx;
 
-    const ry = a * 0.001;
+    group.current.position.y = a * 0.007;
+
+    const ry = a * 0.0005;
     group.current.rotation.y = ry;
   })
 

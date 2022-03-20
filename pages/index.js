@@ -1,9 +1,8 @@
 import styled from 'styled-components'
 import Router, { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Canvas } from '@react-three/fiber';
 
-import { useState, useEffect } from 'react'
 import Background from '../comps/Background'
 import Card from '../comps/Card'
 import Close from '../comps/Close'
@@ -16,6 +15,7 @@ import axios from 'axios'
 import { useRecipesData } from '../utils/provider'
 import Apple from '../comps/3d/Apple'
 import Table from '../comps/3d/Table'
+import Coffeecup from '../comps/3d/Coffecup'
 
 
 const Wrapper = styled.div`
@@ -33,7 +33,37 @@ const IntroCont = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  height:100vh;
+  width:100vw;
+  top:0;
+  left:0;
+  z-index:5;
 `
+const TableCont = styled.div`
+  height:100vh;
+  width:100vw;
+  position:fixed;
+  top:0;
+  left:0;
+  z-index:0;
+`
+const AppleCont = styled.div`
+  height:100vh;
+  width:100vw;
+  position:fixed;
+  top:0;
+  left:0;
+  z-index:1;
+`
+const CoffeeCont = styled.div`
+  height:100vh;
+  width:100vw;
+  position:fixed;
+  top:0;
+  left:0;
+  z-index:1;
+`
+
 const Spacer = styled.div`
   display: flex;
   width: 100%;
@@ -45,8 +75,9 @@ const SearchCont = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 40vw;
+  width: 100vw;
   height: 60vh;
+  z-index:5;
 `
 
 const ResultsCont = styled.div`
@@ -56,6 +87,7 @@ const ResultsCont = styled.div`
   justify-content: center;
   align-items: center;
   width: 90vw;
+  z-index:5;
 `
 
 
@@ -156,19 +188,44 @@ export default function Home({}) {
       <Wrapper>
       
       <IntroCont>
-        <Spacer/>
+        <div style={{
+          background:'rgba(255,255,255,0.25)', 
+          width:'20%', 
+          height:'25%', 
+          borderRadius:25,
+          display:'flex',
+          flexDirection:'column',
+          justifyContent:'center',
+          alignItems:'center'}}>
         <Title title="Hungry?"/>
         <Title title="We can help."/>
         <Button text='Start' onClick={()=>r.push("#search")}/>
-        {/* <ImgCont>
-          <img width={1000} src='table.png'/>
-        </ImgCont> */}
-        <Canvas className='canvas1' camera={{position: [0, 0, 6]}}>
-        <ambientLight intensity={0.5} />
-        <directionalLight position={[-2, 5, 2]} />
-        <Table />
-      </Canvas>
+        </div>
       </IntroCont>
+
+      <AppleCont>
+        <Canvas className='canvas'>
+          <ambientLight intensity={0.5} />
+          <directionalLight position={[-2, 5, 2]} />
+          <Apple />
+        </Canvas>
+      </AppleCont>
+
+      <CoffeeCont>
+        <Canvas className='canvas'>
+          <ambientLight intensity={0.5} />
+          <directionalLight position={[-2, 5, 2]} />
+          <Coffeecup />
+        </Canvas>
+      </CoffeeCont>
+
+      <TableCont>
+        <Canvas className='canvas1' camera={{position: [0, 0, 6]}}>
+          <ambientLight intensity={0.5} />
+          <directionalLight position={[-2, 5, 2]} />
+          <Table />
+        </Canvas>
+      </TableCont>
 
       <SearchCont id="search">
         <AddIngredients 
