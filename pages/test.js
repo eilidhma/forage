@@ -1,6 +1,6 @@
 // import styled from "styled-components";
 // import { useState } from "react";
-// import { signup, login } from "./api/Controller/user";
+// import axios from "axios";
 
 // const SearchBar = styled.input`
 //     width: 100%;
@@ -20,19 +20,35 @@
 
 // const Test = () => {
 
-//     const [searchVal, setSearchVal] = useState("");
+//     const [email, setEmail] = useState("");
 //     const [pw, setPw] = useState("");
+
 
 //     return(
 //         <div style={{display:'flex', justifyContent:'center', alignItems:'center', width:'100vw', height:'100vh'}}>
 
-//             <SearchBar onChange={(e)=>setSearchVal(e.target.value)} value={searchVal}/>
+//             <SearchBar onChange={(e)=>setEmail(e.target.value)} value={email}/>
 //             <SearchBar onChange={(e)=>setPw(e.target.value)} value={pw}/>
-//             <button onClick={()=>{
-//                 signup({
-//                     email:searchVal, 
-//                     password:pw})
-//             }}>sign up</button>
+//             <button style={{color:'white'}} onClick={
+//                 async() => {
+//                 const result = await axios.post('https://forage-backend-final.herokuapp.com/signup', {
+//                     email:email,
+//                     password:pw
+//                 });
+
+//                 console.log(result)
+//             }}>
+//                 Sign Up
+//             </button>
+//             <button style={{color:'white'}} onClick={
+//                 async() => {
+//                     const result = await axios.post('https://forage-backend-final.herokuapp.com/login', {
+//                           email:email,
+//                           password:pw
+//                       });
+//                       console.log(result)
+//                   } 
+//             }>Login</button>
 //         </div>
 
 //     )

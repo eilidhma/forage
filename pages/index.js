@@ -82,7 +82,7 @@ export default function Home({}) {
   },[]) 
 
 //need this later
-  //console.log(recipes[0].ingredients)
+  // /console.log(recipes[0].ingredients)
   var someStr = 'He said "Hello, my name is Foo"';
   //console.log(someStr);     
   //console.log(someStr.replace(/['"]+/g, ''));     
