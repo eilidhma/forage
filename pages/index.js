@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import Router, { useRouter } from 'next/router'
 import { useState } from 'react'
+import { Canvas } from '@react-three/fiber';
 
 import Background from '../comps/Background'
 import Card from '../comps/Card'
@@ -11,6 +12,8 @@ import Title from '../comps/Title'
 import AddIngredients from '../comps/AddIngredients'
 import clientPromise from '../lib/mongodb'
 import { filterProps } from 'framer-motion'
+import Apple from '../comps/3d/Apple'
+import Table from '../comps/3d/Table'
 
 
 const Wrapper = styled.div`
@@ -124,9 +127,14 @@ export default function Home({recipes}) {
         <Title title="Hungry?"/>
         <Title title="We can help."/>
         <Button text='Start' onClick={()=>r.push("#search")}/>
-        <ImgCont>
+        {/* <ImgCont>
           <img width={1000} src='table.png'/>
-        </ImgCont>
+        </ImgCont> */}
+        <Canvas className='canvas1' camera={{position: [0, 0, 6]}}>
+        <ambientLight intensity={0.5} />
+        <directionalLight position={[-2, 5, 2]} />
+        <Table />
+      </Canvas>
       </IntroCont>
 
       <SearchCont id="search">

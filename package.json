@@ -8,6 +8,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@react-three/drei": "^8.18.4",
     "axios": "^0.25.0",
     "express": "^4.17.2",
     "framer-motion": "^6.2.3",
