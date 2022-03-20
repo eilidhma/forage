@@ -149,7 +149,7 @@ export default function Home({}) {
     return <>      
     <Background/>
       <Wrapper>
-
+      
       <IntroCont>
         <Spacer/>
         <Title title="Hungry?"/>

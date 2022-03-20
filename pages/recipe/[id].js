@@ -7,7 +7,7 @@ import Recipe from '../../comps/Recipe'
 import Card from '../../comps/Card'
 import axios from 'axios'
 // import clientPromise from '../../lib/mongodb'
-import { useRecipes } from '../../utils/provider'
+import { useCurrentUser, useRecipes } from '../../utils/provider'
 
 
 const Wrapper = styled.div`
@@ -24,10 +24,12 @@ const Spacer = styled.div`
 export default function Home({}) {
 
   const [recipes, setRecipes] = useState([])
+  const {currentUser, setCurrentUser} = useCurrentUser()
 
+  console.log(currentUser, "CURRENT USER ID")
+  console.log(recipes, "recipes")
   
   useEffect(() => {
-    
     const getData = async() => {
       const result = await axios.get('https://forage-backend-final.herokuapp.com/recipes');
       setRecipes(result.data.filter((x) => {return x._id === id}))
@@ -36,8 +38,7 @@ export default function Home({}) {
     }
       // setRecipes(result.data)
     getData()
-    console.log(recipes, "recipes")
-      // getSpecificRecipe()
+    // getSpecificRecipe()
     
     // const getSpecificRecipe = async() => {
     //   const curRec = recipes.filter((x) => {return x._id === id})
@@ -46,16 +47,16 @@ export default function Home({}) {
     // }
     
     
-  //  console.log(JSON.parse(curRec[0].ingredients.replace(/'/g, '"')))
-
-  //  const CheckFavorite = () => {
-  //    if(localStorage.getItem("recipe_id", id) === id) {
-  //      setFill("#EF6345")
-  //    }
-  //  }
-  //  CheckFavorite()
-    }, [])
-
+    //  console.log(JSON.parse(curRec[0].ingredients.replace(/'/g, '"')))
+    
+    //  const CheckFavorite = () => {
+      //    if(localStorage.getItem("recipe_id", id) === id) {
+        //      setFill("#EF6345")
+        //    }
+        //  }
+        //  CheckFavorite()
+      }, [])
+      
   const [rec, setRec] = useState([]);
   const [isFav, setIsFav] = useState(false);
   const [fill, setFill] = useState('none')
@@ -79,6 +80,13 @@ export default function Home({}) {
       localStorage.removeItem("recipe_id", id)
       console.log("running")
     }
+  }
+
+  const addFav = async() => {
+    const result = await axios.post('https://forage-backend-final.herokuapp.com/addfav', {
+              user_id: currentUser,
+              recipe_id: recipes[0]._id
+            })
   }
 
   const {favRecipes, setFavRecipes} = useRecipes();
@@ -111,13 +119,14 @@ export default function Home({}) {
       {recipes && recipes.map((o) => (
         
         <Recipe
+        onClick={()=>{
+          console.log(JSON.parse(o.ingredients.replace(/'/g, '"')))
+        }}
           key={o.id}
           recipe_name={o.name}
           recipe_desc={o.description}
-          recipe_instructions={JSON.parse(o.steps.replace(/'/g, '"'))}
-          recipe_ingredients={JSON.parse(o.ingredients.replace(/'/g, '"'))}
-          //recipe_ingredients={JSON.parse(o.ingredients.replace(/'/g, '"'))}
-          //onFavorite={setFavorite}
+          recipe_instructions={JSON.parse(o.steps.replace(/'/g, '"')).map(list=> {return <li>{list}</li>})}
+          recipe_ingredients={JSON.parse(o.ingredients.replace(/'/g, '"')).map(list=> {return <li>{list}</li>})}
           onFavorite={(obj)=>HandleUpdateFavs(o.id, o, obj)}
           onClickFill={Fill}
           fill={fill}
@@ -128,15 +137,3 @@ export default function Home({}) {
   </>
 }
 
-// export async function getServerSideProps(context) {
-//   const client = await clientPromise;
-
-//   const db = client.db("recipesDB");
-
-//   let recipes = await db.collection("recipes").find({}).limit(110).toArray();
-//   recipes = JSON.parse(JSON.stringify(recipes));
-
-//   return {
-//     props: { recipes },
-//   };
-// }

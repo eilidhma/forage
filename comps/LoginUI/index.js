@@ -84,6 +84,7 @@ export default function LoginUI({
     visibility,
     onCancelClick=()=>{}
 }) 
+
 {
     const [isCreate, setIsCreate] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
@@ -124,7 +125,26 @@ export default function LoginUI({
 
                     <ButtonCont>
                         <FormButton buttonText="Cancel" onClick={onCancelClick}/>
-                        <FormButton onClick={Login} buttonText="Sign In"/>
+                        <FormButton onClick={async() => {
+                            try {
+                                const result = await axios.post('https://forage-backend-final.herokuapp.com/login', {
+                                    email:email,
+                                    password:pw
+                                });
+                                
+                                if(result.status === 200){
+                                    alert('Sign in successful')
+                                    localStorage.setItem("user_id", result.data.user._id)
+                                    document.cookie = `user_id=${result.data.user._id}`
+                                    // setCurrentUser
+                                } 
+                                console.log(result)
+                            } catch (error) {
+                                alert('Incorrect email or password, please try again')
+
+                                console.log(error)
+                            }
+                        }} buttonText="Sign In"/>
                     </ButtonCont>
                 </InputCont>
 
@@ -151,11 +171,18 @@ export default function LoginUI({
                     <Input type="text" placeholder="Name" />
                     <Input onChange={(e)=>setEmail(e.target.value)} value={email} type="text" placeholder="Email" />
                     <Input onChange={(e)=>setPw(e.target.value)} value={pw} type="text" placeholder="Password" />
-                    <Input onChange={(e)=>setPw(e.target.value)} value={pw} type="text" placeholder="Confirm Password" />
+                    {/* <Input onChange={(e)=>setPw(e.target.value)} type="text" placeholder="Confirm Password" /> */}
 
                     <ButtonCont>
                         <FormButton buttonText="Cancel" onClick={onCancelClick}/>
-                        <FormButton onClick={SignUp} buttonText="Sign Up"/>
+                        <FormButton onClick={async() => {
+                            const result = await axios.post('https://forage-backend-final.herokuapp.com/signup', {
+                                email:email,
+                                password:pw
+                            });
+
+                            console.log(result)
+                        }} buttonText="Sign Up"/>
                     </ButtonCont>
                 </InputCont>
 
