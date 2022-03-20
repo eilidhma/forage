@@ -387,4 +387,18 @@ export default function Favourites({}){
 
     </>
 }
+
+
+// export async function getServerSideProps(context) {
+//     const client = await clientPromise;
+  
+//     const db = client.db("recipesDB");
+  
+//     let recipes = await db.collection("recipes").find({}).limit(1000).toArray();
+//     recipes = JSON.parse(JSON.stringify(recipes));
+  
+//     return {
+//       props: { recipes },
+//     };
+//   }
   

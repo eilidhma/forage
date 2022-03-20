@@ -92,23 +92,6 @@ export default function LoginUI({
     const [email, setEmail] = useState("");
     const [pw, setPw] = useState("");
 
-    const SignUp = async() => {
-        const result = await axios.post('https://forage-backend-final.herokuapp.com/signup', {
-            email:email,
-            password:pw
-        });
-
-        //console.log(result)
-    }
-
-    const Login = async() => {
-        const result = await axios.post('https://forage-backend-final.herokuapp.com/login', {
-              email:email,
-              password:pw
-          });
-          //console.log(result)
-      }
-
     if(isCreate === false)
     {
         return <>
