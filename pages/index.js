@@ -3,6 +3,7 @@ import Router, { useRouter } from 'next/router'
 import { useState } from 'react'
 import { Canvas } from '@react-three/fiber';
 
+import { useState, useEffect } from 'react'
 import Background from '../comps/Background'
 import Card from '../comps/Card'
 import Close from '../comps/Close'
@@ -10,8 +11,9 @@ import Heart from '../comps/Heart'
 import Button from '../comps/Button'
 import Title from '../comps/Title'
 import AddIngredients from '../comps/AddIngredients'
-import clientPromise from '../lib/mongodb'
 import { filterProps } from 'framer-motion'
+import axios from 'axios'
+import { useRecipesData } from '../utils/provider'
 import Apple from '../comps/3d/Apple'
 import Table from '../comps/3d/Table'
 
@@ -57,12 +59,38 @@ const ResultsCont = styled.div`
 `
 
 
-export default function Home({recipes}) {
+export default function Home({}) {
 
-  console.log(recipes[0].ingredients)
+//  axios.create(
+//     {
+//             baseURL: "https://forage-backend-final.herokuapp.com/",
+//             withCredentials: false,
+//             headers: {
+//               'Access-Control-Allow-Credentials':true,
+//               'Access-Control-Allow-Origin' : '*',
+//               'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',   
+//           }
+//       })
+
+  // const [recipes, setRecipes] = useState()
+  const {recipes, setRecipes} = useRecipesData();  
+
+  
+  useEffect(() => {
+
+    const getData = async() => {
+      const result = await axios.get('https://forage-backend-final.herokuapp.com/recipes');
+      setRecipes(result.data)
+      console.log(recipes, "data")
+    } 
+    getData()
+  },[]) 
+
+//need this later
+  // /console.log(recipes[0].ingredients)
   var someStr = 'He said "Hello, my name is Foo"';
-  console.log(someStr);     
-  console.log(someStr.replace(/['"]+/g, ''));     
+  //console.log(someStr);     
+  //console.log(someStr.replace(/['"]+/g, ''));     
 
   const r = useRouter();
   const [isToggled, setIsToggled] = useState(false);
@@ -70,7 +98,7 @@ export default function Home({recipes}) {
   const [filteredArr, setFilteredArr] = useState([])
   const [ings, setIngs] = useState(["onion", "garlic", "pasta"]);
   const [searchVal, setSearchVal] = useState("");
-    
+
   const PushIngredient = () => {
       if(searchVal != "" && !ings.includes(searchVal))
       {
@@ -113,15 +141,20 @@ export default function Home({recipes}) {
     // return result
     //console.log(result)
     //let filtered = recipes.filter((r,i)=> result[i])
-  setFilteredArr(result)
+  setFilteredArr(recipes)
     //console.log(filteredArr)
   }
+
+    if(recipes === null){
+      return <>
+      </>
+    }
 
         
     return <>      
     <Background/>
       <Wrapper>
-
+      
       <IntroCont>
         <Spacer/>
         <Title title="Hungry?"/>
@@ -159,7 +192,7 @@ export default function Home({recipes}) {
             key={index} 
             recipe_name={recipe.name} 
             recipe_description={recipe.ingredients.replace(/['["]+/g, '')}
-            onCardClick={()=>r.push('/recipe/'+recipe.id)}
+            onCardClick={()=>r.push('/recipe/'+recipe._id)}
             />
             );
         })}
@@ -169,15 +202,15 @@ export default function Home({recipes}) {
   </>
 }
 
-export async function getServerSideProps(context) {
-  const client = await clientPromise;
+// export async function getServerSideProps(context) {
+//   const client = await clientPromise;
 
-  const db = client.db("recipesDB");
+//   const db = client.db("recipesDB");
 
-  let recipes = await db.collection("recipes").find({}).limit(110).toArray();
-  recipes = JSON.parse(JSON.stringify(recipes));
+//   let recipes = await db.collection("recipes").find({}).limit(110).toArray();
+//   recipes = JSON.parse(JSON.stringify(recipes));
 
-  return {
-    props: { recipes },
-  };
-}
+//   return {
+//     props: { recipes },
+//   };
+// }

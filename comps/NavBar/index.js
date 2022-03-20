@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-
+import axios from "axios";
 import { comp_themes, themes } from "../../utils/variables";
 import { useTheme } from "../../utils/provider";
 import { colors } from "../../utils/colors";
@@ -91,9 +91,9 @@ export default function NavBar({
                 <NavLink 
                     color={comp_themes[theme].text_color}
                     onClick={()=>{r.push('/settings')}}>Settings</NavLink>
-                {/* <NavLink 
+                <NavLink 
                     color={colors.orange}
-                    onClick={onLoginClick}>Login</NavLink> */}
+                    onClick={onLoginClick}>Login</NavLink>
             </LinksCont>
         </Cont>
     </>
