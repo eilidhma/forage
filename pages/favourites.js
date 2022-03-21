@@ -124,7 +124,7 @@ export default function Favourites({}){
                 console.log(result.data.favs)
                 setFavs(result.data.favs)
             } catch (error) {
-                alert('nope')
+                console.log("loading")
             }
         }
         getFavs()
@@ -203,8 +203,8 @@ export default function Favourites({}){
                         return (
                             <Card 
                             key={i} 
-                            recipe_name={o.recipe_id} 
-                            recipe_description={o.user_id}
+                            recipe_name={o.recipe_name} 
+                            recipe_description={o.recipe_description}
                             // onCardClick={()=>r.push('/recipe/'+recipe._id)}
                             />
                         );
