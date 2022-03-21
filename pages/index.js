@@ -56,18 +56,6 @@ const ResultsCont = styled.div`
 
 export default function Home({}) {
 
-//  axios.create(
-//     {
-//             baseURL: "https://forage-backend-final.herokuapp.com/",
-//             withCredentials: false,
-//             headers: {
-//               'Access-Control-Allow-Credentials':true,
-//               'Access-Control-Allow-Origin' : '*',
-//               'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',   
-//           }
-//       })
-
-  // const [recipes, setRecipes] = useState()
   const {recipes, setRecipes} = useRecipesData();  
 
   
@@ -76,7 +64,7 @@ export default function Home({}) {
     const getData = async() => {
       const result = await axios.get('https://forage-backend-final.herokuapp.com/recipes');
       setRecipes(result.data)
-      console.log(recipes, "data")
+      //console.log(recipes, "data")
     } 
     getData()
   },[]) 
@@ -117,7 +105,16 @@ export default function Home({}) {
     recipes.forEach(r=>{
       let count = 0;
       var fail = false
+      //console.log(r)
 
+      const ingredients = r.ingredients.split(",")
+     // const ingredients = r.ingredients.replace(/'/g, '"').split(",")
+
+      //console.log(ingredients)
+
+      //const myArray = text.split("");
+
+      
       filters.forEach(element => {
         if(r.ingredients.includes(element)){
           count++
@@ -128,15 +125,16 @@ export default function Home({}) {
 
       });
 
-      if(count >= 3 && fail === false){
+      if(count >= 3){
         result.push(r)
+        //console.log(result)
       }
       
+      return result
     })
-    // return result
-    //console.log(result)
     //let filtered = recipes.filter((r,i)=> result[i])
-  setFilteredArr(recipes)
+    setFilteredArr(result)
+    //console.log(result)
     //console.log(filteredArr)
   }
 

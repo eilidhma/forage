@@ -121,6 +121,7 @@ export default function Home({}) {
         <Recipe
         onClick={()=>{
           console.log(JSON.parse(o.ingredients.replace(/'/g, '"')))
+          console.log(o.ingredients)
         }}
           key={o.id}
           recipe_name={o.name}
