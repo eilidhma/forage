@@ -5,7 +5,9 @@ import { useState, useEffect } from 'react'
 import Background from '../../comps/Background'
 import Recipe from '../../comps/Recipe'
 import Card from '../../comps/Card'
-import clientPromise from '../../lib/mongodb'
+import axios from 'axios'
+// import clientPromise from '../../lib/mongodb'
+import { useCurrentUser, useRecipes } from '../../utils/provider'
 
 
 const Wrapper = styled.div`
@@ -19,22 +21,42 @@ const Spacer = styled.div`
     height: 20vh;
 `
 
-export default function Home({recipes}) {
+export default function Home({}) {
 
+  const [recipes, setRecipes] = useState([])
+  const {currentUser, setCurrentUser} = useCurrentUser()
+
+  console.log(currentUser, "CURRENT USER ID")
+  console.log(recipes, "recipes")
+  
   useEffect(() => {
-   const curRec = recipes.filter((x) => {return x.id === id})
-   console.log(curRec[0].name)
-   setRec(curRec);
-   console.log(JSON.parse(curRec[0].ingredients.replace(/'/g, '"')))
-
-   const CheckFavorite = () => {
-     if(localStorage.getItem("recipe_id", id) === id) {
-       setFill("#EF6345")
-     }
-   }
-   CheckFavorite()
-  }, [])
-
+    const getData = async() => {
+      const result = await axios.get('https://forage-backend-final.herokuapp.com/recipes');
+      setRecipes(result.data.filter((x) => {return x._id === id}))
+      // console.log(result.data, "data")
+      // return result.data
+    }
+      // setRecipes(result.data)
+    getData()
+    // getSpecificRecipe()
+    
+    // const getSpecificRecipe = async() => {
+    //   const curRec = recipes.filter((x) => {return x._id === id})
+    //   setRec(curRec);
+    //   console.log(curRec[0], "current recipe")
+    // }
+    
+    
+    //  console.log(JSON.parse(curRec[0].ingredients.replace(/'/g, '"')))
+    
+    //  const CheckFavorite = () => {
+      //    if(localStorage.getItem("recipe_id", id) === id) {
+        //      setFill("#EF6345")
+        //    }
+        //  }
+        //  CheckFavorite()
+      }, [])
+      
   const [rec, setRec] = useState([]);
   const [isFav, setIsFav] = useState(false);
   const [fill, setFill] = useState('none')
@@ -59,6 +81,27 @@ export default function Home({recipes}) {
       console.log("running")
     }
   }
+
+  const addFav = async() => {
+    const result = await axios.post('https://forage-backend-final.herokuapp.com/addfav', {
+              user_id: currentUser,
+              recipe_id: recipes[0]._id
+            })
+  }
+
+  const {favRecipes, setFavRecipes} = useRecipes();
+
+  const HandleUpdateFavs = (id, favRecipesData) => {
+    favRecipes[id] = {
+      ...favRecipes[id],
+      ...favRecipesData
+    }
+
+    setFavRecipes({
+      ...favRecipes
+    })
+    console.log(favRecipes)
+  }
   
   const Fill = () => {
     if(fill === 'none'){
@@ -73,16 +116,19 @@ export default function Home({recipes}) {
     <Background/>
       <Wrapper>
           <Spacer/>
-      {rec && rec.map((o) => (
+      {recipes && recipes.map((o) => (
         
         <Recipe
+        onClick={()=>{
+          console.log(JSON.parse(o.ingredients.replace(/'/g, '"')))
+          console.log(o.ingredients)
+        }}
           key={o.id}
           recipe_name={o.name}
           recipe_desc={o.description}
-          recipe_instructions={JSON.parse(o.steps.replace(/'/g, '"'))}
-          recipe_ingredients={JSON.parse(o.ingredients.replace(/'/g, '"'))}
-          //recipe_ingredients={JSON.parse(o.ingredients.replace(/'/g, '"'))}
-          onFavorite={setFavorite}
+          recipe_instructions={JSON.parse(o.steps.replace(/'/g, '"')).map(list=> {return <li>{list}</li>})}
+          recipe_ingredients={JSON.parse(o.ingredients.replace(/'/g, '"')).map(list=> {return <li>{list}</li>})}
+          onFavorite={(obj)=>HandleUpdateFavs(o.id, o, obj)}
           onClickFill={Fill}
           fill={fill}
         />
@@ -92,15 +138,3 @@ export default function Home({recipes}) {
   </>
 }
 
-export async function getServerSideProps(context) {
-  const client = await clientPromise;
-
-  const db = client.db("recipesDB");
-
-  let recipes = await db.collection("recipes").find({}).limit(110).toArray();
-  recipes = JSON.parse(JSON.stringify(recipes));
-
-  return {
-    props: { recipes },
-  };
-}
