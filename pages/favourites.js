@@ -110,6 +110,14 @@ export default function Favourites({}){
         return null;
     }
 
+    const toTitleCase = (phrase) => {
+        return phrase
+            .toLowerCase()
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
+    };
+
     useEffect(() => {
 
         setCurrentUser(getCookie("user_id"))
