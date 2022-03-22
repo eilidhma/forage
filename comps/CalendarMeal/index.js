@@ -59,7 +59,7 @@ const CalendarMeal = ({
   recipepos=null,
   type='recipes',
   children=null,
-  id
+  recipe_id=""
 }) => {
 
   const {theme, setTheme} = useTheme();
@@ -89,8 +89,7 @@ const CalendarMeal = ({
     item: {
       type:"recipes",
       recipe_name,
-      recipe_description,
-      id
+      recipe_id
     },
     end:(item, monitor)=>{
       if(type === 'boardrecipes'){

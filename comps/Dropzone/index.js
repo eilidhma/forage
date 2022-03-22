@@ -17,7 +17,7 @@ const Dropzone = ({
   width=100,
   title='title'
 }) => {
-	const [{ canDrop, isOver, endDrag }, drop] = useDrop(() => ({
+	const [{ canDrop, isOver }, drop] = useDrop(() => ({
     // The type (or types) to accept - strings or symbols
     accept: acceptType,
     drop:(item, monitor)=>{
@@ -26,15 +26,13 @@ const Dropzone = ({
     // Props to collect
     collect: (monitor) => ({
       isOver: monitor.isOver(),
-      canDrop: monitor.canDrop(),
-      endDrag: monitor.getDropResult()
+      canDrop: monitor.canDrop()
     })
   }))
 
   //console.log(endDrag)
 
 	return <DropCont
-      endDrag
       width={width}
 			ref={drop}
       bg={canDrop && isOver ? '#999' : '#DDD'}
