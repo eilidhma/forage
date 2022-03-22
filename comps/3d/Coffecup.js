@@ -12,18 +12,18 @@ export default function Model({ ...props }) {
 
   useFrame(() => {
     const a = window.pageYOffset;
-    const rx = a * -0.02;
+    const rx = a * -0.001;
     group.current.rotation.x = rx;
 
-    group.current.position.y = a * 0.032;
+    group.current.position.y = a * -0.0001;
 
-    const ry = a * 0.0015;
+    const ry = a * 0.001;
     group.current.rotation.y = ry;
   })
 
   return (
     <group ref={group} {...props} dispose={null}>
-      <group rotation={[3, 0, 20]} position={[-2.5, -0.5, 0]} scale={0.5}>
+      <group rotation={[3, 0, 0]} position={[-3.2, -0.5, -0.5]} scale={0.5}>
         <mesh geometry={nodes.coffeecup_1.geometry} material={materials['Default OBJ']} />
         <mesh geometry={nodes.coffeecup_2.geometry} material={materials['Material.001']} />
         <mesh geometry={nodes.coffeecup_3.geometry} material={materials['Material.003']} />

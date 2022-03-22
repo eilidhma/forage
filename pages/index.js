@@ -16,6 +16,8 @@ import { useRecipesData } from '../utils/provider'
 import Apple from '../comps/3d/Apple'
 import Table from '../comps/3d/Table'
 import Coffeecup from '../comps/3d/Coffecup'
+import Pizza from '../comps/3d/Pizza'
+import Plate from '../comps/3d/Plate'
 
 
 const Wrapper = styled.div`
@@ -37,7 +39,7 @@ const IntroCont = styled.div`
   width:100vw;
   top:0;
   left:0;
-  z-index:5;
+  z-index:10;
 `
 const TableCont = styled.div`
   height:100vh;
@@ -45,7 +47,7 @@ const TableCont = styled.div`
   position:fixed;
   top:0;
   left:0;
-  z-index:0;
+  z-index:7;
 `
 const AppleCont = styled.div`
   height:100vh;
@@ -53,7 +55,7 @@ const AppleCont = styled.div`
   position:fixed;
   top:0;
   left:0;
-  z-index:1;
+  z-index:8;
 `
 const CoffeeCont = styled.div`
   height:100vh;
@@ -61,7 +63,7 @@ const CoffeeCont = styled.div`
   position:fixed;
   top:0;
   left:0;
-  z-index:1;
+  z-index:8;
 `
 
 const Spacer = styled.div`
@@ -69,15 +71,38 @@ const Spacer = styled.div`
   width: 100%;
   height: 20vh;
 `
-
+const SearchSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+`
 const SearchCont = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100vw;
-  height: 60vh;
-  z-index:5;
+  height: 100vh;
+  z-index:10;
+`
+const PlateCont = styled.div`
+  position:absolute;
+  top:125vh;
+  left:0;
+  height:100vh;
+  width:100vw;
+  z-index:2;
+`
+const PizzaCont = styled.div`
+  position:absolute;
+  top:125vh;
+  left:0;
+  height:100vh;
+  width:100vw;
+  z-index:3;
 `
 
 const ResultsCont = styled.div`
@@ -87,7 +112,7 @@ const ResultsCont = styled.div`
   justify-content: center;
   align-items: center;
   width: 90vw;
-  z-index:5;
+  z-index:10;
 `
 
 
@@ -226,6 +251,10 @@ export default function Home({}) {
           <Table />
         </Canvas>
       </TableCont>
+      
+      <Spacer/>
+
+      <SearchSection>
 
       <SearchCont id="search">
         <AddIngredients 
@@ -238,6 +267,24 @@ export default function Home({}) {
         showRecipes={()=>ResultsFunc(ings)}
         />
       </SearchCont>
+
+      <PizzaCont>
+        <Canvas className='canvas'>
+          <ambientLight intensity={0.5} />
+          <directionalLight position={[-2, 5, 2]} />
+          <Pizza />
+        </Canvas>
+      </PizzaCont>
+
+      <PlateCont>
+        <Canvas className='canvas'>
+          <ambientLight intensity={0.5} />
+          <directionalLight position={[-2, 5, 2]} />
+          <Plate />
+        </Canvas>
+      </PlateCont>
+      
+      </SearchSection>
 
       <Title title="Here's what you can make!"/>
       <ResultsCont id="results">
