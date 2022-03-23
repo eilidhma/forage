@@ -15,13 +15,9 @@ const Cont = styled(motion.div)`
     align-items: center;
     width: 350px;
     height: 450px;
-    border: solid 1px white;
+    border: solid 2px white;
     border-radius: 30px;
-    visibility: ${props=>props.visibility};
-    background-color: #D2D2D2;
-    position: absolute;
-    right: 25px;
-    top: 30px;
+    background-color: ${colors.orange};
     z-index: 10000;
 `
 
@@ -35,7 +31,7 @@ const HeadingText = styled.h2`
     font-family: "Poppins", sans-serif;
     font-size: 36px;
     font-weight: 500;
-    color: ${colors.orange};
+    color: white;
 `
 
 const InputCont = styled.div`
@@ -57,7 +53,7 @@ const Input = styled.input`
     font-weight: 500;
     :focus {
         outline: none !important;
-        border: 1px ${colors.orange} solid;
+        border: 1px white solid;
     }
 `
 
@@ -70,7 +66,7 @@ const ButtonCont = styled.div`
 const SignUp = styled.p`
     padding: 0;
     margin: 0;
-    color: ${colors.orange};
+    color: white;
     font-family: "Poppins", sans-serif;
     font-weight: 500;
     font-size: 16px;
@@ -81,13 +77,12 @@ const SignUp = styled.p`
 `
 
 export default function LoginUI({
-    visibility,
     onCancelClick=()=>{}
 }) 
 
 {
+    const r = useRouter();
     const [isCreate, setIsCreate] = useState(false);
-    const [isVisible, setIsVisible] = useState(false);
     const {theme, setTheme} = useTheme();
     const [email, setEmail] = useState("");
     const [pw, setPw] = useState("");
@@ -95,7 +90,7 @@ export default function LoginUI({
     if(isCreate === false)
     {
         return <>
-            <Cont visibility={visibility}>
+            <Cont>
                 <HeadingCont>
                     <HeadingText>
                         Sign In
@@ -116,10 +111,14 @@ export default function LoginUI({
                                 });
                                 
                                 if(result.status === 200){
-                                    alert('Sign in successful')
+                                    alert('Sign in Successful!')
                                     localStorage.setItem("user_id", result.data.user._id)
                                     document.cookie = `user_id=${result.data.user._id}`
                                     // setCurrentUser
+
+                                    setTimeout(() => {
+                                        r.reload()
+                                    }, 500)
                                 } 
                                 console.log(result)
                             } catch (error) {
@@ -143,7 +142,7 @@ export default function LoginUI({
     if(isCreate === true)
     {
         return <>
-            <Cont visibility={visibility}>
+            <Cont>
                 <HeadingCont>
                     <HeadingText>
                         Sign Up

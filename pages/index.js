@@ -60,7 +60,6 @@ export default function Home({}) {
 
   
   useEffect(() => {
-
     const getData = async() => {
       const result = await axios.get('https://forage-backend-final.herokuapp.com/recipes');
       setRecipes(result.data)

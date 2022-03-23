@@ -87,6 +87,7 @@ export default function Favourites({}){
     const [curRecipe, setCurRecipe] = useState({})
 
     const [sun, setSun] = useState({})
+
     const [mon, setMon] = useState({})
     const [tues, setTues] = useState({})
     const [wed, setWed] = useState({})
@@ -110,25 +111,33 @@ export default function Favourites({}){
         return null;
     }
 
+    const toTitleCase = (phrase) => {
+        return phrase
+            .toLowerCase()
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
+    };
+
     useEffect(() => {
 
         setCurrentUser(getCookie("user_id"))
 
-        console.log(currentUser, "da cookie")
+        //console.log(currentUser, "da cookie")
 
        // setTimeout()
         
         const getFavs = async() => {
             try {
                 const result = await axios.get('https://forage-backend-final.herokuapp.com/getfavsbyuser?user_id='+currentUser);
-                console.log(result.data.favs)
+                //console.log(result.data.favs)
                 setFavs(result.data.favs)
             } catch (error) {
-                alert('nope')
+                console.log("loading")
             }
         }
         getFavs()
-        console.log(favs, 'da favs')
+        //console.log(favs, 'da favs')
 
     }, [currentUser])
 
@@ -163,14 +172,14 @@ export default function Favourites({}){
 
     const HandleUpdateRecipe = (id, recipedata) => {
         console.log("SUNDAY",sun)
-        sun[id] = {
-            ...sun[id],
-            ...recipedata
-        }
+        // sun[id] = {
+        //     ...sun[id],
+        //     ...recipedata
+        // }
 
-        setSun({
-            ...sun
-        })
+        // setSun({
+        //     ...sun
+        // })
     }
 
     const HandleAddToBoard = (id, recipedata) => {
@@ -203,8 +212,8 @@ export default function Favourites({}){
                         return (
                             <Card 
                             key={i} 
-                            recipe_name={o.recipe_id} 
-                            recipe_description={o.user_id}
+                            recipe_name={o.recipe_name} 
+                            recipe_description={o.recipe_description}
                             // onCardClick={()=>r.push('/recipe/'+recipe._id)}
                             />
                         );
@@ -213,28 +222,14 @@ export default function Favourites({}){
                 }
             </FavsCont>
             <Spacer/>
-            <Favs>
-                {Object.values(rs).map(o=><Card 
-                    //onCardClick={(obj)=>HandleAddToBoard(o.id, obj)}
-                    onCardClick={()=>r.push('/recipe/'+o.id)}
-                    type="recipes" 
-                    id={o.id}
-                    key={o.id}
-                    recipe_name={o.name}
-                    recipe_description={o.description}
-                    recipepos={o.pos}
-                    recipecontent={o.content}
-                    onUpdateRecipes={(obj)=>HandleUpdateRecipe(o.id, obj)}
-                    />)}
-            </Favs>
             <h2>Recipe Calendar</h2>
             <DropCont>
                 <Menu>
-                    {Object.values(curRecipe).map(o=><CalendarMeal 
+                    {favs !== null && favs.map(o=><CalendarMeal 
                     type="recipes" 
-                    id={o.id}
+                    id={o.recipe_id}
                     key={o.id}
-                    recipe_name={o.name}
+                    recipe_name={o.recipe_name}
                     recipe_description={o.recipe_description}
                     recipepos={o.pos}
                     onClose={()=>DeleteRecipe(o.id)}
@@ -246,139 +241,83 @@ export default function Favourites({}){
                     <Dropzone title={'Sunday'} width={100} acceptType={'recipes'} onDropItem={(item)=>{
                         const r_id = uuidv4();
                         console.log("I'm item", item)
-                        setSun(item)
+                        setSun((prev)=>({
+                            ...prev,
+                            [r_id]:{
+                                id:r_id,
+                                recipe_id:item.recipe_id,
+                                recipe_name:item.recipe_name
+                            }
+                    
+                        }))
+                        console.log("sundayy",sun)                    
                     }}>
                         {Object.values(sun).map(o=><CalendarMeal 
-                        type="boardrecipes" 
-                        id={o.id}
-                        key={o.id}
-                        recipe_name={o.recipe_name}
-                        recipe_description={o.recipe_description}
-                        recipepos={o.pos}
-                        onClose={()=>DeleteRecipe(o.id)}
-                        onUpdateRecipes={(obj)=>HandleUpdateRecipe(o.id, obj)}
-                    />
-                    )}
+                            type="boardrecipes" 
+                            recipe_id={o.recipe_id}
+                            key={o.recipe_id}
+                            recipe_name={o.recipe_name}
+                            recipe_description={o.recipe_description}
+                            recipepos={o.pos}
+                            onClose={()=>DeleteRecipe(o.recipe_id)}
+                            onUpdateRecipes={(obj)=>HandleUpdateRecipe(o.recipe_id, obj)}
+                            //onDrag={()=>HandleAddToBoard(o.recipe_id, obj)}
+                            />
+                            )}
                     </Dropzone >
                     <Dropzone title={'Monday'} width={100} acceptType={'recipes'} onDropItem={(item)=>{
                         const r_id = uuidv4();
+                        console.log("I'm item", item)
                         setMon((prev)=>({
                             ...prev,
-                            ...item,
-                            [r_id]:{id:r_id}
+                            [r_id]:{
+                                id:r_id,
+                                recipe_id:item.recipe_id,
+                                recipe_name:item.recipe_name
+                            }
+                    
                         }))
+                        console.log("sundayy",mon)                    
                     }}>
                         {Object.values(mon).map(o=><CalendarMeal 
-                        type="boardrecipes" 
-                        id={o.id}
-                        key={o.id}
-                        recipe_name={o.name}
-                        recipe_description={o.recipe_description}
-                        recipepos={o.pos}
-                        onClose={()=>DeleteRecipe(o.id)}
-                        onUpdateRecipes={(obj)=>HandleUpdateRecipe(o.id, obj)}
-                    />
-                    )}
+                            type="boardrecipes" 
+                            recipe_id={o.recipe_id}
+                            key={o.recipe_id}
+                            recipe_name={o.recipe_name}
+                            recipe_description={o.recipe_description}
+                            recipepos={o.pos}
+                            onClose={()=>DeleteRecipe(o.recipe_id)}
+                            onUpdateRecipes={(obj)=>HandleUpdateRecipe(o.recipe_id, obj)}
+                            //onDrag={()=>HandleAddToBoard(o.recipe_id, obj)}
+                            />
+                            )}
                     </Dropzone >
                     <Dropzone title={'Tuesday'} width={100} acceptType={'recipes'} onDropItem={(item)=>{
                         const r_id = uuidv4();
+                        console.log("I'm item", item)
                         setTues((prev)=>({
                             ...prev,
-                            ...item,
-                            [r_id]:{id:r_id}
+                            [r_id]:{
+                                id:r_id,
+                                recipe_id:item.recipe_id,
+                                recipe_name:item.recipe_name
+                            }
+                    
                         }))
+                        console.log("sundayy",tues)                    
                     }}>
                         {Object.values(tues).map(o=><CalendarMeal 
-                        type="boardrecipes" 
-                        id={o.id}
-                        key={o.id}
-                        recipe_name={o.name}
-                        recipe_description={o.recipe_description}
-                        recipepos={o.pos}
-                        onClose={()=>DeleteRecipe(o.id)}
-                        onUpdateRecipes={(obj)=>HandleUpdateRecipe(o.id, obj)}
-                    />
-                    )}
-                    </Dropzone >
-                    <Dropzone title={'Wednesday'} width={100} acceptType={'recipes'} onDropItem={(item)=>{
-                        const r_id = uuidv4();
-                        setWed((prev)=>({
-                            ...prev,
-                            ...item,
-                            [r_id]:{id:r_id}
-                        }))
-                    }}>
-                        {Object.values(wed).map(o=><CalendarMeal 
-                        type="boardrecipes" 
-                        id={o.id}
-                        key={o.id}
-                        recipe_name={o.name}
-                        recipe_description={o.recipe_description}
-                        recipepos={o.pos}
-                        onClose={()=>DeleteRecipe(o.id)}
-                        onUpdateRecipes={(obj)=>HandleUpdateRecipe(o.id, obj)}
-                    />
-                    )}
-                    </Dropzone >
-                    <Dropzone title={'Thursday'} width={100} acceptType={'recipes'} onDropItem={(item)=>{
-                        const r_id = uuidv4();
-                        setThurs((prev)=>({
-                            ...prev,
-                            ...item,
-                            [r_id]:{id:r_id}
-                        }))
-                    }}>
-                        {Object.values(thurs).map(o=><CalendarMeal 
-                        type="boardrecipes" 
-                        id={o.id}
-                        key={o.id}
-                        recipe_name={o.name}
-                        recipe_description={o.recipe_description}
-                        recipepos={o.pos}
-                        onClose={()=>DeleteRecipe(o.id)}
-                        onUpdateRecipes={(obj)=>HandleUpdateRecipe(o.id, obj)}
-                    />
-                    )}
-                    </Dropzone >
-                    <Dropzone title={'Friday'} width={100} acceptType={'recipes'} onDropItem={(item)=>{
-                        const r_id = uuidv4();
-                        setFri((prev)=>({
-                            ...prev,
-                            ...item,
-                            [r_id]:{id:r_id}
-                        }))
-                    }}>
-                        {Object.values(fri).map(o=><CalendarMeal 
-                        type="boardrecipes" 
-                        id={o.id}
-                        key={o.id}
-                        recipe_name={o.name}
-                        recipe_description={o.recipe_description}
-                        recipepos={o.pos}
-                        onClose={()=>DeleteRecipe(o.id)}
-                        onUpdateRecipes={(obj)=>HandleUpdateRecipe(o.id, obj)}
-                    />
-                    )}
-                    </Dropzone >
-                    <Dropzone title={'Saturday'} width={100} acceptType={'recipes'} onDropItem={(item)=>{
-                        const r_id = uuidv4();
-                        setSat((prev)=>({
-                            ...prev,
-                            ...item,
-                            [r_id]:{id:r_id}
-                        }))
-                    }}>
-                        {Object.values(sat).map(o=><CalendarMeal 
-                        type="boardrecipes" 
-                        id={o.id}
-                        key={o.id}
-                        recipe_name={o.name}
-                        recipe_description={o.recipe_description}
-                        recipepos={o.pos}
-                        onClose={()=>DeleteRecipe(o.id)}
-                        onUpdateRecipes={(obj)=>HandleUpdateRecipe(o.id, obj)}
-                    />
-                    )}
+                            type="boardrecipes" 
+                            recipe_id={o.recipe_id}
+                            key={o.recipe_id}
+                            recipe_name={o.recipe_name}
+                            recipe_description={o.recipe_description}
+                            recipepos={o.pos}
+                            onClose={()=>DeleteRecipe(o.recipe_id)}
+                            onUpdateRecipes={(obj)=>HandleUpdateRecipe(o.recipe_id, obj)}
+                            //onDrag={()=>HandleAddToBoard(o.recipe_id, obj)}
+                            />
+                            )}
                     </Dropzone >
                 </CalendarCont>
                 </DropCont>
@@ -387,6 +326,19 @@ export default function Favourites({}){
 
     </>
 }
+
+
+// {Object.values(sun).map(o=><CalendarMeal 
+//     type="boardrecipes" 
+//     id={o.recipe_id}
+//     key={o.recipe_id}
+//     recipe_name={"Hello"}
+//     recipe_description={o.recipe_description}
+//     recipepos={o.pos}
+//     onClose={()=>DeleteRecipe(o.recipe_id)}
+//     onUpdateRecipes={(obj)=>HandleUpdateRecipe(o.recipe_id, obj)}
+// />
+// )}
 
 
 // export async function getServerSideProps(context) {

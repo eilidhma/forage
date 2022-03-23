@@ -24,12 +24,27 @@ const Spacer = styled.div`
 export default function Home({}) {
 
   const [recipes, setRecipes] = useState([])
-  const {currentUser, setCurrentUser} = useCurrentUser()
+  const [currentUser, setCurrentUser] = useState();
 
-  console.log(currentUser, "CURRENT USER ID")
   console.log(recipes, "recipes")
+
+  function getCookie(name) {
+    var cookieArr = document.cookie.split(";");
+
+    for (var i = 0; i < cookieArr.length; i++) {
+        var cookiePair = cookieArr[i].split("=");
+
+        if (name == cookiePair[0].trim()) {
+            return decodeURIComponent(cookiePair[1]);
+        }
+    }
+    return null;
+  }
   
   useEffect(() => {
+
+    setCurrentUser(getCookie("user_id"))
+    console.log(currentUser, "da user")
     const getData = async() => {
       const result = await axios.get('https://forage-backend-final.herokuapp.com/recipes');
       setRecipes(result.data.filter((x) => {return x._id === id}))
@@ -55,7 +70,7 @@ export default function Home({}) {
         //    }
         //  }
         //  CheckFavorite()
-      }, [])
+      }, [currentUser])
       
   const [rec, setRec] = useState([]);
   const [isFav, setIsFav] = useState(false);
@@ -66,6 +81,8 @@ export default function Home({}) {
   const introText = `Hungry?\n We can help.`
 
   const { id } = r.query
+
+
 
   const setFavorite = () => {
     setIsFav(!isFav)
@@ -85,7 +102,9 @@ export default function Home({}) {
   const addFav = async() => {
     const result = await axios.post('https://forage-backend-final.herokuapp.com/addfav', {
               user_id: currentUser,
-              recipe_id: recipes[0]._id
+              recipe_id: recipes[0]._id,
+              recipe_name: recipes[0].name,
+              recipe_description: recipes[0].description
             })
   }
 
@@ -128,7 +147,7 @@ export default function Home({}) {
           recipe_desc={o.description}
           recipe_instructions={JSON.parse(o.steps.replace(/'/g, '"')).map(list=> {return <li>{list}</li>})}
           recipe_ingredients={JSON.parse(o.ingredients.replace(/'/g, '"')).map(list=> {return <li>{list}</li>})}
-          onFavorite={(obj)=>HandleUpdateFavs(o.id, o, obj)}
+          onFavorite={() => addFav()}
           onClickFill={Fill}
           fill={fill}
         />

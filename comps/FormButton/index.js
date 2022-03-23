@@ -9,14 +9,14 @@ const ButtonUI = styled(motion.button)`
     width: 135px;
     height: 35px;
     margin: 5px 0 0 0;
-    background-color: ${colors.orange};
+    background-color: white;
     border-radius: 10px;
     border: none;
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
 
     font-family: "Poppins", sans-serif;
     font-size: 14px;
-    color: white;
+    color: ${colors.orange};
 
     :hover {
         cursor: pointer;
