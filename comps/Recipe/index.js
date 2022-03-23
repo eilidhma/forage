@@ -122,7 +122,7 @@ const List = styled.ol`
     flex-direction: column;
     flex-wrap: wrap;
 `
-const ListItem = styled.li`
+const ListItem = styled.div`
     font-family: "Poppins", sans-serif;
     font-size: 1rem;
     font-style: italic;
@@ -155,17 +155,18 @@ export default function Recipe({
     flexdir="row",
     recipe_name="Recipe Name",
     recipe_desc="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vel rutrum elit, nec cursus eros. Vestibulum leo justo, cursus nec enim a, efficitur posuere nisl. In dictum egestas est. Quisque non tortor ac sapien eleifend consequat. Aliquam in aliquam leo. Sed vulputate quam a justo tempus, sed lobortis nibh dapibus. Nulla facilisi. Proin in sapien risus ac sapien eleifend.",
-    recipe_ingredients="Ingredient 1",
-    recipe_instructions="Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    recipe_ingredients=[],
+    recipe_instructions=[],
     onFavorite=()=>{},
     onClickFill=()=>{},
+    onClick=()=>{},
     fill
 })
 {
     const {theme, setTheme} = useTheme();
 
     return <>
-        <Wrapper>
+        <Wrapper onClick={onClick}>
             <HeadingCont>
                 <BackCont>
                     Back
@@ -231,16 +232,6 @@ export default function Recipe({
                     </ListItem>
                 </List>
             </SecCont>
-            <QRCont>
-                <QRImgCont>
-                    <h1>
-                        QR HERE
-                    </h1>
-                </QRImgCont>
-                <QRDesc color={comp_themes[theme].text_color}>
-                Scan this QR code with your phone and get a grocery list of the items you need to create your new delicious recipe!
-                </QRDesc>   
-            </QRCont>
         </Wrapper>
     </>
 }
