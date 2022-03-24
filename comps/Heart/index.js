@@ -13,7 +13,8 @@ const Cont = styled(motion.div)`
   align-items:center;
   width: fit-content;
   height: fit-content;
-  margin-top: 5px;
+  margin-top: 10px;
+
   :hover{
     cursor: pointer;
   }

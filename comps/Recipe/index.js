@@ -16,6 +16,7 @@ const Wrapper = styled.div`
     max-width: 1000px;
     height: fit-content;
     margin-bottom: 275px;
+    margin-top: -100px;
 `
 const HeadingCont = styled.div`
     display: flex;
@@ -25,10 +26,11 @@ const HeadingCont = styled.div`
     justify-content: center;
     align-items: center;
     padding: 10px;
+    margin-top: 50px;
 
     /* background-color: green; */
 `
-const BackCont = styled.div`
+const BackCont = styled(motion.div)`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -38,7 +40,16 @@ const BackCont = styled.div`
     cursor: pointer;
 }
 
-    /* background-color: yellow; */
+/* background-color: yellow; */
+`
+const Arrow = styled.div`
+  width: 0; 
+  height: 0;
+  border-radius: 50px;
+  margin-right: 5px;
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent; 
+  border-right: 7px solid #EF6345; 
 `
 const Heading = styled.h3`
     padding: 0;
@@ -57,15 +68,16 @@ const ImgCont = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    flex: 1.5;
+    flex: 1;
 
     /* background-color: blue; */
 `
 const InfoCont = styled.div`
     display: flex;
     flex-direction: column;
-    flex: 2;
-    justify-content: center;
+    flex: 2.5;
+    margin-left: 25px;
+    justify-content: flex-start;
     align-items: center;
 
     // /* background-color: red; */
@@ -84,7 +96,7 @@ const DetailsCont = styled.div`
     display: flex;
     flex-direction: ${({flexdir})=>flexdir};
     flex: 1;
-    justify-content: center;
+    justify-content: ${({justify})=>justify};
     position: relative;
 
     /* background-color: ${({bgcol})=>bgcol}; */
@@ -95,6 +107,7 @@ const RecipeName = styled.h4`
     color: ${colors.orange};
     font-weight: 500;
     margin: 0;
+    text-transform: capitalize;
 `
 const DescCont = styled.div`
     width: 100%;
@@ -112,8 +125,9 @@ const SecContCont =styled.div`
 `
 const SecCont = styled.div`
     display: flex;
-    flex: 1;
+    flex: ${({flex})=>flex};
     flex-direction: column;
+    overflow: none;
 `
 const IngredientsCont = styled.div`
     display: flex;
@@ -128,12 +142,12 @@ const List = styled.ol`
     max-height: 200px;
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
 `
 const ListItem = styled.div`
     font-family: "Poppins", sans-serif;
     font-size: 1rem;
     font-style: italic;
+    text-transform: ${({transform})=>transform};
     color: ${({color})=>color};
 `
 const QRCont = styled.div`
@@ -160,7 +174,10 @@ const QRDesc = styled.div`
 `
 
 export default function Recipe({
+    justify="center",
     flexdir="row",
+    transform="",
+    flex="",
     recipe_name="Recipe Name",
     recipe_desc="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vel rutrum elit, nec cursus eros. Vestibulum leo justo, cursus nec enim a, efficitur posuere nisl. In dictum egestas est. Quisque non tortor ac sapien eleifend consequat. Aliquam in aliquam leo. Sed vulputate quam a justo tempus, sed lobortis nibh dapibus. Nulla facilisi. Proin in sapien risus ac sapien eleifend.",
     recipe_ingredients=[],
@@ -174,13 +191,28 @@ export default function Recipe({
     const r = useRouter();
     const {theme, setTheme} = useTheme();
 
+    const toTitleCase = (phrase) => {
+        return phrase
+          .toLowerCase()
+          .split(' ')
+          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(' ');
+      };
+      
+      let result = toTitleCase('maRy hAd a lIttLe LaMb');
+      console.log(result);
+
     return <>
         <Wrapper onClick={onClick}>
             <HeadingCont>
-                <BackCont onClick={()=>r.push(`/`)}>
+                <BackCont     
+                whileHover={{ scale: 1.2 }}
+                whileTap={{ scale: 0.9 }} 
+                onClick={()=>r.push(`/`)}
+                >
+                    <Arrow/>
                     Back
                 </BackCont>
-
                 <Heading color={comp_themes[theme].text_color}>
                     Bon Appétit!
                 </Heading>
@@ -192,17 +224,17 @@ export default function Recipe({
                 </ImgCont>
                 <InfoCont>
                     <InnerCont>
-                        <DetailsCont bgcol="yellow" flexdir="column">
+                        <DetailsCont bgcol="yellow" flexdir="row">
                             <RecipeName>
                                 {recipe_name}
                             </RecipeName>
-                            <Heart
+                            <Heart 
                                 onFavorite={onFavorite}
                                 onClickFill={onClickFill}
                                 fill={fill}
                             />
                         </DetailsCont>
-                        <DetailsCont bgcol="green">
+                        <DetailsCont justify="flex-end" bgcol="green">
                             <Dietary/>
                             <Dietary diet="GF"/>
                             <Dietary diet="DF"/>
@@ -218,20 +250,20 @@ export default function Recipe({
             </MainCont>
             
             <SecContCont>
-            <SecCont>
+            <SecCont flex="1">
                 <HeadingCont>
                     <Heading color={colors.orange}>Ingredients</Heading>
                 </HeadingCont>
 
                 <IngredientsCont>
                     <List>
-                        <ListItem color={comp_themes[theme].text_color}>
+                        <ListItem transform="capitalize" color={comp_themes[theme].text_color}>
                             {recipe_ingredients}
                         </ListItem>
                     </List>
                 </IngredientsCont>
             </SecCont>
-            <SecCont>
+            <SecCont flex="2.5">
                 <HeadingCont>
                     <Heading color={colors.orange}>Instructions</Heading>
                 </HeadingCont>
