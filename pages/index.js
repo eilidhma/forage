@@ -15,9 +15,15 @@ import axios from 'axios'
 import { useRecipesData } from '../utils/provider'
 import Apple from '../comps/3d/Apple'
 import Table from '../comps/3d/Table'
-import Coffeecup from '../comps/3d/Coffecup'
+import Coffeecup from '../comps/3d/Coffeecup'
 import Pizza from '../comps/3d/Pizza'
+import Pizzaslice from '../comps/3d/Pizzaslice'
 import Plate from '../comps/3d/Plate'
+import Bowl from '../comps/3d/Bowl'
+import Pretzel from '../comps/3d/Pretzel'
+import Carrot from '../comps/3d/Carrot'
+import Eggplant from '../comps/3d/Eggplant'
+import Banana from '../comps/3d/Banana'
 
 
 const Wrapper = styled.div`
@@ -35,7 +41,7 @@ const IntroCont = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  height:100vh;
+  height:75vh;
   width:100vw;
   top:0;
   left:0;
@@ -90,7 +96,7 @@ const SearchCont = styled.div`
 `
 const PlateCont = styled.div`
   position:absolute;
-  top:125vh;
+  top:100vh;
   left:0;
   height:100vh;
   width:100vw;
@@ -98,11 +104,19 @@ const PlateCont = styled.div`
 `
 const PizzaCont = styled.div`
   position:absolute;
-  top:125vh;
+  top:100vh;
   left:0;
   height:100vh;
   width:100vw;
   z-index:3;
+`
+const BananaCont = styled.div`
+  position:absolute;
+  top:100vh;
+  left:0;
+  height:100vh;
+  width:100vw;
+  z-index:2;
 `
 
 const ResultsCont = styled.div`
@@ -213,19 +227,9 @@ export default function Home({}) {
       <Wrapper>
       
       <IntroCont>
-        <div style={{
-          background:'rgba(255,255,255,0.25)', 
-          width:'20%', 
-          height:'25%', 
-          borderRadius:25,
-          display:'flex',
-          flexDirection:'column',
-          justifyContent:'center',
-          alignItems:'center'}}>
         <Title title="Hungry?"/>
         <Title title="We can help."/>
         <Button text='Start' onClick={()=>r.push("#search")}/>
-        </div>
       </IntroCont>
 
       <AppleCont>
@@ -233,6 +237,14 @@ export default function Home({}) {
           <ambientLight intensity={0.5} />
           <directionalLight position={[-2, 5, 2]} />
           <Apple />
+        </Canvas>
+      </AppleCont>
+
+      <AppleCont>
+        <Canvas className='canvas'>
+          <ambientLight intensity={0.5} />
+          <directionalLight position={[-2, 5, 2]} />
+          <Bowl />
         </Canvas>
       </AppleCont>
 
@@ -272,7 +284,7 @@ export default function Home({}) {
         <Canvas className='canvas'>
           <ambientLight intensity={0.5} />
           <directionalLight position={[-2, 5, 2]} />
-          <Pizza />
+          <Pizzaslice />
         </Canvas>
       </PizzaCont>
 
@@ -283,6 +295,14 @@ export default function Home({}) {
           <Plate />
         </Canvas>
       </PlateCont>
+
+      <BananaCont>
+        <Canvas className='canvas'>
+          <ambientLight intensity={0.5} />
+          <directionalLight position={[-2, 5, 2]} />
+          <Banana />
+        </Canvas>
+      </BananaCont>
       
       </SearchSection>
 

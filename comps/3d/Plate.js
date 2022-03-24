@@ -11,19 +11,19 @@ export default function Model({ ...props }) {
   const { nodes, materials } = useGLTF('/plate.gltf')
 
   useFrame(() => {
-    const b = window.pageYOffset;
-    const rx = b * 0.0002;
+    const a = window.pageYOffset;
+    const rx = a * 0.0003;
     group.current.rotation.x = rx;
 
-    group.current.position.y = b * -0.0014;
+    group.current.position.y = a * -0.002;
 
-    const ry = b * -0.0001;
+    const ry = a * -0.0001;
     group.current.rotation.y = ry;
   })
 
   return (
     <group ref={group} {...props} dispose={null}>
-      <group rotation={[-4.8, 2.7, 0]} position={[-3.8, 0, 0]} scale={1}>
+      <group rotation={[-4.8, 2.7, 0]} position={[-4.8, -0.3, -0.7]} scale={0.7}>
         <mesh geometry={nodes.plate.geometry} material={materials['Material.001']} rotation={[0, 3, 0]} />
       </group>
     </group>

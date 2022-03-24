@@ -12,12 +12,12 @@ export default function Model({ ...props }) {
 
   useFrame(() => {
     const a = window.pageYOffset;
-    const rx = a * 0.003;
+    const rx = a * 0.0015;
     group.current.rotation.x = rx;
 
-    group.current.position.y = a * 0.007;
+    group.current.position.y = a * 0.008;
 
-    const ry = a * 0.0005;
+    const ry = a * 0.0008;
     group.current.rotation.y = ry;
   })
 
@@ -26,9 +26,9 @@ export default function Model({ ...props }) {
       <mesh
         geometry={nodes.table.geometry}
         material={materials['Material.001']}
-        position={[0, 0.1, 0]}
-        rotation={[3.15, 0, 0]}
-        scale={[1.5, 1, 1]}
+        position={[0, -1.75, 0]}
+        rotation={[1.9, -0.2, 0]}
+        scale={[1.75, 1, 1]}
       />
     </group>
   )
