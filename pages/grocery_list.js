@@ -73,7 +73,14 @@ const ListCont = styled.div`
     min-height: 20vh;
     flex-direction: column;
 `
-
+const UserIndicator = styled.div`
+    width: 25px;
+    height: 25px;
+    border-radius: 50px;
+    background-color: yellow;
+    border: 1px solid white;
+    align-self: center;
+`
 export default function GroceryList() {
 
     const {theme, setTheme} = useTheme();
@@ -182,7 +189,6 @@ export default function GroceryList() {
         <Wrapper>
             <GroceryListUI value={text} onChange={(e) => setText(e.target.value)} onAddClick={AddItem} />
 
-
             <ListCont>
             {items && items.map((o,i) => 
                 <Item 
@@ -195,6 +201,7 @@ export default function GroceryList() {
                         {o}
                     </ItemCont>
                     <ItemCont justify="flex-end">
+                        <UserIndicator/>
                         <DeleteButton 
                             data-value={o}
                             onClick={DeleteItem}

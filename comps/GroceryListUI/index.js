@@ -143,6 +143,25 @@ export default function GroceryListUI({
 }) {
 
     const {theme, setTheme} = useTheme();
+    const [currentUser, setCurrentUser] = useState();
+
+    useEffect(() => {
+        setCurrentUser(getCookie("user_id"));
+    }, [currentUser])
+
+
+    function getCookie(name) {
+        var cookieArr = document.cookie.split(";");
+
+        for (var i = 0; i < cookieArr.length; i++) {
+            var cookiePair = cookieArr[i].split("=");
+
+            if (name == cookiePair[0].trim()) {
+                return decodeURIComponent(cookiePair[1]);
+            }
+        }
+        return null;
+    }
 
     // const [items, setItems] = useState([]);
     // const [searchVal, setSearchVal] = useState("");
@@ -175,7 +194,7 @@ export default function GroceryListUI({
                 </BackCont>
 
                 <Heading color={comp_themes[theme].text_color}>
-                    Name's Grocery List!
+                   {currentUser}'s Grocery List!
                 </Heading>
             </HeadingCont>
 
