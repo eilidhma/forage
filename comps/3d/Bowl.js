@@ -28,7 +28,7 @@ export default function Model({ ...props }) {
       <mesh geometry={nodes.bowl.geometry} material={materials['Default OBJ']} 
       position={[2.8, -1.7, -1.5]} 
       rotation={[1.85, -0.15, 0]} 
-      scale={0.75}/>
+      scale={0.6}/>
     </group>
   )
 }
