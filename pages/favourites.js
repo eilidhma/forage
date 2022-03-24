@@ -171,15 +171,15 @@ export default function Favourites({}){
     // }
 
     const HandleUpdateRecipe = (id, recipedata) => {
-        console.log("SUNDAY",sun)
-        // sun[id] = {
-        //     ...sun[id],
-        //     ...recipedata
-        // }
+        console.log("SUNDAY", recipedata)
+        sun[id] = {
+            ...sun[id],
+            ...recipedata
+        }
 
-        // setSun({
-        //     ...sun
-        // })
+        setSun({
+            ...sun
+        })
     }
 
     const HandleAddToBoard = (id, recipedata) => {
@@ -227,8 +227,8 @@ export default function Favourites({}){
                 <Menu>
                     {favs !== null && favs.map(o=><CalendarMeal 
                     type="recipes" 
-                    id={o.recipe_id}
-                    key={o.id}
+                    recipe_id={o.recipe_id}
+                    key={o.recipe_id}
                     recipe_name={o.recipe_name}
                     recipe_description={o.recipe_description}
                     recipepos={o.pos}
@@ -248,7 +248,7 @@ export default function Favourites({}){
                                 recipe_id:item.recipe_id,
                                 recipe_name:item.recipe_name
                             }
-                    
+                    // ID NOT COMING THROUGH 
                         }))
                         console.log("sundayy",sun)                    
                     }}>

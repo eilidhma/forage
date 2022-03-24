@@ -74,13 +74,13 @@ const CalendarMeal = ({
     position: 'relative'
   })
 
-  useEffect(()=>{
+  /*useEffect(()=>{
     if(type === 'boardrecipes'){
       onUpdateRecipes({
         pos
       })
     }
-  }, [pos])
+  }, [pos])*/
 
 
   const [{ isDragging, coords }, drag, dragPreview] = useDrag(() => ({
