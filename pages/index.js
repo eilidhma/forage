@@ -63,20 +63,13 @@ export default function Home({}) {
     const getData = async() => {
       const result = await axios.get('https://forage-backend-final.herokuapp.com/recipes');
       setRecipes(result.data)
-      //console.log(recipes, "data")
     } 
     getData()
   },[]) 
 
-//need this later
-  // /console.log(recipes[0].ingredients)
-  var someStr = 'He said "Hello, my name is Foo"';
-  //console.log(someStr);     
-  //console.log(someStr.replace(/['"]+/g, ''));     
 
   const r = useRouter();
   const [isToggled, setIsToggled] = useState(false);
-  const introText = `Hungry?\n We can help.`
   const [filteredArr, setFilteredArr] = useState([])
   const [ings, setIngs] = useState([]);
   const [searchVal, setSearchVal] = useState("");
@@ -131,10 +124,7 @@ export default function Home({}) {
       
       return result
     })
-    //let filtered = recipes.filter((r,i)=> result[i])
     setFilteredArr(result)
-    //console.log(result)
-    //console.log(filteredArr)
   }
 
     if(recipes === null){
@@ -188,16 +178,3 @@ export default function Home({}) {
     
   </>
 }
-
-// export async function getServerSideProps(context) {
-//   const client = await clientPromise;
-
-//   const db = client.db("recipesDB");
-
-//   let recipes = await db.collection("recipes").find({}).limit(110).toArray();
-//   recipes = JSON.parse(JSON.stringify(recipes));
-
-//   return {
-//     props: { recipes },
-//   };
-// }
