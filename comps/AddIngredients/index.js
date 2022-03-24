@@ -14,8 +14,9 @@ const AddIngsCont = styled.div`
     justify-content: center;
     align-items: center;
     width: 40vw;
-    min-height: 20vh;
+    min-height: 90vh;
     flex-direction: column;
+    margin-top: 300px;
 `
 const SearchBarCont = styled.div`
     display: flex;
@@ -27,12 +28,14 @@ const SearchBar = styled.input`
     width: 100%;
     height: 40px;
     padding: 10px;
-    margin: 5px 0 5px 0;
-    border-radius: 10px;
+    position: relative;
+    margin: 40px 0 20px 0;
+    border-radius: 10px 0 0 10px;
     border: none;
     font-family: "Poppins", sans-serif;
     font-weight: 500;
-    box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 2px 10px 2px rgba(0, 0, 0, 0.25);
+    
     :focus {
         outline: none !important;
         border: 1px ${colors.orange} solid;
@@ -41,10 +44,12 @@ const SearchBar = styled.input`
 const Button = styled(motion.button)`
     width: 135px;
     height: 40px;
+    z-index: 9;
+    margin: 40px 0 20px 0;
     background-color: ${colors.orange};
-    border-radius: 10px;
+    border-radius: ${props=>props.radius};
     border: none;
-    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 2px 10px 2px rgba(0, 0, 0, 0.25);
     font-family: "Poppins", sans-serif;
     font-size: 14px;
     color: white;
@@ -60,22 +65,33 @@ const Ingredient = styled.div`
     border-radius: 10px;
     width: 80%;
     height: 30px;
-    margin: 5px 0 5px 0;
+    margin: 10px 0 10px 0;
     font-family: "Poppins", sans-serif;
     font-size: 14px;
     color: ${props=>props.color};
+
+    :hover{
+        background-color: #fdebe8;
+    };
 `
 const IngCont = styled.div`
     display: flex;
-    flex: 1;
-    padding: 10px;
+    width: 100%;
+    margin-left: 5%;
+    justify-content: center;
+`
+const DelCont = styled.div`
+    display: flex;
+    width: 2.5%;
+    align-items: center;
+    margin-right: 5px;
     justify-content: ${props=>props.justify};
+    
 `
 const DeleteButton = styled.button`
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
-    width: 5%;
     height: 100%;
     background: none;
     border: none;
@@ -85,12 +101,15 @@ const DeleteButton = styled.button`
     
     :hover{
         cursor: pointer;
+        color: #EF6345;
     };
 `
 
 
 export default function AddIngredients({
     justify="flex-start",
+    radius="5px",
+    onClickScroll = () => {},
     showRecipes = () => {},
     onChangeSearch = () => {},
     onClickAdd = () => {},
@@ -101,14 +120,18 @@ export default function AddIngredients({
 {   
     const {theme, setTheme} = useTheme();
 
+    const onDoneClick = () => {
+        showRecipes()
+        onClickScroll()
+    }
 
     return <>
         <AddIngsCont>
-            <Title title="Let's start by adding in ingredients you have available right now!" />
+            <Title title="Let's start by adding ingredients you currently have!" />
 
             <SearchBarCont>
                 <SearchBar value={searchVal} onChange={onChangeSearch}/>
-                <Button 
+                <Button radius="0 10px 10px 0"
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
                     onClick={onClickAdd}
@@ -121,10 +144,10 @@ export default function AddIngredients({
                         color={themes[theme].text}
                         borderColor={comp_themes[theme].ingredient_border_color}
                         key={i}>
-                        <IngCont justify>
+                        <IngCont>
                             {o}
                         </IngCont>
-                        <IngCont justify="flex-end"> 
+                        <DelCont justify="center"> 
                             <DeleteButton
                                 data-value={o}
                                 onClick={onClickDelete}
@@ -132,14 +155,14 @@ export default function AddIngredients({
                             >
                                 X
                             </DeleteButton>
-                        </IngCont> 
+                        </DelCont>
                     </Ingredient>
                 )}
 
-                <Button 
+                <Button radius="10px"
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
-                    onClick={showRecipes}
+                    onClick={()=>onDoneClick()}
                 >
                     Done
                 </Button>

@@ -13,18 +13,19 @@ const Text = styled.h3`
   font-family: "Poppins", sans-serif;
   font-weight: 700;
   font-size:1.7rem;
-  margin: 5px;
+  margin:${props=>props.margin};
   text-align: center;
 `
 
 const Title = ({
-  title='title'
+  title='title',
+  margin='10px',
 }) => {
 
   const {theme, setTheme} = useTheme();
 
   return <Cont>
-    <Text color={themes[theme].text}>{title}</Text>
+    <Text margin={margin} color={themes[theme].text}>{title}</Text>
   </Cont>
 }
 

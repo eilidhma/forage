@@ -17,7 +17,7 @@ const Cont = styled(motion.div)`
     height: 450px;
     border: solid 2px white;
     border-radius: 30px;
-    background-color: ${colors.orange};
+    background-color:rgb(239,99,69);opacity:0.8;
     z-index: 10000;
 `
 
