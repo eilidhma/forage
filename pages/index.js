@@ -74,7 +74,7 @@ export default function Home({}) {
       //console.log(recipes, "data")
     } 
     getData()
-  },[]) 
+  },) 
 
 //need this later
   // /console.log(recipes[0].ingredients)

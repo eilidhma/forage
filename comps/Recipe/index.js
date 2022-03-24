@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
- 
+import { useRouter } from "next/router";
 import { themes, comp_themes } from "../../utils/variables";
 import { useTheme } from "../../utils/provider";
 import { colors } from "../../utils/colors";
@@ -15,6 +15,7 @@ const Wrapper = styled.div`
     width: 80vw;
     max-width: 1000px;
     height: fit-content;
+    margin-bottom: 275px;
 `
 const HeadingCont = styled.div`
     display: flex;
@@ -33,6 +34,9 @@ const BackCont = styled.div`
     align-items: center;
     position: absolute;
     left: 0;
+    :hover {
+    cursor: pointer;
+}
 
     /* background-color: yellow; */
 `
@@ -64,7 +68,7 @@ const InfoCont = styled.div`
     justify-content: center;
     align-items: center;
 
-    /* background-color: red; */
+    // /* background-color: red; */
 `
 const InnerCont = styled.div`
     display: flex;
@@ -101,6 +105,10 @@ const Desc = styled.p`
     font-family: "Poppins", sans-serif;
     font-weight: 300;
     color: ${({color})=>color};
+`
+const SecContCont =styled.div`
+    display: flex;
+    flex-direction: row;
 `
 const SecCont = styled.div`
     display: flex;
@@ -163,17 +171,18 @@ export default function Recipe({
     fill
 })
 {
+    const r = useRouter();
     const {theme, setTheme} = useTheme();
 
     return <>
         <Wrapper onClick={onClick}>
             <HeadingCont>
-                <BackCont>
+                <BackCont onClick={()=>r.push(`/`)}>
                     Back
                 </BackCont>
 
                 <Heading color={comp_themes[theme].text_color}>
-                    Here's your recipe!
+                    Bon Appétit!
                 </Heading>
             </HeadingCont>
 
@@ -207,7 +216,8 @@ export default function Recipe({
                     </DescCont>
                 </InfoCont>
             </MainCont>
-
+            
+            <SecContCont>
             <SecCont>
                 <HeadingCont>
                     <Heading color={colors.orange}>Ingredients</Heading>
@@ -232,6 +242,7 @@ export default function Recipe({
                     </ListItem>
                 </List>
             </SecCont>
+            </SecContCont>
         </Wrapper>
     </>
 }
