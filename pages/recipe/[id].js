@@ -75,6 +75,7 @@ export default function Home({}) {
   const [rec, setRec] = useState([]);
   const [isFav, setIsFav] = useState(false);
   const [fill, setFill] = useState('none')
+  const [fav_id, setFavId] = useState()
 
   const r = useRouter();
   const [isToggled, setIsToggled] = useState(false);
@@ -100,12 +101,18 @@ export default function Home({}) {
   }
 
   const addFav = async() => {
-    const result = await axios.post('https://forage-backend-final.herokuapp.com/addfav', {
-              user_id: currentUser,
-              recipe_id: recipes[0]._id,
-              recipe_name: recipes[0].name,
-              recipe_description: recipes[0].description
-            })
+
+    if(fill === 'none'){
+      const result = await axios.post('https://forage-backend-final.herokuapp.com/addfav', {
+          user_id: currentUser,
+          recipe_id: recipes[0]._id,
+          recipe_name: recipes[0].name,
+          recipe_description: recipes[0].description
+        })
+        console.log(result.data.savedFav._id)
+        setFavId(result.data.savedFav._id)
+    }
+  
   }
 
   const {favRecipes, setFavRecipes} = useRecipes();
@@ -122,11 +129,14 @@ export default function Home({}) {
     console.log(favRecipes)
   }
   
-  const Fill = () => {
+  const Fill = async() => {
     if(fill === 'none'){
       setFill('#EF6345')
     } else {
       setFill('none')
+      const result = axios.patch('https://forage-backend-final.herokuapp.com/removefav',{
+        _id:fav_id
+      })
     }
   }
 

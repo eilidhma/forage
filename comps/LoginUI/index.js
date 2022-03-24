@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import axios from "axios";
 import { comp_themes, themes } from "../../utils/variables";
-import { useTheme } from "../../utils/provider";
+import { useTheme, useItemsView } from "../../utils/provider";
 import { colors } from "../../utils/colors";
 import FormButton from "../FormButton";
 
@@ -84,8 +84,30 @@ export default function LoginUI({
     const r = useRouter();
     const [isCreate, setIsCreate] = useState(false);
     const {theme, setTheme} = useTheme();
+    const {items_view, setItemsView} = useItemsView();
+    const [currentUser, setCurrentUser] = useState();
     const [email, setEmail] = useState("");
     const [pw, setPw] = useState("");
+
+    function getCookie(name) {
+        var cookieArr = document.cookie.split(";");
+    
+        for (var i = 0; i < cookieArr.length; i++) {
+            var cookiePair = cookieArr[i].split("=");
+    
+            if (name == cookiePair[0].trim()) {
+                return decodeURIComponent(cookiePair[1]);
+            }
+        }
+        return null;
+    }
+    
+    useEffect(() => {
+    
+      setCurrentUser(getCookie("user_id"))
+      console.log(currentUser)
+    
+    }, [currentUser])
 
     if(isCreate === false)
     {
@@ -116,10 +138,15 @@ export default function LoginUI({
                                     document.cookie = `user_id=${result.data.user._id}`
                                     // setCurrentUser
 
+                                    const set = await axios.get('https://forage-backend-final.herokuapp.com/getsettingsbyuser?user_id='+getCookie("user_id"));
+                                    console.log(set.data.settings[0].mode)
+                                    
+                                    setTheme(set.data.settings[0].mode)
+                                    setItemsView(set.data.settings[0].view)
+                                } 
                                     setTimeout(() => {
                                         r.reload()
                                     }, 500)
-                                } 
                                 console.log(result)
                             } catch (error) {
                                 alert('Incorrect email or password, please try again')
