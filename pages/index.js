@@ -19,6 +19,13 @@ const Wrapper = styled.div`
   align-items:center;
 `
 
+const TitleCont = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items:center;
+  margin-top: 100px;
+`
+
 const ImgCont = styled.div`
   overflow: hidden;
 `
@@ -29,6 +36,7 @@ const IntroCont = styled.div`
   align-items: center;
   flex-direction: column;
 `
+
 const Spacer = styled.div`
   display: flex;
   width: 100%;
@@ -41,7 +49,7 @@ const SearchCont = styled.div`
   justify-content: center;
   align-items: center;
   width: 40vw;
-  height: 60vh;
+  height: 80vh;
 `
 
 const ResultsCont = styled.div`
@@ -65,7 +73,7 @@ export default function Home({}) {
       setRecipes(result.data)
     } 
     getData()
-  },[]) 
+  },) 
 
 
   const r = useRouter();
@@ -153,27 +161,34 @@ export default function Home({}) {
         searchVal={searchVal}
         onClickAdd={()=>PushIngredient()}
         onClickDelete={(e)=>SpliceIngredient(e)}
-        onChangeSearch={(e)=>setSearchVal(e.target.value)} 
+        onChangeSearch={(e)=>setSearchVal(e.target.value)}
+        onClickScroll={(e)=>r.push("#results")} 
         // showRecipes={()=>r.push("#results")}
         showRecipes={()=>ResultsFunc(ings)}
         />
       </SearchCont>
 
-      <Title title="Here's what you can make!"/>
+      <div id="results" style={{height: "10vh"}}/>
+        
+      
+      <TitleCont>
+        <Title margin={"5px 0px 50px 0px"}title="Here's what you can make!"/>
+
       <ResultsCont id="results">
 
         {/* {recipes.filter(recipe=>recipe.ingredients.includes(ings[0])).map((recipe, index) => { */}
         {filteredArr.map((recipe, index) => {
           return (
-            <Card 
+            <Card
             key={index} 
             recipe_name={recipe.name} 
             recipe_description={recipe.ingredients.replace(/['["]+/g, '')}
             onCardClick={()=>r.push('/recipe/'+recipe._id)}
             />
             );
-        })}
+          })}
       </ResultsCont>
+          </TitleCont>
     </Wrapper>
     
   </>

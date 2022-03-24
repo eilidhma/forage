@@ -8,17 +8,18 @@ import { colors } from "../../utils/colors";
 const ButtonUI = styled(motion.button)`
     width: 135px;
     height: 35px;
-    margin: 5px 0 0 0;
-    background-color: white;
+    margin: 5px 10px 5px 10px;
+    background-color:#FAFAFA;
     border-radius: 10px;
     border: none;
-    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 2px 10px 2px rgba(0, 0, 0, 0.25);
 
     font-family: "Poppins", sans-serif;
     font-size: 14px;
-    color: ${colors.orange};
+    color: ${props=>props.color};
 
     :hover {
+        color: ${props=>props.textColor};
         cursor: pointer;
     }
 `
@@ -26,11 +27,15 @@ const ButtonUI = styled(motion.button)`
 
 export default function FormButton({
     buttonText="default",
-    onClick=()=>{}
+    onClick=()=>{},
+    color="#EF6345",
+    textColor="#FAFAFA"
 })
 {
     return <>
-        <ButtonUI 
+        <ButtonUI
+            color={color}
+            textColor={textColor}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={onClick}

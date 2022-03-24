@@ -13,11 +13,11 @@ const Cont = styled(motion.div)`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 350px;
-    height: 450px;
+    width: 450px;
+    height: 350px;
     border: solid 2px white;
     border-radius: 30px;
-    background-color: ${colors.orange};
+    background-color:rgb(239,99,69);opacity:0.8;
     z-index: 10000;
 `
 
@@ -46,7 +46,7 @@ const Input = styled.input`
     width: 100%;
     height: 40px;
     padding: 10px;
-    margin: 5px 0 5px 0;
+    margin: 0px 0 10px 0;
     border-radius: 10px;
     border: none;
     font-family: "Poppins", sans-serif;
@@ -60,16 +60,17 @@ const Input = styled.input`
 const ButtonCont = styled.div`
     display: flex;
     width: 100%;
-    justify-content: space-between;
+    justify-content: center;
 `
 
 const SignUp = styled.p`
     padding: 0;
-    margin: 0;
+    margin-bottom: 30px;
     color: white;
     font-family: "Poppins", sans-serif;
     font-weight: 500;
     font-size: 16px;
+    text-decoration: underline;
 
     :hover {
         cursor: pointer;
@@ -124,8 +125,8 @@ export default function LoginUI({
                     <Input onChange={(e)=>setPw(e.target.value)} value={pw} type="text" placeholder="Password" />
 
                     <ButtonCont>
-                        <FormButton buttonText="Cancel" onClick={onCancelClick}/>
-                        <FormButton onClick={async() => {
+                        <FormButton textColor={"#BB0A1E"} color={"black"} buttonText="Cancel" onClick={onCancelClick}/>
+                        <FormButton textColor={"#187BCD"} color={"black"} onClick={async() => {
                             try {
                                 const result = await axios.post('https://forage-backend-final.herokuapp.com/login', {
                                     email:email,
@@ -183,8 +184,8 @@ export default function LoginUI({
                     {/* <Input onChange={(e)=>setPw(e.target.value)} type="text" placeholder="Confirm Password" /> */}
 
                     <ButtonCont>
-                        <FormButton buttonText="Cancel" onClick={onCancelClick}/>
-                        <FormButton onClick={async() => {
+                        <FormButton textColor={"#BB0A1E"} color={"black"} buttonText="Cancel" onClick={onCancelClick}/>
+                        <FormButton textColor={"#187BCD"} color={"black"} onClick={async() => {
                             const result = await axios.post('https://forage-backend-final.herokuapp.com/signup', {
                                 email:email,
                                 password:pw
