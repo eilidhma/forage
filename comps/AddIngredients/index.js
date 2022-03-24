@@ -130,7 +130,7 @@ export default function AddIngredients({
             <Title title="Let's start by adding ingredients you currently have!" />
 
             <SearchBarCont>
-                <SearchBar value={searchVal} onChange={onChangeSearch}/>
+                <SearchBar placeholder="Enter an ingredient" value={searchVal} onChange={onChangeSearch}/>
                 <Button radius="0 10px 10px 0"
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
