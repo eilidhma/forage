@@ -78,7 +78,7 @@ export default function Home({}) {
   const [isToggled, setIsToggled] = useState(false);
   const introText = `Hungry?\n We can help.`
   const [filteredArr, setFilteredArr] = useState([])
-  const [ings, setIngs] = useState(["onion", "garlic", "pasta"]);
+  const [ings, setIngs] = useState([]);
   const [searchVal, setSearchVal] = useState("");
 
   const PushIngredient = () => {

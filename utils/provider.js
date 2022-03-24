@@ -1,4 +1,5 @@
-import {useContext, createContext, useState} from 'react';
+
+import { useContext, createContext, useState, useEffect } from 'react'
 import { themes } from './variables';
 
 //the variables you want to provide to all the pages/components wrapped around this provider
@@ -21,6 +22,24 @@ const MyContext = createContext(initialStates);
 
 export default function AppProvider({children}){
     //children all the pages/components insider this provider
+
+    function getCookie(name) {
+        var cookieArr = document.cookie.split(";");
+    
+        for (var i = 0; i < cookieArr.length; i++) {
+            var cookiePair = cookieArr[i].split("=");
+    
+            if (name == cookiePair[0].trim()) {
+                return decodeURIComponent(cookiePair[1]);
+            }
+        }
+        return null;
+    }
+
+    useEffect(()=>{
+        setTheme(getCookie("mode"))        
+        setItemsView(getCookie("view"))        
+    },[])
 
     const [theme, setTheme] = useState(initialStates.theme)
     const [items_view, setItemsView] = useState(initialStates.items_view)

@@ -101,6 +101,8 @@ useEffect(() => {
           mode:theme,
           view:items_view
         })
+        document.cookie = `mode=${theme}`
+        document.cookie = `view=${items_view}`
         console.log('posted')
       } else {
         await axios.patch('https://forage-backend-final.herokuapp.com/updatesetting', {
@@ -108,6 +110,8 @@ useEffect(() => {
           mode:theme,
           view:items_view
         })
+        document.cookie = `mode=${theme}`
+        document.cookie = `view=${items_view}`
         console.log('patched')
       }
 
