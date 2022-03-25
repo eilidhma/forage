@@ -25,7 +25,7 @@ export default function Model({ ...props }) {
 
   return (
     <group ref={group} {...props} dispose={null}>
-      <group rotation={[0.25, 0, -0.2]} position={[-2.5, -0.5, -1.5]} scale={[0.4, 0.7, 0.4]}>
+      <group rotation={[0.25, 0, -0.2]} position={[-2.5, -0.5, -1.5]} scale={[0.2, 0.35, 0.2]}>
         <mesh geometry={nodes.Cube025.geometry} material={materials['glow white']} />
         <mesh geometry={nodes.Cube025_1.geometry} material={materials['tutup gelas']} />
         <mesh geometry={nodes.Cube025_2.geometry} material={materials.meat} />

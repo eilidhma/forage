@@ -22,7 +22,7 @@ export default function Model({ ...props }) {
   })
 
   return (
-    <group ref={group} {...props} dispose={null} scale={1.2}>
+    <group ref={group} {...props} dispose={null} scale={1}>
       <mesh
         geometry={nodes.table.geometry}
         material={materials['Material.001']}
