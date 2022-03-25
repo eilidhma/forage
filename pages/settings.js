@@ -158,7 +158,12 @@ useEffect(() => {
             <Text color={themes[theme].text}>{items_view === 'default' ? 'List View' : 'Grid View'}</Text>
           </Right>
         </Setting>
-        <FormButton onClick={HandleSave} buttonText="Save"/>
+        {
+          currentUser === null ? 
+          <></>
+          :
+          <FormButton onClick={HandleSave} buttonText="Save"/>
+        }
       </SettingsCont>
     </Wrapper>
     

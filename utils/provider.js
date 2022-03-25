@@ -37,8 +37,10 @@ export default function AppProvider({children}){
     }
 
     useEffect(()=>{
-        setTheme(getCookie("mode"))        
-        setItemsView(getCookie("view"))        
+        if(currentUser && getCookie("mode") || getCookie("view")){
+            setTheme(getCookie("mode"))        
+            setItemsView(getCookie("view"))        
+        }
     },[])
 
     const [theme, setTheme] = useState(initialStates.theme)
