@@ -15,9 +15,10 @@ const Cont = styled(motion.div)`
     align-items: center;
     width: 450px;
     height: 350px;
-    border: solid 2px white;
+
     border-radius: 30px;
-    background-color:rgb(239,99,69);opacity:0.8;
+    background-color:none;
+    opacity:0.8;
     z-index: 10000;
 `
 
@@ -26,12 +27,20 @@ const HeadingCont = styled.div`
     justify-content: center;
     align-items: center;
     flex: 1;
+    margin-bottom: 5px;
 `
 const HeadingText = styled.h2`
     font-family: "Poppins", sans-serif;
     font-size: 36px;
     font-weight: 500;
-    color: white;
+    color: #EF6345;
+`
+const ParaText = styled.p`
+    font-family: "Poppins", sans-serif;
+    font-size: 18px;
+    font-weight: 300;
+    color: ${props=>props.paraColor};
+    margin-bottom: 50px;
 `
 
 const InputCont = styled.div`
@@ -49,6 +58,7 @@ const Input = styled.input`
     margin: 0px 0 10px 0;
     border-radius: 10px;
     border: none;
+    box-shadow: 0px 2px 10px 2px rgba(0, 0, 0, 0.25);
     font-family: "Poppins", sans-serif;
     font-weight: 500;
     :focus {
@@ -61,12 +71,13 @@ const ButtonCont = styled.div`
     display: flex;
     width: 100%;
     justify-content: center;
+    margin-top: 30px;
 `
 
 const SignUp = styled.p`
     padding: 0;
-    margin-bottom: 30px;
-    color: white;
+    margin-top: 30px;
+    color: ${props=>props.textColor};
     font-family: "Poppins", sans-serif;
     font-weight: 500;
     font-size: 16px;
@@ -122,11 +133,11 @@ export default function LoginUI({
 
                 <InputCont>
                     <Input onChange={(e)=>setEmail(e.target.value)} value={email} type="text" placeholder="Email" />
-                    <Input onChange={(e)=>setPw(e.target.value)} value={pw} type="text" placeholder="Password" />
+                    <Input onChange={(e)=>setPw(e.target.value)} value={pw} type="password" placeholder="Password" />
 
                     <ButtonCont>
-                        <FormButton textColor={"#BB0A1E"} color={"black"} buttonText="Cancel" onClick={onCancelClick}/>
-                        <FormButton textColor={"#187BCD"} color={"black"} onClick={async() => {
+                        <FormButton textColor={"#EF6345"} color={"#EF6345"} buttonText="Cancel" onClick={onCancelClick}/>
+                        <FormButton backgroundColor={"#EF6345"} textColor={"white"} color={"white"} onClick={async() => {
                             try {
                                 const result = await axios.post('https://forage-backend-final.herokuapp.com/login', {
                                     email:email,
@@ -154,12 +165,12 @@ export default function LoginUI({
 
                                 console.log(error)
                             }
-                        }} buttonText="Sign In"/>
+                        }} buttonText="Confirm"/>
                     </ButtonCont>
                 </InputCont>
 
                 <HeadingCont>
-                    <SignUp onClick={()=>setIsCreate(true)}>
+                    <SignUp textColor={themes[theme].sign_color} onClick={()=>setIsCreate(true)}>
                         Sign Up
                     </SignUp>
                 </HeadingCont>
@@ -176,28 +187,32 @@ export default function LoginUI({
                         Sign Up
                     </HeadingText>
                 </HeadingCont>
-
+                <ParaText
+                    paraColor={themes[theme].para_color}
+                >
+                    Enter your info below to get started!
+                </ParaText>
                 <InputCont>
                     <Input type="text" placeholder="Name" />
                     <Input onChange={(e)=>setEmail(e.target.value)} value={email} type="text" placeholder="Email" />
-                    <Input onChange={(e)=>setPw(e.target.value)} value={pw} type="text" placeholder="Password" />
+                    <Input onChange={(e)=>setPw(e.target.value)} value={pw} type="password" placeholder="Password" />
                     {/* <Input onChange={(e)=>setPw(e.target.value)} type="text" placeholder="Confirm Password" /> */}
 
                     <ButtonCont>
-                        <FormButton textColor={"#BB0A1E"} color={"black"} buttonText="Cancel" onClick={onCancelClick}/>
-                        <FormButton textColor={"#187BCD"} color={"black"} onClick={async() => {
+                        <FormButton textColor={"#EF6345"} color={"#EF6345"} buttonText="Cancel" onClick={onCancelClick}/>
+                        <FormButton backgroundColor={"#EF6345"} textColor={"white"} color={"white"} onClick={async() => {
                             const result = await axios.post('https://forage-backend-final.herokuapp.com/signup', {
                                 email:email,
                                 password:pw
                             });
 
                             console.log(result)
-                        }} buttonText="Sign Up"/>
+                        }} buttonText="Confirm"/>
                     </ButtonCont>
                 </InputCont>
 
                 <HeadingCont>
-                    <SignUp onClick={()=>setIsCreate(false)}>
+                    <SignUp textColor={themes[theme].sign_color} onClick={()=>setIsCreate(false)}>
                         Sign In
                     </SignUp>
                 </HeadingCont>
