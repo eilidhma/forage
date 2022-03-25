@@ -15,7 +15,7 @@ const Wrapper = styled.div`
     width: 80vw;
     max-width: 1000px;
     height: fit-content;
-    margin-bottom: 275px;
+    margin-bottom: 375px;
     margin-top: -100px;
 `
 const HeadingCont = styled.div`
@@ -36,6 +36,7 @@ const BackCont = styled(motion.div)`
     align-items: center;
     position: absolute;
     left: 0;
+    color: ${props=>props.color};
     :hover {
     cursor: pointer;
 }
@@ -95,7 +96,7 @@ const InnerCont = styled.div`
 const DetailsCont = styled.div`
     display: flex;
     flex-direction: ${({flexdir})=>flexdir};
-    flex: 1;
+    flex: ${({flex})=>flex};
     justify-content: ${({justify})=>justify};
     position: relative;
 
@@ -205,7 +206,8 @@ export default function Recipe({
     return <>
         <Wrapper onClick={onClick}>
             <HeadingCont>
-                <BackCont     
+                <BackCont
+                color={themes[theme].back_color}     
                 whileHover={{ scale: 1.2 }}
                 whileTap={{ scale: 0.9 }} 
                 onClick={()=>r.push(`/`)}
@@ -224,20 +226,20 @@ export default function Recipe({
                 </ImgCont>
                 <InfoCont>
                     <InnerCont>
-                        <DetailsCont bgcol="yellow" flexdir="row">
+                        <DetailsCont flex="2" bgcol="yellow" flexdir="row">
                             <RecipeName>
                                 {recipe_name}
                             </RecipeName>
+                        </DetailsCont>
+                        <DetailsCont flex="1" justify="center" bgcol="green">
                             <Heart 
                                 onFavorite={onFavorite}
                                 onClickFill={onClickFill}
                                 fill={fill}
                             />
-                        </DetailsCont>
-                        <DetailsCont justify="flex-end" bgcol="green">
-                            <Dietary/>
+                            {/* <Dietary/>
                             <Dietary diet="GF"/>
-                            <Dietary diet="DF"/>
+                            <Dietary diet="DF"/> */}
                         </DetailsCont>
                     </InnerCont>
 

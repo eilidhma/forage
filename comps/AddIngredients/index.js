@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 import Title from "../Title";
 
-import { themes, comp_themes } from "../../utils/variables";
+import { themes, comp_themes, view_themes, } from "../../utils/variables";
 import { useTheme } from "../../utils/provider";
 import { colors } from "../../utils/colors";
 import { AiFillDelete } from 'react-icons/ai';
@@ -71,7 +71,8 @@ const Ingredient = styled.div`
     color: ${props=>props.color};
 
     :hover{
-        background-color: #fdebe8;
+        color: ${props=>props.textColor};
+        background-color: ${props=>props.bgColor};
     };
 `
 const IngCont = styled.div`
@@ -88,7 +89,7 @@ const DelCont = styled.div`
     justify-content: ${props=>props.justify};
     
 `
-const DeleteButton = styled.button`
+const DeleteButton = styled(motion.button)`
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -97,11 +98,10 @@ const DeleteButton = styled.button`
     border: none;
     font-family: "Poppins", sans-serif;
     font-weight: 600;
-    color: ${props=>props.color};
+    color: ${props=>props.delColor};
     
     :hover{
         cursor: pointer;
-        color: #EF6345;
     };
 `
 
@@ -115,7 +115,8 @@ export default function AddIngredients({
     onClickAdd = () => {},
     onClickDelete = () => {},
     searchVal,
-    ings
+    ings,
+    the
 })
 {   
     const {theme, setTheme} = useTheme();
@@ -125,12 +126,14 @@ export default function AddIngredients({
         onClickScroll()
     }
 
+    
+
     return <>
         <AddIngsCont>
             <Title title="Let's start by adding ingredients you currently have!" />
 
             <SearchBarCont>
-                <SearchBar placeholder="Enter an ingredient" value={searchVal} onChange={onChangeSearch}/>
+                <SearchBar placeholder="Enter a minimum of 3 ingredients" value={searchVal} onChange={onChangeSearch}/>
                 <Button radius="0 10px 10px 0"
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
@@ -141,6 +144,8 @@ export default function AddIngredients({
             </SearchBarCont>
                 {ings && ings.map((o, i) => 
                     <Ingredient
+                        textColor={themes[theme].text_hover}
+                        bgColor={themes[theme].ingredient_hover}
                         color={themes[theme].text}
                         borderColor={comp_themes[theme].ingredient_border_color}
                         key={i}>
@@ -149,9 +154,12 @@ export default function AddIngredients({
                         </IngCont>
                         <DelCont justify="center"> 
                             <DeleteButton
+                                whileHover={{ scale: 1.4}}
+                                whileTap={{ scale: 0.9 }}
+                                delColor={themes[theme].delete_color}
                                 data-value={o}
                                 onClick={onClickDelete}
-                                color={themes[theme].text}
+                                
                             >
                                 X
                             </DeleteButton>
