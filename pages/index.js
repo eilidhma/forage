@@ -317,6 +317,7 @@ export default function Home({}) {
             recipe_name={recipe.name} 
             recipe_description={recipe.ingredients.replace(/['["]+/g, '')}
             onCardClick={()=>r.push('/recipe/'+recipe._id)}
+            src={"/carrot-gif.gif"}
             />
             );
         })}
