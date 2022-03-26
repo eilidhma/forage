@@ -16,6 +16,11 @@ const Cont = styled.div`
     background-color: ${props=>props.bgcolor};
     transition: 0.5s;
     z-index: 1000;
+
+    @media (max-width: 800px) {
+        display: none;
+    }
+
 `
 const LogoCont = styled.div`
     display: flex;

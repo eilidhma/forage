@@ -6,6 +6,7 @@ import { comp_themes, themes } from "../utils/variables";
 import { useTheme } from "../utils/provider";
 import { useItemsView } from '../utils/provider';
 import axios from 'axios';
+import HamMenu from '../comps/HamMenu';
 
 function MyApp({ Component, pageProps }) {
 
@@ -13,6 +14,7 @@ function MyApp({ Component, pageProps }) {
   return <AppProvider>
 
     <NavBar/>
+    <HamMenu/>
     <Component {...pageProps} />
   </AppProvider>
 }
