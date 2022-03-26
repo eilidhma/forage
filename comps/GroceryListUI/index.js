@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { themes, comp_themes } from "../../utils/variables";
 import { useTheme } from "../../utils/provider";
 import { colors } from "../../utils/colors";
+import { useRouter } from "next/router";
 
 const Wrapper = styled.div`
     display: flex;
@@ -158,6 +159,7 @@ export default function GroceryListUI({
 }) {
 
     const {theme, setTheme} = useTheme();
+    const r = useRouter();
     const [currentUser, setCurrentUser] = useState();
 
     useEffect(() => {
