@@ -1,12 +1,12 @@
 import styled from 'styled-components'
 import Router, { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
-import { useTheme } from '../utils/provider'
-import { themes, comp_themes } from '../utils/variables'
-import GroceryListUI from '../comps/GroceryListUI'
-import Background from '../comps/Background'
-import Button from '../comps/Button'
-import { colors } from '../utils/colors'
+import { useTheme } from '../../utils/provider'
+import { themes, comp_themes } from '../../utils/variables'
+import GroceryListUI from '../../comps/GroceryListUI'
+import Background from '../../comps/Background'
+import Button from '../../comps/Button'
+import { colors } from '../../utils/colors'
 
 import { io } from "socket.io-client"
 
@@ -77,7 +77,7 @@ const UserIndicator = styled.div`
     width: 25px;
     height: 25px;
     border-radius: 50px;
-    background-color: yellow;
+    background-color: ${({dotColor}) => dotColor};
     border: 1px solid white;
     align-self: center;
 `
@@ -161,6 +161,10 @@ export default function GroceryList() {
         soc.emit("delete_item", items);
         console.log("items", items)
     }
+
+    const PostList = async() => {
+        const result = axios.post(`https://forage-backend-final.herokuapp.com/getfavsbyuser?user_id=`+currentUser)
+    }
   
   
 
@@ -201,7 +205,9 @@ export default function GroceryList() {
                         {o}
                     </ItemCont>
                     <ItemCont justify="flex-end">
-                        <UserIndicator/>
+                        <UserIndicator
+                            dotColor={colors[i%5]}
+                        />
                         <DeleteButton 
                             data-value={o}
                             onClick={DeleteItem}
