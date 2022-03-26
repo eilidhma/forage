@@ -237,6 +237,9 @@ export default function Home({}) {
 
     if(recipes === null){
       return <>
+      {/* <div>
+        Loading!
+      </div> */}
       </>
     }
 

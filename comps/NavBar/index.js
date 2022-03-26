@@ -5,6 +5,7 @@ import axios from "axios";
 import { comp_themes, themes } from "../../utils/variables";
 import { useTheme } from "../../utils/provider";
 import { colors } from "../../utils/colors";
+import { v4 as uuidv4 } from "uuid";
 
 const Cont = styled.div`
     display: flex;
@@ -49,7 +50,7 @@ const NavLink = styled.a`
     font-weight: 500;
     font-size: 18px;
     color: ${props=>props.color};
-    margin: 50px;
+    margin: 30px;
     :hover {
         cursor: pointer;
     }
@@ -109,6 +110,16 @@ export default function NavBar()
             </LogoCont>
 
             <LinksCont>
+            {
+                currentUser === null ? 
+                <></>
+                :
+                <NavLink
+                    color={comp_themes[theme].text_color}
+                    onClick={() => {r.push(`/grocery_list/${uuidv4()}`)}}>
+                    Grocery List
+                </NavLink>
+            }
                 <NavLink
                     color={comp_themes[theme].text_color}
                     onClick={()=>{r.push('/favourites')}}>
