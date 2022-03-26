@@ -170,11 +170,7 @@ export default function GroceryList() {
 
 
     const AddItem = async() => {
-        // if(text != "" && !items.includes(text))
-        // {
-        //     setItems([...items, text])
-        //     setText("")
-        // }
+
         soc.emit("add_item", text);
         console.log("items", items)
     }
@@ -205,16 +201,6 @@ export default function GroceryList() {
             width: "100vw",
             height: "100vh"
         }}>
-        {/* {Object.values(users).map((o, i) => <div style={{
-            background: colors[i % 5],
-            position: 'fixed',
-            left: o.left,
-            top: o.top,
-            width: 10,
-            height: 10
-        }}>
-
-      </div>)} */}
 
         <Background/>
         <Spacer/>
@@ -249,15 +235,7 @@ export default function GroceryList() {
             )}
             </ListCont>
            <FormButton onClick={PostList} buttonText="Save Changes" />
-            
-                {/* <input type="text" onChange={(e) => setText(e.target.value)} /> */}
-
-                {/* <Button onClick={AlertPpl} text="Alert?" /> */}
                 <div>{Object.keys(users)}</div>
-
-                {/* {blocks.map((o, i) => <div style={{ background: 'red', padding: 10 }}>
-                    {o}
-                </div>)} */}
         </Wrapper>
 
         </div>
