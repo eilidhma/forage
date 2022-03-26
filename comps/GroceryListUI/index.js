@@ -25,15 +25,27 @@ const HeadingCont = styled.div`
 
     /* background-color: green; */
 `
-const BackCont = styled.div`
+const BackCont = styled(motion.div)`
     display: flex;
     justify-content: center;
     align-items: center;
     position: absolute;
     left: 0;
-
-    /* background-color: yellow; */
+    color: ${props=>props.color};
+    :hover {
+    cursor: pointer;
+    }
 `
+const Arrow = styled.div`
+  width: 0; 
+  height: 0;
+  border-radius: 50px;
+  margin-right: 5px;
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent; 
+  border-right: 7px solid #EF6345; 
+`
+
 const Heading = styled.h3`
     padding: 0;
     margin: 0;
@@ -51,22 +63,24 @@ const ListCont = styled.div`
     min-height: 20vh;
     flex-direction: column;
 `
-const InputCont = styled.div`
+const SearchBarCont = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
     width: 80%;
 `
-const Input = styled.input`
+const SearchBar = styled.input`
     width: 100%;
     height: 40px;
     padding: 10px;
-    margin: 5px 0 5px 0;
-    border-radius: 10px;
+    position: relative;
+    margin: 40px 0 20px 0;
+    border-radius: 10px 0 0 10px;
     border: none;
     font-family: "Poppins", sans-serif;
     font-weight: 500;
-    box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 2px 10px 2px rgba(0, 0, 0, 0.25);
+    
     :focus {
         outline: none !important;
         border: 1px ${colors.orange} solid;
@@ -76,14 +90,15 @@ const Input = styled.input`
 const AddButton = styled(motion.button)`
     width: 135px;
     height: 40px;
+    z-index: 9;
+    margin: 40px 0 20px 0;
     background-color: ${colors.orange};
-    border-radius: 10px;
+    border-radius: 0 10px 10px 0;
     border: none;
-    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 2px 10px 2px rgba(0, 0, 0, 0.25);
     font-family: "Poppins", sans-serif;
     font-size: 14px;
     color: white;
-
     :hover {
         cursor: pointer;
     }
@@ -189,7 +204,13 @@ export default function GroceryListUI({
     return <>
         <Wrapper>
             <HeadingCont>
-                <BackCont>
+            <BackCont
+                color={themes[theme].back_color}     
+                whileHover={{ scale: 1.2 }}
+                whileTap={{ scale: 0.9 }} 
+                onClick={()=>r.push(`/`)}
+                >
+                    <Arrow/>
                     Back
                 </BackCont>
 
@@ -199,8 +220,8 @@ export default function GroceryListUI({
             </HeadingCont>
 
             <ListCont>
-                <InputCont>
-                    <Input
+                <SearchBarCont>
+                    <SearchBar
                         value={value}
                         // onChange={(e)=>setSearchVal(e.target.value)}
                         onChange={onChange}
@@ -212,7 +233,7 @@ export default function GroceryListUI({
                     >
                         Add
                     </AddButton>
-                </InputCont>
+                </SearchBarCont>
 
             {/* {items && items.map((o,i) => 
                 <Item 
