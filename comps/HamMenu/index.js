@@ -178,6 +178,11 @@ export default function HamMenu()
             <NavBackground clicked={click}>&nbsp;
             <Navigation clicked={click}>
             <List>
+                {/* <li>
+                <ItemLink onClick={()=>{r.push('/grocery_list')}}>
+                    Grocery List
+                </ItemLink>
+                </li> */}
                 <li>
                 <ItemLink onClick={()=>{r.push('/favourites')}}>
                     Favourites

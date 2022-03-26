@@ -111,23 +111,27 @@ export default function NavBar()
             <LinksCont>
                 <NavLink
                     color={comp_themes[theme].text_color}
-                    onClick={()=>{r.push('/favourites')}}>Favourites</NavLink>
+                    onClick={()=>{r.push('/favourites')}}>
+                        Favourites
+                        </NavLink>
                 <NavLink 
                     color={comp_themes[theme].text_color}
-                    onClick={()=>{r.push('/settings')}}>Settings</NavLink>
+                    onClick={()=>{r.push('/settings')}}>
+                        Settings
+                </NavLink>
                 {
                     currentUser === null ? 
-                    <NavLink 
+                <NavLink 
                         color={colors.orange}
                         onClick={()=>{r.push('/login')}}>
                             Sign In
-                    </NavLink> 
+                </NavLink> 
                     : 
-                    <NavLink 
+                <NavLink 
                      color={colors.orange}
                      onClick={()=>signOut("user_id")}>
                         Sign Out
-                    </NavLink> 
+                </NavLink> 
                 }
             </LinksCont>
         </Cont>
