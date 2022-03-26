@@ -26,9 +26,9 @@ export default function Model({ ...props }) {
       <mesh
         geometry={nodes.table.geometry}
         material={materials['Material.001']}
-        position={[0, -1.75, 0]}
-        rotation={[1.9, -0.2, 0]}
-        scale={[1.75, 1, 1]}
+        position={[0, -1.9, 0]}
+        rotation={[2, -0.2, 0]}
+        scale={[1.30, .7, .8]}
       />
     </group>
   )

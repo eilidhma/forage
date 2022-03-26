@@ -248,13 +248,13 @@ export default function Home({}) {
         </Canvas>
       </AppleCont>
 
-      <CoffeeCont>
+      {/* <CoffeeCont>
         <Canvas className='canvas'>
           <ambientLight intensity={0.5} />
           <directionalLight position={[-2, 5, 2]} />
           <Coffeecup />
         </Canvas>
-      </CoffeeCont>
+      </CoffeeCont> */}
 
       <TableCont>
         <Canvas className='canvas1' camera={{position: [0, 0, 6]}}>

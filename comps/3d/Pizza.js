@@ -23,7 +23,7 @@ export default function Model({ ...props }) {
 
   return (
     <group ref={group} {...props} dispose={null}>
-      <group rotation={[0.2, 0.4, -0.6]} position={[-4.8, 0.2, 0]} scale={0.7}>
+      <group rotation={[0.2, 0.4, -0.6]} position={[-4.8, 0.2, 0]} scale={0.4}>
         <mesh geometry={nodes.pizza_1.geometry} material={materials['default']} />
         <mesh geometry={nodes.pizza_2.geometry} material={materials['Material.001']} />
         <mesh geometry={nodes.pizza_3.geometry} material={materials['Material.002']} />

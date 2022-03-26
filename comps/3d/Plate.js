@@ -23,7 +23,7 @@ export default function Model({ ...props }) {
 
   return (
     <group ref={group} {...props} dispose={null}>
-      <group rotation={[-4.8, 2.7, 0]} position={[-4.8, -0.3, -0.7]} scale={0.7}>
+      <group rotation={[-4.8, 2.7, 0]} position={[-4.8, -0.3, -0.7]} scale={0.6}>
         <mesh geometry={nodes.plate.geometry} material={materials['Material.001']} rotation={[0, 3, 0]} />
       </group>
     </group>
