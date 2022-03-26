@@ -107,8 +107,6 @@ export default function Home({}) {
 
   const { id } = r.query
 
-
-
   const setFavorite = () => {
     setIsFav(!isFav)
     AddFavorite()
@@ -192,4 +190,3 @@ export default function Home({}) {
     
   </>
 }
-

@@ -165,7 +165,7 @@ const DragCard = ({
 
 
 
-  return <Cont ref={dragPreview} {...sty} onClick={onCardClick}
+  return <Cont ref={drag} {...sty} onClick={onCardClick}
     flexDirection={view_themes[items_view].card_flex_direction}
     width={view_themes[items_view].card_width}
     background={themes[theme].card_bg_color}
@@ -175,9 +175,9 @@ const DragCard = ({
     onDrop={onCardClick}
     //onDrop={onDrag} 
   >
-    <Title ref={drag}>{recipe_name}</Title>
+    <Title ref={dragPreview}>{recipe_name}</Title>
     <DescCont>
-      <Description 
+      <Description
       color={themes[theme].text} 
       textWidth={view_themes[items_view].card_text_width}
       textAlign={view_themes[items_view].text_align}>

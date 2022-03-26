@@ -267,14 +267,6 @@ export default function Home({}) {
         </Canvas>
       </AppleCont>
 
-      {/* <CoffeeCont>
-        <Canvas className='canvas'>
-          <ambientLight intensity={0.5} />
-          <directionalLight position={[-2, 5, 2]} />
-          <Coffeecup />
-        </Canvas>
-      </CoffeeCont> */}
-
       <TableCont>
         <Canvas className='canvas1' camera={{position: [0, 0, 6]}}>
           <ambientLight intensity={0.5} />
@@ -340,7 +332,7 @@ export default function Home({}) {
             );
           })}
       </ResultsCont>
-          </TitleCont>
+
     </Wrapper>
     
   </>
