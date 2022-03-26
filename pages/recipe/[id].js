@@ -113,18 +113,24 @@ export default function Home({}) {
   }
   
   const AddFavorite = () => {
-    
-    if(localStorage.getItem("recipe_id", id) !== id) {
-      localStorage.setItem("recipe_id", id)
-    } else if(localStorage.getItem("recipe_id", id) === id) {
-      localStorage.removeItem("recipe_id", id)
-      console.log("running")
+
+    if(currentUser) {
+      if(localStorage.getItem("recipe_id", id) !== id) {
+        localStorage.setItem("recipe_id", id)
+      } else if(localStorage.getItem("recipe_id", id) === id) {
+        localStorage.removeItem("recipe_id", id)
+        console.log("running")
+      }
     }
+    else {
+      alert('Please Sign up or Sign in to add favourites!')
+    }
+    
   }
 
   const addFav = async() => {
 
-    if(fill === 'none'){
+    if(fill === 'none' && currentUser){
       const result = await axios.post('https://forage-backend-final.herokuapp.com/addfav', {
           user_id: currentUser,
           recipe_id: recipes[0]._id,
@@ -134,6 +140,8 @@ export default function Home({}) {
         })
         console.log(result.data.savedFav._id)
         setFavId(result.data.savedFav._id)
+    } else {
+      alert('Please Sign up or Sign in to add favourites!')
     }
   
   }
@@ -153,7 +161,8 @@ export default function Home({}) {
   }
   
   const Fill = async() => {
-    if(fill === 'none'){
+
+    if(fill === 'none' && currentUser){
       setFill('#EF6345')
     } else {
       setFill('none')

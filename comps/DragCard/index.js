@@ -172,8 +172,6 @@ const DragCard = ({
     justifyContent={view_themes[items_view].justify_content}
     shadow={themes[theme].shadow}
     padding={view_themes[items_view].card_padding}
-    onDrop={onCardClick}
-    //onDrop={onDrag} 
   >
     <Title ref={dragPreview}>{recipe_name}</Title>
     <DescCont>

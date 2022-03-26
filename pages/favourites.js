@@ -215,26 +215,31 @@ export default function Favourites({}){
     }
 
     const ImgFilter = (array) => {
-        if(array.includes('meat' || 'chicken' || 'fish' || 'beef' || 'pork')){
-          return '/meat-gif.gif'
-        }
-        if(array.includes('cheese' || 'cheddar' || 'brie' || 'swiss' || 'mozzarella' || 'gouda' || 'gruyere' || 'monteray jack')){
-          return '/cheese-gif.gif'
-        }
-        if(array.includes('carrot' || 'lettuce' || 'salad' || 'tomato' || 'onion' || 'eggplant')){
-          return '/carrot-gif.gif'
-        }
-        if(array.includes('eggs' || 'bacon')){
-          return '/eggsbacon-gif.gif'
-        }
-        if(array.includes('bread' || 'bread crumbs' || 'pretzel' || 'flour' || 'toast')){
-          return '/pretzel-gif.gif'
-        }
-        if(array.includes('fruit' || 'apple' || 'peach' || 'banana' || 'berry')){
-          return '/apple-gif.gif'
-        }
-        else{
-          return '/apple-gif.gif'
+        try {
+            if(array.includes('meat' || 'chicken' || 'fish' || 'beef' || 'pork')){
+              return '/meat-gif.gif'
+            }
+            if(array.includes('cheese' || 'cheddar' || 'brie' || 'swiss' || 'mozzarella' || 'gouda' || 'gruyere' || 'monteray jack')){
+              return '/cheese-gif.gif'
+            }
+            if(array.includes('carrot' || 'lettuce' || 'salad' || 'tomato' || 'onion' || 'eggplant')){
+              return '/carrot-gif.gif'
+            }
+            if(array.includes('eggs' || 'bacon')){
+              return '/eggsbacon-gif.gif'
+            }
+            if(array.includes('bread' || 'bread crumbs' || 'pretzel' || 'flour' || 'toast')){
+              return '/pretzel-gif.gif'
+            }
+            if(array.includes('fruit' || 'apple' || 'peach' || 'banana' || 'berry')){
+              return '/apple-gif.gif'
+            }
+            else{
+              return '/apple-gif.gif'
+            }
+            
+        } catch (error) {
+            console.log(error)
         }
       }
     
@@ -252,6 +257,7 @@ export default function Favourites({}){
             <Spacer/>
             <FavsCont>
             {favs !== null && favs.map((o, i)=><DragCard 
+            onCardClick={()=>r.push('/recipe/'+o.recipe_id)}
                     src={ImgFilter(o.recipe_ingredients)}
                     type="recipes" 
                     id={o.recipe_id}
