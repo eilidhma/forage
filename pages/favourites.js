@@ -66,14 +66,6 @@ const ButCont = styled.div`
 `
 
 const CalendarCont = styled.div`
-    @media (max-width: 800px){
-        display: flex;
-        flex-direction:column;
-        justify-content: center;
-        width: 100vw;
-        border: 1px solid #EF6345;
-        height: 100%;
-    }
     display: flex;
     flex-direction:row;
     justify-content: center;
@@ -221,6 +213,30 @@ export default function Favourites({}){
         setFri({})
         setSat({})
     }
+
+    const ImgFilter = (array) => {
+        if(array.includes('meat' || 'chicken' || 'fish' || 'beef' || 'pork')){
+          return '/meat-gif.gif'
+        }
+        if(array.includes('cheese' || 'cheddar' || 'brie' || 'swiss' || 'mozzarella' || 'gouda' || 'gruyere' || 'monteray jack')){
+          return '/cheese-gif.gif'
+        }
+        if(array.includes('carrot' || 'lettuce' || 'salad' || 'tomato' || 'onion' || 'eggplant')){
+          return '/carrot-gif.gif'
+        }
+        if(array.includes('eggs' || 'bacon')){
+          return '/eggsbacon-gif.gif'
+        }
+        if(array.includes('bread' || 'bread crumbs' || 'pretzel' || 'flour' || 'toast')){
+          return '/pretzel-gif.gif'
+        }
+        if(array.includes('fruit' || 'apple' || 'peach' || 'banana' || 'berry')){
+          return '/apple-gif.gif'
+        }
+        else{
+          return '/apple-gif.gif'
+        }
+      }
     
     const [rec, setRec] = useState([]);
     const r = useRouter();
@@ -236,6 +252,7 @@ export default function Favourites({}){
             <Spacer/>
             <FavsCont>
             {favs !== null && favs.map((o, i)=><DragCard 
+                    src={ImgFilter(o.recipe_ingredients)}
                     type="recipes" 
                     id={o.recipe_id}
                     key={i}
