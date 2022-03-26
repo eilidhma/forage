@@ -14,6 +14,11 @@ import { useRecipes } from '../utils/provider'
 import CalendarMeal from '../comps/CalendarMeal'
 import axios from 'axios'
 import { useRecipesData } from '../utils/provider'
+import SmallCard from '../comps/SmallCard'
+import { comp_themes, themes, view_themes } from "../utils/variables";
+import { useTheme } from "../utils/provider";
+import { useItemsView } from "../utils/provider";
+import FormButton from '../comps/FormButton'
 
 const Wrapper = styled.div`
   display: flex;
@@ -21,6 +26,7 @@ const Wrapper = styled.div`
   align-items:center;
   justify-content: center;
   width: 100vw;
+  height: 100%;
 `
 
 const Favs = styled.div`
@@ -29,7 +35,6 @@ const Favs = styled.div`
   align-items:center;
   justify-content: center;
   flex-wrap: wrap;
-  border: 1px solid black;
   width: 100vw;
 `
 
@@ -43,26 +48,36 @@ const DropCont = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  background:${({bg})=> bg || '#DDD'};
-  width:100%;
-  height: 35vh;
+  background:${({bg})=> bg || 'none'};
+  width: 100%;
+  height: 30vh;
 `
 
-const Menu = styled.div`
+const Title = styled.h2`
     display: flex;
-    flex-direction:column;
-    width: 25vw;
-    border: 1px solid red;
-    height: 100%;
-    overflow-y: scroll;
+    width: 100vw;
+    text-align: left;
+    color: ${props=>props.color};
+    padding: 20px;
+`
+
+const ButCont = styled.div`
+    padding: 20px;
 `
 
 const CalendarCont = styled.div`
+    @media (max-width: 800px){
+        display: flex;
+        flex-direction:column;
+        justify-content: center;
+        width: 100vw;
+        border: 1px solid #EF6345;
+        height: 100%;
+    }
     display: flex;
     flex-direction:row;
-    justify-content: space-evenly;
-    width: 75vw;
-    border: 1px solid blue;
+    justify-content: center;
+    width: 100vw;
     height: 100%;
 `
 
@@ -74,9 +89,21 @@ const FavsCont = styled.div`
     flex-wrap: wrap;
 `
 
+const MenuCont = styled.div`
+    display: flex;
+    width: 100vw;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+`
+
 
 export default function Favourites({}){
 
+
+
+    const {theme, setTheme} = useTheme();
+    const {items_view, setItemsView} = useItemsView();
 
     //const [storage, setStorage] = useState()
 
@@ -122,76 +149,77 @@ export default function Favourites({}){
     useEffect(() => {
 
         setCurrentUser(getCookie("user_id"))
-
-        //console.log(currentUser, "da cookie")
-
-       // setTimeout()
         
         const getFavs = async() => {
             try {
                 const result = await axios.get('https://forage-backend-final.herokuapp.com/getfavsbyuser?user_id='+currentUser);
-                //console.log(result.data.favs)
                 setFavs(result.data.favs)
             } catch (error) {
                 console.log("loading")
             }
         }
         getFavs()
-        //console.log(favs, 'da favs')
 
     }, [currentUser])
 
-    // const DeleteRecipe = (id) => {
-    //     if(curRecipe[id]){
-    //       delete curRecipe[id]
-    //       setCurRecipe({
-    //         ...curRecipe
-    //       })
-    //     }
-    //   }
 
-       const DeleteRecipe = (id) => {
-        if(sun[id]){
-          delete sun[id]
-          setSun({
-            ...sun
-          })
-        }
-      }
-
-    // const HandleUpdateRecipe = (id, recipedata) => {
-    //     curRecipe[id] = {
-    //         ...curRecipe[id],
-    //         ...recipedata
-    //     }
-
-    //     setCurRecipe({
-    //         ...curRecipe
-    //     })
-    // }
-
-    const HandleUpdateRecipe = (id, recipedata) => {
-        console.log("SUNDAY",sun)
-        // sun[id] = {
-        //     ...sun[id],
-        //     ...recipedata
-        // }
-
-        // setSun({
-        //     ...sun
-        // })
+    const DeleteSun = (id) => {
+        delete sun[id]
+        setSun({
+        ...sun
+        })
     }
 
-    const HandleAddToBoard = (id, recipedata) => {
-        curRecipe[id] = {
-            ...curRecipe[id],
-            ...recipedata
-        }
-        
-        setCurRecipe({
-            ...curRecipe
+    const DeleteMon = (id) => {
+        delete mon[id]
+        setMon({
+            ...mon
         })
-        console.log('cur recipe', curRecipe)
+    }
+
+    const DeleteTues = (id) => {
+        delete tues[id]
+        setTues({
+            ...tues
+        })
+    }
+
+    const DeleteWed = (id) => {
+        delete wed[id]
+        setWed({
+            ...wed
+        })
+    }
+
+    const DeleteThurs = (id) => {
+        delete thurs[id]
+        setThurs({
+            ...thurs
+        })
+    }
+
+    const DeleteFri = (id) => {
+        delete fri[id]
+        setFri({
+            ...fri
+        })
+    }
+
+    const DeleteSat = (id) => {
+        delete sat[id]
+        setSat({
+        ...sat
+        })
+    }
+
+    const DeleteAll = () => {
+        setSun({})
+        setMon({})
+        setTues({})
+        setWed({})
+        setThurs({})
+        setFri({})
+        setSat({})
     }
     
     const [rec, setRec] = useState([]);
@@ -207,38 +235,26 @@ export default function Favourites({}){
             <Wrapper>
             <Spacer/>
             <FavsCont>
-                {
-                  favs !== null && favs.map((o, i) => {
-                        return (
-                            <Card 
-                            key={i} 
-                            recipe_name={o.recipe_name} 
-                            recipe_description={o.recipe_description}
-                            // onCardClick={()=>r.push('/recipe/'+recipe._id)}
-                            />
-                        );
-                        
-                    })
-                }
-            </FavsCont>
-            <Spacer/>
-            <h2>Recipe Calendar</h2>
-            <DropCont>
-                <Menu>
-                    {favs !== null && favs.map(o=><CalendarMeal 
+            {favs !== null && favs.map((o, i)=><DragCard 
                     type="recipes" 
                     id={o.recipe_id}
-                    key={o.id}
+                    key={i}
                     recipe_name={o.recipe_name}
                     recipe_description={o.recipe_description}
                     recipepos={o.pos}
-                    onClose={()=>DeleteRecipe(o.id)}
-                    //onUpdateRecipes={(obj)=>HandleUpdateRecipe(o.id, obj)}
                     />
                     )}
-                </Menu>
+            </FavsCont>
+            <MenuCont>
+                <Title color={themes[theme].text}>Click and drag to plan your meals for the week!</Title>
+                <ButCont>
+                    <FormButton buttonText='Clear Calendar' onClick={DeleteAll} />
+                </ButCont>
+            </MenuCont>
+    
+            <DropCont>
                 <CalendarCont>
-                    <Dropzone title={'Sunday'} width={100} acceptType={'recipes'} onDropItem={(item)=>{
+                    <Dropzone title={'Sun'} width={100} acceptType={'recipes'} onDropItem={(item)=>{
                         const r_id = uuidv4();
                         console.log("I'm item", item)
                         setSun((prev)=>({
@@ -246,26 +262,25 @@ export default function Favourites({}){
                             [r_id]:{
                                 id:r_id,
                                 recipe_id:item.recipe_id,
-                                recipe_name:item.recipe_name
+                                recipe_name:item.recipe_name,
+                                recipe_description:item.recipe_description
                             }
                     
                         }))
                         console.log("sundayy",sun)                    
                     }}>
-                        {Object.values(sun).map(o=><CalendarMeal 
+                        {Object.values(sun).map((o,i)=><SmallCard 
                             type="boardrecipes" 
-                            recipe_id={o.recipe_id}
-                            key={o.recipe_id}
+                            id={o.recipe_id}
+                            key={i}
                             recipe_name={o.recipe_name}
                             recipe_description={o.recipe_description}
                             recipepos={o.pos}
-                            onClose={()=>DeleteRecipe(o.recipe_id)}
-                            onUpdateRecipes={(obj)=>HandleUpdateRecipe(o.recipe_id, obj)}
-                            //onDrag={()=>HandleAddToBoard(o.recipe_id, obj)}
+                            onClose={()=>DeleteSun(o.id)}
                             />
-                            )}
+                        )}
                     </Dropzone >
-                    <Dropzone title={'Monday'} width={100} acceptType={'recipes'} onDropItem={(item)=>{
+                    <Dropzone title={'Mon'} width={100} acceptType={'recipes'} onDropItem={(item)=>{
                         const r_id = uuidv4();
                         console.log("I'm item", item)
                         setMon((prev)=>({
@@ -273,26 +288,26 @@ export default function Favourites({}){
                             [r_id]:{
                                 id:r_id,
                                 recipe_id:item.recipe_id,
-                                recipe_name:item.recipe_name
+                                recipe_name:item.recipe_name,
+                                recipe_description:item.recipe_description
                             }
                     
                         }))
-                        console.log("sundayy",mon)                    
+                        console.log("mondayyyy",mon)                    
                     }}>
-                        {Object.values(mon).map(o=><CalendarMeal 
+                        {Object.values(mon).map(o=><SmallCard
                             type="boardrecipes" 
                             recipe_id={o.recipe_id}
                             key={o.recipe_id}
                             recipe_name={o.recipe_name}
                             recipe_description={o.recipe_description}
                             recipepos={o.pos}
-                            onClose={()=>DeleteRecipe(o.recipe_id)}
-                            onUpdateRecipes={(obj)=>HandleUpdateRecipe(o.recipe_id, obj)}
+                            onClose={()=>DeleteMon(o.id)}
                             //onDrag={()=>HandleAddToBoard(o.recipe_id, obj)}
                             />
-                            )}
+                        )}
                     </Dropzone >
-                    <Dropzone title={'Tuesday'} width={100} acceptType={'recipes'} onDropItem={(item)=>{
+                    <Dropzone title={'Tues'} width={100} acceptType={'recipes'} onDropItem={(item)=>{
                         const r_id = uuidv4();
                         console.log("I'm item", item)
                         setTues((prev)=>({
@@ -300,57 +315,134 @@ export default function Favourites({}){
                             [r_id]:{
                                 id:r_id,
                                 recipe_id:item.recipe_id,
-                                recipe_name:item.recipe_name
+                                recipe_name:item.recipe_name,
+                                recipe_description:item.recipe_description
                             }
                     
                         }))
-                        console.log("sundayy",tues)                    
+                        console.log("tuesdayyy",tues)                    
                     }}>
-                        {Object.values(tues).map(o=><CalendarMeal 
+                        {Object.values(tues).map(o=><SmallCard 
                             type="boardrecipes" 
                             recipe_id={o.recipe_id}
                             key={o.recipe_id}
                             recipe_name={o.recipe_name}
                             recipe_description={o.recipe_description}
                             recipepos={o.pos}
-                            onClose={()=>DeleteRecipe(o.recipe_id)}
-                            onUpdateRecipes={(obj)=>HandleUpdateRecipe(o.recipe_id, obj)}
+                            onClose={()=>DeleteTues(o.id)}
                             //onDrag={()=>HandleAddToBoard(o.recipe_id, obj)}
                             />
                             )}
                     </Dropzone >
+                    <Dropzone title={'Wed'} width={100} acceptType={'recipes'} onDropItem={(item)=>{
+                        const r_id = uuidv4();
+                        console.log("I'm item", item)
+                        setWed((prev)=>({
+                            ...prev,
+                            [r_id]:{
+                                id:r_id,
+                                recipe_id:item.recipe_id,
+                                recipe_name:item.recipe_name,
+                                recipe_description:item.recipe_description
+                            }
+                            
+                        }))                 
+                        console.log("wednesdayyy",wed)  
+                    }}>
+                        {Object.values(wed).map(o=><SmallCard 
+                            type="boardrecipes" 
+                            recipe_id={o.recipe_id}
+                            key={o.recipe_id}
+                            recipe_name={o.recipe_name}
+                            recipe_description={o.recipe_description}
+                            recipepos={o.pos}
+                            onClose={()=>DeleteWed(o.id)}
+                            //onDrag={()=>HandleAddToBoard(o.recipe_id, obj)}
+                            />
+                        )}
+                    </Dropzone >
+                    <Dropzone title={'Thurs'} width={100} acceptType={'recipes'} onDropItem={(item)=>{
+                        const r_id = uuidv4();
+                        console.log("I'm item", item)
+                        setThurs((prev)=>({
+                            ...prev,
+                            [r_id]:{
+                                id:r_id,
+                                recipe_id:item.recipe_id,
+                                recipe_name:item.recipe_name,
+                                recipe_description:item.recipe_description
+                            }
+                            
+                        }))                 
+                        console.log("thursdayyy",thurs)  
+                    }}>
+                        {Object.values(thurs).map(o=><SmallCard 
+                            type="boardrecipes" 
+                            recipe_id={o.recipe_id}
+                            key={o.recipe_id}
+                            recipe_name={o.recipe_name}
+                            recipe_description={o.recipe_description}
+                            recipepos={o.pos}
+                            onClose={()=>DeleteThurs(o.id)}
+                            //onDrag={()=>HandleAddToBoard(o.recipe_id, obj)}
+                            />
+                        )}
+                    </Dropzone >
+                    <Dropzone title={'Fri'} width={100} acceptType={'recipes'} onDropItem={(item)=>{
+                        const r_id = uuidv4();
+                        console.log("I'm item", item)
+                        setFri((prev)=>({
+                            ...prev,
+                            [r_id]:{
+                                id:r_id,
+                                recipe_id:item.recipe_id,
+                                recipe_name:item.recipe_name,
+                                recipe_description:item.recipe_description
+                            }
+                            
+                        }))                 
+                        console.log("fridayy",fri)  
+                    }}>
+                        {Object.values(fri).map(o=><SmallCard
+                            type="boardrecipes" 
+                            recipe_id={o.recipe_id}
+                            key={o.recipe_id}
+                            recipe_name={o.recipe_name}
+                            recipe_description={o.recipe_description}
+                            recipepos={o.pos}
+                            onClose={()=>DeleteFri(o.id)}
+                            //onDrag={()=>HandleAddToBoard(o.recipe_id, obj)}
+                            />
+                        )}
+                    </Dropzone >
+                    <Dropzone title={'Sat'} width={100} acceptType={'recipes'} onDropItem={(item)=>{
+                        const r_id = uuidv4();
+                        console.log("I'm item", item)
+                        setSat((prev)=>({
+                            ...prev,
+                            [r_id]:{
+                                id:r_id,
+                                recipe_id:item.recipe_id,
+                                recipe_name:item.recipe_name,
+                                recipe_description:item.recipe_description
+                            }
+                        }))                 
+                        console.log("saturdayyy",sat)  
+                    }}>
+                        {Object.values(sat).map(o=><SmallCard
+                            type="boardrecipes" 
+                            recipe_id={o.recipe_id}
+                            key={o.recipe_id}
+                            recipe_name={o.recipe_name}
+                            recipe_description={o.recipe_description}
+                            recipepos={o.pos}
+                            onClose={()=>DeleteSat(o.id)}
+                            />
+                        )}
+                    </Dropzone >
                 </CalendarCont>
-                </DropCont>
+            </DropCont>
             </Wrapper>
         </DndProvider>
-
     </>
 }
-
-
-// {Object.values(sun).map(o=><CalendarMeal 
-//     type="boardrecipes" 
-//     id={o.recipe_id}
-//     key={o.recipe_id}
-//     recipe_name={"Hello"}
-//     recipe_description={o.recipe_description}
-//     recipepos={o.pos}
-//     onClose={()=>DeleteRecipe(o.recipe_id)}
-//     onUpdateRecipes={(obj)=>HandleUpdateRecipe(o.recipe_id, obj)}
-// />
-// )}
-
-
-// export async function getServerSideProps(context) {
-//     const client = await clientPromise;
-  
-//     const db = client.db("recipesDB");
-  
-//     let recipes = await db.collection("recipes").find({}).limit(1000).toArray();
-//     recipes = JSON.parse(JSON.stringify(recipes));
-  
-//     return {
-//       props: { recipes },
-//     };
-//   }
-  

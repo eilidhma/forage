@@ -11,61 +11,84 @@ import { AiOutlineCloseCircle } from 'react-icons/ai'
 
 const Cont = styled.div`
   display:flex;
-  justify-content:${props=>props.justifyContent};
+  min-height: 200px;
+  max-height: 200px;
+  justify-content:center;
   align-items:center;
-  flex-direction:${props=>props.flexDirection};
-  /* width: 80%;
-  height: 30%; */
-  /* min-width:${props=>props.width};
-  max-width:${props=>props.width}; */
+  flex-direction:column;
+  min-width:170px;
+  max-width:170px;
   box-shadow: 0px 0px 10px ${props=>props.shadow};
   border-radius: 20px;
   background-color:${props=>props.background};
-  padding: 2.5px 5px 2.5px 5px;
-  margin: 5px;
-  ${({position, left, top})=> (position === 'fixed' || position === 'absolute') && `
-    left:${left}px;
-    top:${top}px;
-    position:${position};
-  `}
+  padding:10px;
+  margin: 20px;
 `
 
 const Title = styled.h3`
   color:#EF6345;
   font-family: "Poppins", sans-serif;
-  font-weight: 500;
-  font-size:12px;
-  min-height: 30px;
-  max-height: 30px;
+  font-weight: 400;
+  font-size: 12px;
+  min-height: 35px;
+  max-height: 40px;
   text-align: center;
-  width: 80%;
+  min-width: 150px;
+  max-width: 150px;
+`
+
+const DescCont = styled.div`
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  max-height:100px;
+  min-height:100px;
+  max-width:150px;
+  min-width:150px;
+  overflow: hidden;
+`
+
+const Description = styled.p`
+  font-family: "Poppins", sans-serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size:10px;
+  color:${props=>props.color};
+  width:${props=>props.textWidth};
+  text-align:center;
+`
+
+const DietCont = styled.div`
+  display:flex;
+  flex-direction:row;
+  width:200px;
+  justify-content:space-between;
+  align-items:center;
 `
 
 const Close = styled.div`
   display: flex;
-  justify-content: center;
-  align-content: center;
+  justify-content: flex-end;
+  align-content: flex-end;
   position: relative;
-  top: -80;
+  top:0px;
+  right:0px;
 `
 
-const CalendarMeal = ({
+const SmallCard = ({
   recipe_name='Recipe Name',
   recipe_description='This is a description of the recipe blah blah blahhhh',
   src='plate.png',
+  onCardClick=()=>{},
   onClose=()=>{},
   onUpdateRecipes=()=>{},
-  onDrag=()=>{},
   recipepos=null,
   type='recipes',
-  children=null,
   recipe_id=""
 }) => {
 
   const {theme, setTheme} = useTheme();
   const {items_view, setItemsView} = useItemsView();
-
-  const [data, setData] = useState({})
 
 
   const [pos, setPos] = useState(recipepos || {
@@ -84,11 +107,11 @@ const CalendarMeal = ({
 
 
   const [{ isDragging, coords }, drag, dragPreview] = useDrag(() => ({
-		// "type" is required. It is used by the "accept" specification of drop targets.
     type,
     item: {
       type:"recipes",
       recipe_name,
+      recipe_description,
       recipe_id
     },
     end:(item, monitor)=>{
@@ -96,9 +119,8 @@ const CalendarMeal = ({
         setPos({
           left:monitor.getClientOffset().x,
           top:monitor.getClientOffset().y,
-          position: 'fixed'
+          position: 'absolute'
         })
-        //item
       }
     },
 		// The collect function utilizes a "monitor" instance (see the Overview for what this is)
@@ -122,19 +144,21 @@ const CalendarMeal = ({
     sty.position = 'fixed';
   }
 
-
-
-  return <Cont ref={dragPreview} {...sty}
-    flexDirection={view_themes[items_view].card_flex_direction}
-    width={view_themes[items_view].mealcard_width}
+  return <Cont onClick={onCardClick}
     background={themes[theme].card_bg_color}
-    justifyContent={view_themes[items_view].justify_content}
     shadow={themes[theme].shadow}
-    padding={view_themes[items_view].mealcard_padding}
   >
-    <Title onDrop={onDrag} ref={drag}>{recipe_name}</Title>
-    {children}
+    <Close onClick={onClose}>
+        <AiOutlineCloseCircle color={themes[theme].text}/>
+    </Close>
+    <Title ref={drag}>{recipe_name}</Title>
+    <DescCont>
+      <Description 
+      color={themes[theme].text}>
+        {recipe_description}
+      </Description>
+    </DescCont>
   </Cont>
 }
 
-export default CalendarMeal;
+export default SmallCard;
