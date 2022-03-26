@@ -124,7 +124,7 @@ export default function GroceryList() {
         }
 
         GetLists();
-        const socket = io("http://localhost:8888")
+        const socket = io("https://forage-sockets.herokuapp.com/")
 
         socket.on("change", (id, text) => {
             if(text != "" && !items.includes(text))
@@ -200,11 +200,6 @@ export default function GroceryList() {
 
     }
   
-  
-
-
-    const colors = ["green", "blue", "red", "yellow", "teal"]
-
     return <> 
         <div onMouseMove={(e) => DetectMouseMove(e.clientX, e.clientY)} style={{
             width: "100vw",

@@ -215,7 +215,7 @@ export default function GroceryListUI({
                 </BackCont>
 
                 <Heading color={comp_themes[theme].text_color}>
-                   {currentUser}'s Grocery List!
+                   Grocery List
                 </Heading>
             </HeadingCont>
 
