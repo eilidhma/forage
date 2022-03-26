@@ -7,8 +7,10 @@ import GroceryListUI from '../../comps/GroceryListUI'
 import Background from '../../comps/Background'
 import Button from '../../comps/Button'
 import { colors } from '../../utils/colors'
+import axios from 'axios'
 
 import { io } from "socket.io-client"
+import FormButton from '../../comps/FormButton'
 
 const Wrapper = styled.div`
   display: flex;
@@ -83,10 +85,12 @@ const UserIndicator = styled.div`
 `
 export default function GroceryList() {
 
+    const r = useRouter();
     const {theme, setTheme} = useTheme();
 
     const [soc, setSoc] = useState();
     const [blocks, setBlocks] = useState([]);
+    const [currentUser, setCurrentUser] = useState();
 
     const [text, setText] = useState("");
 
@@ -97,7 +101,29 @@ export default function GroceryList() {
 
     const [users, setUsers] = useState({})
 
+    function getCookie(name) {
+        var cookieArr = document.cookie.split(";");
+
+        for (var i = 0; i < cookieArr.length; i++) {
+            var cookiePair = cookieArr[i].split("=");
+
+            if (name == cookiePair[0].trim()) {
+                return decodeURIComponent(cookiePair[1]);
+            }
+        }
+        return null;
+    }
+
     useEffect(() => {
+        setCurrentUser(getCookie("user_id"))
+
+        const GetLists = async() => {
+            const result = await axios.get('https://forage-backend-final.herokuapp.com/getgroceries')
+            console.log(result.data)
+            // setItems(result.data[0])
+        }
+
+        GetLists();
         const socket = io("http://localhost:8888")
 
         socket.on("change", (id, text) => {
@@ -126,6 +152,8 @@ export default function GroceryList() {
         })
         setSoc(socket)
     }, [])
+
+    const { uuid } = r.query
 
     // const AlertPpl = async() => {
     //     soc.emit("alert_all", text);
@@ -163,7 +191,13 @@ export default function GroceryList() {
     }
 
     const PostList = async() => {
-        const result = axios.post(`https://forage-backend-final.herokuapp.com/getfavsbyuser?user_id=`+currentUser)
+        console.log(uuid, "the uuid")
+        const result = axios.post('https://forage-backend-final.herokuapp.com/addlist', {
+            uuid,
+            user_id: currentUser,
+            list: items
+        })
+
     }
   
   
@@ -205,9 +239,9 @@ export default function GroceryList() {
                         {o}
                     </ItemCont>
                     <ItemCont justify="flex-end">
-                        <UserIndicator
+                        {/* <UserIndicator
                             dotColor={colors[i%5]}
-                        />
+                        /> */}
                         <DeleteButton 
                             data-value={o}
                             onClick={DeleteItem}
@@ -219,6 +253,7 @@ export default function GroceryList() {
                 </Item>
             )}
             </ListCont>
+           <FormButton onClick={PostList} buttonText="Save Changes" />
             
                 {/* <input type="text" onChange={(e) => setText(e.target.value)} /> */}
 

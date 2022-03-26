@@ -105,11 +105,16 @@ export default function NavBar()
             </LogoCont>
 
             <LinksCont>
+            {
+                currentUser === null ? 
+                <></>
+                :
                 <NavLink
                     color={comp_themes[theme].text_color}
                     onClick={() => {r.push(`/grocery_list/${uuidv4()}`)}}>
                     Grocery List
-                </NavLink> 
+                </NavLink>
+            }
                 <NavLink
                     color={comp_themes[theme].text_color}
                     onClick={()=>{r.push('/favourites')}}>Favourites</NavLink>
