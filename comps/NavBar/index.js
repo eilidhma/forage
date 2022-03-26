@@ -16,6 +16,11 @@ const Cont = styled.div`
     background-color: ${props=>props.bgcolor};
     transition: 0.5s;
     z-index: 1000;
+
+    @media (max-width: 800px) {
+        display: none;
+    }
+
 `
 const LogoCont = styled.div`
     display: flex;
@@ -48,6 +53,7 @@ const NavLink = styled.a`
     :hover {
         cursor: pointer;
     }
+    white-space: nowrap;
 `
 
 const SiteHeader = styled.img`
@@ -56,15 +62,16 @@ const SiteHeader = styled.img`
     }
 `
 
-export default function NavBar({
-    onLoginClick=()=>{}
-})
+export default function NavBar()
 {
     const r = useRouter();
     const {theme, setTheme} = useTheme();
     const [navbar, setNavbar] = useState(false);
+    const [currentUser, setCurrentUser] = useState(null);
 
     useEffect(() => {
+
+        setCurrentUser(getCookie("user_id"))
         
         const changeNavBarOpacity = () => {
             if(window.scrollY >= 100){
@@ -74,8 +81,25 @@ export default function NavBar({
             }
         }
         window.addEventListener("scroll", changeNavBarOpacity)
-    }, [])
+    }, [currentUser])
 
+    function getCookie(name) {
+        var cookieArr = document.cookie.split(";");
+
+        for (var i = 0; i < cookieArr.length; i++) {
+            var cookiePair = cookieArr[i].split("=");
+
+            if (name == cookiePair[0].trim()) {
+                return decodeURIComponent(cookiePair[1]);
+            }
+        }
+        return null;
+    }
+
+    function signOut(name) {
+        document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+        r.reload()
+    }
 
 
     return <>
@@ -87,13 +111,28 @@ export default function NavBar({
             <LinksCont>
                 <NavLink
                     color={comp_themes[theme].text_color}
-                    onClick={()=>{r.push('/favourites')}}>Favourites</NavLink>
+                    onClick={()=>{r.push('/favourites')}}>
+                        Favourites
+                        </NavLink>
                 <NavLink 
                     color={comp_themes[theme].text_color}
-                    onClick={()=>{r.push('/settings')}}>Settings</NavLink>
+                    onClick={()=>{r.push('/settings')}}>
+                        Settings
+                </NavLink>
+                {
+                    currentUser === null ? 
                 <NavLink 
-                    color={colors.orange}
-                    onClick={onLoginClick}>Login</NavLink>
+                        color={colors.orange}
+                        onClick={()=>{r.push('/login')}}>
+                            Sign In
+                </NavLink> 
+                    : 
+                <NavLink 
+                     color={colors.orange}
+                     onClick={()=>signOut("user_id")}>
+                        Sign Out
+                </NavLink> 
+                }
             </LinksCont>
         </Cont>
     </>

@@ -5,19 +5,24 @@ import { useTheme } from "../../utils/provider";
 import { useItemsView } from "../../utils/provider";
 import { colors } from "../../utils/colors";
 import Dietary from "../Dietary";
+import { motion } from "framer-motion";
 
-const Cont = styled.div`
+const Cont = styled(motion.div)`
   display:flex;
   justify-content:${props=>props.justifyContent};
   align-items:center;
   flex-direction:${props=>props.flexDirection};
   min-width:${props=>props.width};
   max-width:${props=>props.width};
-  box-shadow: 0px 0px 20px ${props=>props.shadow};
+  box-shadow: 0px 0px 15px ${props=>props.shadow};
   border-radius: 20px;
   background-color:${props=>props.background};
   padding:${props=>props.padding} 20px ${props=>props.padding} 20px;
   margin: 20px;
+
+  :hover {
+    cursor: pointer;
+  }
 `
 
 const Title = styled.h3`
@@ -76,7 +81,10 @@ const Card = ({
   const {theme, setTheme} = useTheme();
   const {items_view, setItemsView} = useItemsView();
 
-  return <Cont onClick={onCardClick}
+  return <Cont
+    whileHover={{ scale: 1.1 }}
+    whileTap={{ scale: 0.9 }}
+    onClick={onCardClick}
     flexDirection={view_themes[items_view].card_flex_direction}
     width={view_themes[items_view].card_width}
     background={themes[theme].card_bg_color}
@@ -94,11 +102,6 @@ const Card = ({
       </Description>
     </DescCont>
     <Img display={view_themes[items_view].img_display} src={src}></Img>
-    <DietCont>
-      <Dietary/>
-      <Dietary diet="GF"/>
-      <Dietary diet="DF"/>
-    </DietCont>
   </Cont>
 }
 
