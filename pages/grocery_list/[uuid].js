@@ -1,14 +1,16 @@
 import styled from 'styled-components'
 import Router, { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
-import { useTheme } from '../utils/provider'
-import { themes, comp_themes } from '../utils/variables'
-import GroceryListUI from '../comps/GroceryListUI'
-import Background from '../comps/Background'
-import Button from '../comps/Button'
-import { colors } from '../utils/colors'
+import { useTheme } from '../../utils/provider'
+import { themes, comp_themes } from '../../utils/variables'
+import GroceryListUI from '../../comps/GroceryListUI'
+import Background from '../../comps/Background'
+import Button from '../../comps/Button'
+import { colors } from '../../utils/colors'
+import axios from 'axios'
 
 import { io } from "socket.io-client"
+import FormButton from '../../comps/FormButton'
 
 const Wrapper = styled.div`
   display: flex;
@@ -73,13 +75,22 @@ const ListCont = styled.div`
     min-height: 20vh;
     flex-direction: column;
 `
-
+const UserIndicator = styled.div`
+    width: 25px;
+    height: 25px;
+    border-radius: 50px;
+    background-color: ${({dotColor}) => dotColor};
+    border: 1px solid white;
+    align-self: center;
+`
 export default function GroceryList() {
 
+    const r = useRouter();
     const {theme, setTheme} = useTheme();
 
     const [soc, setSoc] = useState();
     const [blocks, setBlocks] = useState([]);
+    const [currentUser, setCurrentUser] = useState();
 
     const [text, setText] = useState("");
 
@@ -90,8 +101,30 @@ export default function GroceryList() {
 
     const [users, setUsers] = useState({})
 
+    function getCookie(name) {
+        var cookieArr = document.cookie.split(";");
+
+        for (var i = 0; i < cookieArr.length; i++) {
+            var cookiePair = cookieArr[i].split("=");
+
+            if (name == cookiePair[0].trim()) {
+                return decodeURIComponent(cookiePair[1]);
+            }
+        }
+        return null;
+    }
+
     useEffect(() => {
-        const socket = io("http://localhost:8888")
+        setCurrentUser(getCookie("user_id"))
+
+        const GetLists = async() => {
+            const result = await axios.get('https://forage-backend-final.herokuapp.com/getgroceries')
+            console.log(result.data)
+            // setItems(result.data[0])
+        }
+
+        GetLists();
+        const socket = io("https://forage-sockets.herokuapp.com/")
 
         socket.on("change", (id, text) => {
             if(text != "" && !items.includes(text))
@@ -120,6 +153,8 @@ export default function GroceryList() {
         setSoc(socket)
     }, [])
 
+    const { uuid } = r.query
+
     // const AlertPpl = async() => {
     //     soc.emit("alert_all", text);
     // }
@@ -135,11 +170,7 @@ export default function GroceryList() {
 
 
     const AddItem = async() => {
-        // if(text != "" && !items.includes(text))
-        // {
-        //     setItems([...items, text])
-        //     setText("")
-        // }
+
         soc.emit("add_item", text);
         console.log("items", items)
     }
@@ -154,34 +185,28 @@ export default function GroceryList() {
         soc.emit("delete_item", items);
         console.log("items", items)
     }
+
+    const PostList = async() => {
+        console.log(uuid, "the uuid")
+        const result = axios.post('https://forage-backend-final.herokuapp.com/addlist', {
+            uuid,
+            user_id: currentUser,
+            list: items
+        })
+
+    }
   
-  
-
-
-    const colors = ["green", "blue", "red", "yellow", "teal"]
-
     return <> 
         <div onMouseMove={(e) => DetectMouseMove(e.clientX, e.clientY)} style={{
             width: "100vw",
             height: "100vh"
         }}>
-        {/* {Object.values(users).map((o, i) => <div style={{
-            background: colors[i % 5],
-            position: 'fixed',
-            left: o.left,
-            top: o.top,
-            width: 10,
-            height: 10
-        }}>
-
-      </div>)} */}
 
         <Background/>
         <Spacer/>
 
         <Wrapper>
             <GroceryListUI value={text} onChange={(e) => setText(e.target.value)} onAddClick={AddItem} />
-
 
             <ListCont>
             {items && items.map((o,i) => 
@@ -195,6 +220,9 @@ export default function GroceryList() {
                         {o}
                     </ItemCont>
                     <ItemCont justify="flex-end">
+                        {/* <UserIndicator
+                            dotColor={colors[i%5]}
+                        /> */}
                         <DeleteButton 
                             data-value={o}
                             onClick={DeleteItem}
@@ -206,15 +234,8 @@ export default function GroceryList() {
                 </Item>
             )}
             </ListCont>
-            
-                {/* <input type="text" onChange={(e) => setText(e.target.value)} /> */}
-
-                {/* <Button onClick={AlertPpl} text="Alert?" /> */}
+           <FormButton onClick={PostList} buttonText="Save Changes" />
                 <div>{Object.keys(users)}</div>
-
-                {/* {blocks.map((o, i) => <div style={{ background: 'red', padding: 10 }}>
-                    {o}
-                </div>)} */}
         </Wrapper>
 
         </div>
