@@ -8,8 +8,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@react-three/drei": "^8.18.4",
     "axios": "^0.25.0",
     "bcryptjs": "^2.4.3",
+    "bidi-js": "^1.0.2",
     "express": "^4.17.2",
     "framer-motion": "^6.2.3",
     "jsonwebtoken": "^8.5.1",
@@ -22,6 +24,7 @@
     "react-dnd-touch-backend": "^15.1.0",
     "react-dom": "17.0.2",
     "react-icons": "^4.3.1",
+    "regexp-to-ast": "^0.5.0",
     "socket.io-client": "^4.4.1",
     "styled-components": "^5.3.3",
     "uuid": "^8.3.2"

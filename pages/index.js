@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import Router, { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
+import { Canvas } from '@react-three/fiber';
 import Background from '../comps/Background'
 import Card from '../comps/Card'
 import Close from '../comps/Close'
@@ -12,6 +13,17 @@ import AddIngredients from '../comps/AddIngredients'
 import { filterProps } from 'framer-motion'
 import axios from 'axios'
 import { useRecipesData } from '../utils/provider'
+import Apple from '../comps/3d/Apple'
+import Table from '../comps/3d/Table'
+import Coffeecup from '../comps/3d/Coffeecup'
+import Pizza from '../comps/3d/Pizza'
+import Pizzaslice from '../comps/3d/Pizzaslice'
+import Plate from '../comps/3d/Plate'
+import Bowl from '../comps/3d/Bowl'
+import Pretzel from '../comps/3d/Pretzel'
+import Carrot from '../comps/3d/Carrot'
+import Eggplant from '../comps/3d/Eggplant'
+import Banana from '../comps/3d/Banana'
 
 
 const Wrapper = styled.div`
@@ -36,6 +48,35 @@ const IntroCont = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  height:75vh;
+  width:100vw;
+  top:0;
+  left:0;
+  z-index:10;
+`
+const TableCont = styled.div`
+  height:100vh;
+  width:100vw;
+  position:fixed;
+  top:0;
+  left:0;
+  z-index:7;
+`
+const AppleCont = styled.div`
+  height:100vh;
+  width:100vw;
+  position:fixed;
+  top:0;
+  left:0;
+  z-index:8;
+`
+const CoffeeCont = styled.div`
+  height:100vh;
+  width:100vw;
+  position:fixed;
+  top:0;
+  left:0;
+  z-index:8;
 `
 
 const Spacer = styled.div`
@@ -43,14 +84,46 @@ const Spacer = styled.div`
   width: 100%;
   height: 20vh;
 `
-
+const SearchSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+`
 const SearchCont = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 40vw;
-  height: 80vh;
+  width: 100vw;
+  height: 100vh;
+  z-index:10;
+`
+const PlateCont = styled.div`
+  position:absolute;
+  top:100vh;
+  left:0;
+  height:100vh;
+  width:100vw;
+  z-index:2;
+`
+const PizzaCont = styled.div`
+  position:absolute;
+  top:100vh;
+  left:0;
+  height:100vh;
+  width:100vw;
+  z-index:3;
+`
+const BananaCont = styled.div`
+  position:absolute;
+  top:100vh;
+  left:0;
+  height:100vh;
+  width:100vw;
+  z-index:2;
 `
 
 const ResultsCont = styled.div`
@@ -60,6 +133,7 @@ const ResultsCont = styled.div`
   justify-content: center;
   align-items: center;
   width: 90vw;
+  z-index:10;
 `
 
 
@@ -172,14 +246,46 @@ export default function Home({}) {
       <Wrapper>
       
       <IntroCont>
-        <Spacer/>
         <Title title="Hungry?"/>
         <Title title="We can help."/>
         <Button text='Start' onClick={()=>r.push("#search")}/>
-        <ImgCont>
-          <img width={1000} src='table.png'/>
-        </ImgCont>
       </IntroCont>
+
+      <AppleCont>
+        <Canvas className='canvas'>
+          <ambientLight intensity={0.5} />
+          <directionalLight position={[-2, 5, 2]} />
+          <Apple />
+        </Canvas>
+      </AppleCont>
+
+      <AppleCont>
+        <Canvas className='canvas'>
+          <ambientLight intensity={0.5} />
+          <directionalLight position={[-2, 5, 2]} />
+          <Bowl />
+        </Canvas>
+      </AppleCont>
+
+      {/* <CoffeeCont>
+        <Canvas className='canvas'>
+          <ambientLight intensity={0.5} />
+          <directionalLight position={[-2, 5, 2]} />
+          <Coffeecup />
+        </Canvas>
+      </CoffeeCont> */}
+
+      <TableCont>
+        <Canvas className='canvas1' camera={{position: [0, 0, 6]}}>
+          <ambientLight intensity={0.5} />
+          <directionalLight position={[-2, 5, 2]} />
+          <Table />
+        </Canvas>
+      </TableCont>
+      
+      <Spacer/>
+
+      <SearchSection>
 
       <SearchCont id="search">
         <AddIngredients 
@@ -193,12 +299,33 @@ export default function Home({}) {
         />
       </SearchCont>
 
-      <div id="results" style={{height: "10vh"}}/>
-        
-      
-      <TitleCont>
-        <Title margin={"5px 0px 50px 0px"}title="Here's what you can make!"/>
+      <PizzaCont>
+        <Canvas className='canvas'>
+          <ambientLight intensity={0.5} />
+          <directionalLight position={[-2, 5, 2]} />
+          <Pizzaslice />
+        </Canvas>
+      </PizzaCont>
 
+      <PlateCont>
+        <Canvas className='canvas'>
+          <ambientLight intensity={0.5} />
+          <directionalLight position={[-2, 5, 2]} />
+          <Plate />
+        </Canvas>
+      </PlateCont>
+
+      <BananaCont>
+        <Canvas className='canvas'>
+          <ambientLight intensity={0.5} />
+          <directionalLight position={[-2, 5, 2]} />
+          <Banana />
+        </Canvas>
+      </BananaCont>
+      
+      </SearchSection>
+
+      <Title title="Here's what you can make!"/>
       <ResultsCont id="results">
 
         {filteredArr.map((recipe, index) => {
@@ -208,7 +335,6 @@ export default function Home({}) {
             recipe_name={recipe.name} 
             recipe_description={recipe.ingredients.replace(/['["]+/g, '')}
             onCardClick={()=>r.push('/recipe/'+recipe._id)}
-           //src={"/meat-gif.gif"}
             src={ImgFilter(recipe.ingredients)}
             />
             );
