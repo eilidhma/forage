@@ -14,14 +14,15 @@ const Cont = styled.div`
   justify-content:${props=>props.justifyContent};
   align-items:center;
   flex-direction:${props=>props.flexDirection};
-  min-width:${props=>props.width};
-  max-width:${props=>props.width};
-  box-shadow: 0px 0px 20px ${props=>props.shadow};
+  /* width: 80%;
+  height: 30%; */
+  /* min-width:${props=>props.width};
+  max-width:${props=>props.width}; */
+  box-shadow: 0px 0px 10px ${props=>props.shadow};
   border-radius: 20px;
   background-color:${props=>props.background};
-  //padding:${props=>props.padding} 20px ${props=>props.padding} 20px;
+  padding: 2.5px 5px 2.5px 5px;
   margin: 5px;
-  padding: 5px;
   ${({position, left, top})=> (position === 'fixed' || position === 'absolute') && `
     left:${left}px;
     top:${top}px;
@@ -33,12 +34,11 @@ const Title = styled.h3`
   color:#EF6345;
   font-family: "Poppins", sans-serif;
   font-weight: 500;
-  font-size:14px;
-  min-height: 50px;
-  max-height: 50px;
+  font-size:12px;
+  min-height: 30px;
+  max-height: 30px;
   text-align: center;
-  min-width: 150px;
-  max-width: 150px;
+  width: 80%;
 `
 
 const Close = styled.div`
@@ -126,16 +126,14 @@ const CalendarMeal = ({
 
   return <Cont ref={dragPreview} {...sty}
     flexDirection={view_themes[items_view].card_flex_direction}
-    width={view_themes[items_view].card_width}
+    width={view_themes[items_view].mealcard_width}
     background={themes[theme].card_bg_color}
     justifyContent={view_themes[items_view].justify_content}
     shadow={themes[theme].shadow}
-    padding={view_themes[items_view].card_padding}
+    padding={view_themes[items_view].mealcard_padding}
   >
-    <Close onClick={onClose}>
-        <AiOutlineCloseCircle size={25} color="rgba(0,0,0,0.4)"/>
-    </Close>
     <Title onDrop={onDrag} ref={drag}>{recipe_name}</Title>
+    {children}
   </Cont>
 }
 

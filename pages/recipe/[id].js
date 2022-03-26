@@ -26,7 +26,7 @@ export default function Home({}) {
   const [recipes, setRecipes] = useState([])
   const [currentUser, setCurrentUser] = useState();
 
-  console.log(recipes, "recipes")
+  // console.log(recipes, "recipes")
 
   function getCookie(name) {
     var cookieArr = document.cookie.split(";");
@@ -39,6 +39,30 @@ export default function Home({}) {
         }
     }
     return null;
+  }
+
+  const ImgFilter = (array) => {
+    if(array.includes('meat' || 'chicken' || 'fish' || 'beef' || 'pork')){
+      return '/meat-gif.gif'
+    }
+    if(array.includes('cheese' || 'cheddar' || 'brie' || 'swiss' || 'mozzarella' || 'gouda' || 'gruyere' || 'monteray jack')){
+      return '/cheese-gif.gif'
+    }
+    if(array.includes('carrot' || 'lettuce' || 'salad' || 'tomato' || 'onion' || 'eggplant')){
+      return '/carrot-gif.gif'
+    }
+    if(array.includes('eggs' || 'bacon')){
+      return '/eggsbacon-gif.gif'
+    }
+    if(array.includes('bread' || 'bread crumbs' || 'pretzel' || 'flour' || 'toast')){
+      return '/pretzel-gif.gif'
+    }
+    if(array.includes('fruit' || 'apple' || 'peach' || 'banana' || 'berry')){
+      return '/apple-gif.gif'
+    }
+    else{
+      return '/apple-gif.gif'
+    }
   }
   
   useEffect(() => {
@@ -107,7 +131,8 @@ export default function Home({}) {
           user_id: currentUser,
           recipe_id: recipes[0]._id,
           recipe_name: recipes[0].name,
-          recipe_description: recipes[0].description
+          recipe_description: recipes[0].description,
+          recipe_ingredients: recipes[0].ingredients
         })
         console.log(result.data.savedFav._id)
         setFavId(result.data.savedFav._id)
@@ -160,6 +185,7 @@ export default function Home({}) {
           onFavorite={() => addFav()}
           onClickFill={Fill}
           fill={fill}
+          src={ImgFilter(o.ingredients)}
         />
       ))}
     </Wrapper>

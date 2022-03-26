@@ -102,11 +102,6 @@ const Card = ({
       </Description>
     </DescCont>
     <Img display={view_themes[items_view].img_display} src={src}></Img>
-    <DietCont>
-      <Dietary/>
-      <Dietary diet="GF"/>
-      <Dietary diet="DF"/>
-    </DietCont>
   </Cont>
 }
 

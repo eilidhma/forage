@@ -1,12 +1,29 @@
 import { useDrag, useDrop } from 'react-dnd'
 import styled from 'styled-components'
+import { comp_themes, themes, view_themes } from "../../utils/variables";
+import { useTheme } from "../../utils/provider";
+import { useItemsView } from "../../utils/provider";
 
 const DropCont = styled.div`
-  height:35vh;
-  background:${({bg})=> bg || '#DDD'};
-  border: 1px solid pink;
-  min-width: ${props=>props.width};
-  max-width: ${props=>props.width};
+  background:${({bg})=> bg};
+  border: 1px solid #EF6345;
+  min-width: 14.25vw;
+  max-width: 14.25vw;
+  display:flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+`
+
+const Title = styled.h1`
+background-color: #EF6345;
+color: white;
+display: flex;
+justify-content: center;
+align-items: center;
+padding: 5px;
+margin: 0;
+width: 100%;
 `
 
 const Dropzone = ({
@@ -14,7 +31,7 @@ const Dropzone = ({
   children=null,
   onDropItem=()=>{},
   acceptType='',
-  width=100,
+  width=400,
   title='title'
 }) => {
 	const [{ canDrop, isOver }, drop] = useDrop(() => ({
@@ -23,21 +40,22 @@ const Dropzone = ({
     drop:(item, monitor)=>{
       onDropItem(item)
     },
-    // Props to collect
     collect: (monitor) => ({
       isOver: monitor.isOver(),
       canDrop: monitor.canDrop()
     })
   }))
 
+  const {theme, setTheme} = useTheme();
+  const {items_view, setItemsView} = useItemsView();
+
   //console.log(endDrag)
 
 	return <DropCont
-      width={width}
 			ref={drop}
-      bg={canDrop && isOver ? '#999' : '#DDD'}
+      bg={canDrop && isOver ? 'rgba(239, 99, 69, 0.2)' : 'none'}
 		>
-      <h2>{title}</h2>
+      <Title>{title}</Title>
       {children}
 		</DropCont>
 }

@@ -186,7 +186,8 @@ export default function Recipe({
     onFavorite=()=>{},
     onClickFill=()=>{},
     onClick=()=>{},
-    fill
+    fill,
+    src='/plate.png'
 })
 {
     const r = useRouter();
@@ -222,7 +223,7 @@ export default function Recipe({
 
             <MainCont>
                 <ImgCont>
-                    <img src="/plate.png" width={250}/>
+                    <img src={src} width={250}/>
                 </ImgCont>
                 <InfoCont>
                     <InnerCont>
