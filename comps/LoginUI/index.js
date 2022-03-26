@@ -161,8 +161,9 @@ export default function LoginUI({
                                     }, 500)
                                 console.log(result)
                             } catch (error) {
-                                alert('Incorrect email or password, please try again')
-
+                                setTimeout(() => {
+                                    r.reload()
+                                }, 500)
                                 console.log(error)
                             }
                         }} buttonText="Confirm"/>
