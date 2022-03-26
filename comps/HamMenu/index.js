@@ -48,7 +48,7 @@ const NavBackground = styled.div`
     width: 100%;
 `;
 const Navigation = styled.nav`
-    height: 100vh;
+    height: 100%;
     position: fixed;
     top: 0;
     right: 0;
