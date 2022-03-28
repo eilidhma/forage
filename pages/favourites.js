@@ -44,13 +44,16 @@ const Spacer = styled.div`
 `
 
 const DropCont = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  background:${({bg})=> bg || 'none'};
-  width: 100%;
-  height: 30vh;
+  @media (min-width: 1200px) {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background:${({bg})=> bg || 'none'};
+    width: 100%;
+    height: 30vh;
+  }
+  display: none;
 `
 
 const Title = styled.h2`
@@ -82,11 +85,14 @@ const FavsCont = styled.div`
 `
 
 const MenuCont = styled.div`
+@media (min-width: 1200px) {
     display: flex;
     width: 100vw;
     flex-direction: row;
     justify-content: center;
     align-items: center;
+}
+    display: none;
 `
 
 
