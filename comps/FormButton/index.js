@@ -1,9 +1,6 @@
 import styled from "styled-components";
-import { useRouter } from "next/router";
-import { useState } from "react";
 import { motion } from "framer-motion";
 
-import { colors } from "../../utils/colors";
 
 const ButtonUI = styled(motion.button)`
     width: 135px;
@@ -13,7 +10,6 @@ const ButtonUI = styled(motion.button)`
     border-radius: 10px;
     border: none;
     box-shadow: 0px 2px 10px 2px rgba(0, 0, 0, 0.25);
-
     font-family: "Poppins", sans-serif;
     font-size: 14px;
     color: ${props=>props.color};

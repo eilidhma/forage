@@ -2,8 +2,18 @@ import React from "react";
 import styled from "styled-components";
 import { comp_themes, themes } from "../../utils/variables";
 import { useTheme } from "../../utils/provider";
-import { colors } from "../../utils/colors";
  
+export default function Slider() {
+  
+  const {theme, setTheme} = useTheme();
+
+  return <>
+    <Styles bgcolor={comp_themes[theme].slider_bg_color}>
+      <input type="range" min={0} max={100} className="slider" />
+    </Styles>
+  </>
+}
+
 const sliderThumbStyles = (props) => (`
   width: 30px;
   height: 30px;
@@ -39,17 +49,4 @@ const Styles = styled.div`
     }
   }
 `;
-
-export default function Slider ({
-  
-})
-{
-  const {theme, setTheme} = useTheme();
-    return <>
-        <Styles bgcolor={comp_themes[theme].slider_bg_color}>
-            <input type="range" min={0} max={100} className="slider" />
-        </Styles>
-    </>
-    
-}
 

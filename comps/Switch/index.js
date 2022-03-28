@@ -2,7 +2,35 @@ import React from "react";
 import styled from "styled-components";
 import { comp_themes, themes } from "../../utils/variables";
 import { useTheme } from "../../utils/provider";
-import { colors } from "../../utils/colors";
+
+export default function Switch({ 
+    id, 
+    toggled, 
+    onChange,
+    onClick=()=>{},
+}) {
+  
+  const {theme, setTheme} = useTheme();
+
+  return <>
+      <SwitchInput
+        className="switch-checkbox"
+        id={id}
+        type="checkbox"
+        checked={toggled}
+        onChange={onChange}
+      />
+        <SwitchCont 
+          className="switch-cont" 
+          htmlFor={id}
+          onClick={onClick}
+          bgcolor={comp_themes[theme].switch_bg_color}
+          borderColor={comp_themes[theme].switch_border_color}
+        >
+        <SwitchButton className="switch-button" />
+      </SwitchCont>
+    </>
+}
 
 const SwitchInput = styled.input`
   height: 0;
@@ -44,35 +72,4 @@ const SwitchButton = styled.span`
     width: 45px;
   }
 `
-
-export default function Switch({ 
-    id, 
-    toggled, 
-    onChange,
-    onClick=()=>{},
-})
-{
-const {theme, setTheme} = useTheme();
-  return <>
-      <SwitchInput
-        className="switch-checkbox"
-        id={id}
-        type="checkbox"
-        checked={toggled}
-        onChange={onChange}
-      />
-        <SwitchCont 
-        className="switch-cont" 
-        htmlFor={id}
-        onClick={onClick}
-        bgcolor={comp_themes[theme].switch_bg_color}
-        borderColor={comp_themes[theme].switch_border_color}
-
-        
-        >
-        <SwitchButton className="switch-button" />
-      </SwitchCont>
-    </>
-};
-
 

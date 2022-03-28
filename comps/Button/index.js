@@ -1,11 +1,23 @@
 import styled from "styled-components";
-import { useRouter } from "next/router";
-import { comp_themes, themes, view_themes } from "../../utils/variables";
+import { themes } from "../../utils/variables";
 import { useTheme } from "../../utils/provider";
-import { useItemsView } from "../../utils/provider";
-import { colors } from "../../utils/colors";
 import { motion } from "framer-motion";
-import Dietary from "../Dietary";
+
+export default function Button({
+  text='text',
+  onClick=()=>{}
+}) {
+
+  const {theme, setTheme} = useTheme();
+
+  return <But
+    whileHover={{ scale: 1.1 }}
+    whileTap={{ scale: 0.9 }}
+    onClick={onClick} shadow={themes[theme].button_shadow}
+  >
+    {text}
+  </But>
+}
 
 const But = styled(motion.button)`
   display:flex;
@@ -27,21 +39,3 @@ const But = styled(motion.button)`
     cursor: pointer;
   }
 `
-
-const Button = ({
-  text='text',
-  onClick=()=>{}
-}) => {
-
-  const {theme, setTheme} = useTheme();
-
-  return <But 
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          onClick={onClick} shadow={themes[theme].button_shadow}
-          >
-    {text}
-  </But>
-}
-
-export default Button;

@@ -1,72 +1,17 @@
 import styled from "styled-components";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { comp_themes, themes } from "../../utils/variables";
 import { useTheme } from "../../utils/provider";
 import { colors } from "../../utils/colors";
 import { v4 as uuidv4 } from "uuid";
 
-const Cont = styled.div`
-    display: flex;
-    position: fixed;
-    top: 0;
-    justify-content: space-between;
-    height: 80px;
-    width: 100vw;
-    background-color: ${props=>props.bgcolor};
-    transition: 0.5s;
-    z-index: 1000;
-
-    @media (max-width: 800px) {
-        display: none;
-    }
-
-`
-const LogoCont = styled.div`
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    height: 100%;
-    min-width: fit-content;
-    padding: 15px;
-    margin-left: 50px;
-
-    font-size: 24px;
-    font-weight: 700;
-`
-
-const LinksCont = styled.div`
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    height: 100%;
-    width: 50%;
-    padding: 15px;
-`
-
-const NavLink = styled.a`
-    font-family: "Poppins", sans-serif;
-    font-weight: 500;
-    font-size: 18px;
-    color: ${props=>props.color};
-    margin: 30px;
-    :hover {
-        cursor: pointer;
-    }
-    white-space: nowrap;
-`
-
-const SiteHeader = styled.img`
-    :hover {
-        cursor: pointer;
-    }
-`
-
 export default function NavBar()
 {
     const r = useRouter();
+
     const {theme, setTheme} = useTheme();
+
     const [navbar, setNavbar] = useState(false);
     const [currentUser, setCurrentUser] = useState(null);
 
@@ -148,3 +93,59 @@ export default function NavBar()
         </Cont>
     </>
 }
+
+const Cont = styled.div`
+    display: flex;
+    position: fixed;
+    top: 0;
+    justify-content: space-between;
+    height: 80px;
+    width: 100vw;
+    background-color: ${props=>props.bgcolor};
+    transition: 0.5s;
+    z-index: 1000;
+
+    @media (max-width: 800px) {
+        display: none;
+    }
+
+`
+const LogoCont = styled.div`
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100%;
+    min-width: fit-content;
+    padding: 15px;
+    margin-left: 50px;
+
+    font-size: 24px;
+    font-weight: 700;
+`
+
+const LinksCont = styled.div`
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 100%;
+    width: 50%;
+    padding: 15px;
+`
+
+const NavLink = styled.a`
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    color: ${props=>props.color};
+    margin: 30px;
+    :hover {
+        cursor: pointer;
+    }
+    white-space: nowrap;
+`
+
+const SiteHeader = styled.img`
+    :hover {
+        cursor: pointer;
+    }
+`

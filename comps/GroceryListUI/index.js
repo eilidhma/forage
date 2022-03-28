@@ -3,8 +3,76 @@ import { motion } from "framer-motion";
 import { useState, useEffect } from "react"
 import { themes, comp_themes } from "../../utils/variables";
 import { useTheme } from "../../utils/provider";
-import { colors } from "../../utils/colors";
 import { useRouter } from "next/router";
+
+export default function GroceryListUI({
+    justify="flex-start",
+    onChange=()=>{},
+    onAddClick=()=>{},
+    onDeleteClick=()=>{},
+    value,
+    items
+}) {
+
+    const r = useRouter();
+    const {theme, setTheme} = useTheme();
+
+    const [currentUser, setCurrentUser] = useState();
+
+    useEffect(() => {
+        setCurrentUser(getCookie("user_id"));
+    }, [currentUser])
+
+
+    function getCookie(name) {
+        var cookieArr = document.cookie.split(";");
+
+        for (var i = 0; i < cookieArr.length; i++) {
+            var cookiePair = cookieArr[i].split("=");
+
+            if (name == cookiePair[0].trim()) {
+                return decodeURIComponent(cookiePair[1]);
+            }
+        }
+        return null;
+    }
+
+    return <>
+        <Wrapper>
+            <HeadingCont>
+                <BackCont
+                    color={themes[theme].back_color}
+                    whileHover={{ scale: 1.2 }}
+                    whileTap={{ scale: 0.9 }}
+                    onClick={() => r.push(`/`)}
+                >
+                    <Arrow />
+                    Back
+                </BackCont>
+
+                <Heading color={comp_themes[theme].text_color}>
+                    Grocery List
+                </Heading>
+            </HeadingCont>
+
+            <ListCont>
+                <SearchBarCont>
+                    <SearchBar
+                        value={value}
+                        onChange={onChange}
+                    />
+                    <AddButton
+                        onClick={onAddClick}
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                    >
+                        Add
+                    </AddButton>
+                </SearchBarCont>
+            </ListCont>
+        </Wrapper>
+    </>
+}
 
 const Wrapper = styled.div`
     display: flex;
@@ -147,118 +215,3 @@ const CheckboxInput = styled.input`
     width: 1.25em;
     height: 1.25em;
 `
-
-
-export default function GroceryListUI({
-    justify="flex-start",
-    onChange=()=>{},
-    onAddClick=()=>{},
-    onDeleteClick=()=>{},
-    value,
-    items
-}) {
-
-    const {theme, setTheme} = useTheme();
-    const r = useRouter();
-    const [currentUser, setCurrentUser] = useState();
-
-    useEffect(() => {
-        setCurrentUser(getCookie("user_id"));
-    }, [currentUser])
-
-
-    function getCookie(name) {
-        var cookieArr = document.cookie.split(";");
-
-        for (var i = 0; i < cookieArr.length; i++) {
-            var cookiePair = cookieArr[i].split("=");
-
-            if (name == cookiePair[0].trim()) {
-                return decodeURIComponent(cookiePair[1]);
-            }
-        }
-        return null;
-    }
-
-    // const [items, setItems] = useState([]);
-    // const [searchVal, setSearchVal] = useState("");
-
-
-    // const AddItem = () => {
-    //     if(searchVal != "" && !items.includes(searchVal))
-    //     {
-    //         setItems([...items, searchVal])
-    //         setSearchVal("")
-    //     }
-    //     console.log("items", items)
-    // }
-          
-    // const DeleteItem = (e) => {
-    //   console.log(e.target.getAttribute('data-value'))
-    //   const oldItems = items
-    //   const index = items.indexOf(e.target.dataset.value)
-    //   items.splice(index, 1)
-    //   setItems([...oldItems])
-    // }
-  
-  
-
-    return <>
-        <Wrapper>
-            <HeadingCont>
-            <BackCont
-                color={themes[theme].back_color}     
-                whileHover={{ scale: 1.2 }}
-                whileTap={{ scale: 0.9 }} 
-                onClick={()=>r.push(`/`)}
-                >
-                    <Arrow/>
-                    Back
-                </BackCont>
-
-                <Heading color={comp_themes[theme].text_color}>
-                   Grocery List
-                </Heading>
-            </HeadingCont>
-
-            <ListCont>
-                <SearchBarCont>
-                    <SearchBar
-                        value={value}
-                        // onChange={(e)=>setSearchVal(e.target.value)}
-                        onChange={onChange}
-                    />
-                    <AddButton 
-                        onClick={onAddClick}
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                    >
-                        Add
-                    </AddButton>
-                </SearchBarCont>
-
-            {/* {items && items.map((o,i) => 
-                <Item 
-                    color={themes[theme].text}
-                    borderColor={comp_themes[theme].ingredient_border_color}
-                    key={i}
-                >
-                    <ItemCont justify>
-                        <CheckboxInput type="checkbox"/>
-                        {o}
-                    </ItemCont>
-                    <ItemCont justify="flex-end">
-                        <DeleteButton 
-                            data-value={o}
-                            onClick={onDeleteClick}
-                            color={themes[theme].text}
-                        >
-                            X
-                        </DeleteButton>
-                    </ItemCont>
-                </Item>
-            )} */}
-            </ListCont>
-        </Wrapper>
-    </>
-}
