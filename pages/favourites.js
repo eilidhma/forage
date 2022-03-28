@@ -7,93 +7,13 @@ import Background from '../comps/Background'
 import DragCard from '../comps/DragCard'
 import Dropzone from '../comps/Dropzone'
 import { v4 as uuidv4 } from 'uuid';
-import { useRecipes } from '../utils/provider'
 import axios from 'axios'
-import { useRecipesData } from '../utils/provider'
 import SmallCard from '../comps/SmallCard'
 import { themes } from "../utils/variables";
 import { useTheme } from "../utils/provider";
-import { useItemsView } from "../utils/provider";
 import FormButton from '../comps/FormButton'
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items:center;
-  justify-content: center;
-  width: 100vw;
-  height: 100%;
-`
-
-const Favs = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items:center;
-  justify-content: center;
-  flex-wrap: wrap;
-  width: 100vw;
-`
-
-const Spacer = styled.div`
-    width: 100%;
-    height: 10vh;
-`
-
-const DropCont = styled.div`
-  @media (min-width: 1200px) {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    background:${({bg})=> bg || 'none'};
-    width: 100%;
-    height: 30vh;
-  }
-  display: none;
-`
-
-const Title = styled.h2`
-    display: flex;
-    width: 100vw;
-    text-align: left;
-    color: ${props=>props.color};
-    padding: 20px;
-`
-
-const ButCont = styled.div`
-    padding: 20px;
-`
-
-const CalendarCont = styled.div`
-    display: flex;
-    flex-direction:row;
-    justify-content: center;
-    width: 100vw;
-    height: 100%;
-`
-
-const FavsCont = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    width: 80vw;
-    flex-wrap: wrap;
-`
-
-const MenuCont = styled.div`
-@media (min-width: 1200px) {
-    display: flex;
-    width: 100vw;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-}
-    display: none;
-`
-
-
 export default function Favourites({}){
-
 
     const r = useRouter();
     const { id } = r.query
@@ -474,3 +394,78 @@ export default function Favourites({}){
         </DndProvider>
     </>
 }
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items:center;
+  justify-content: center;
+  width: 100vw;
+  height: 100%;
+`
+
+const Favs = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items:center;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100vw;
+`
+
+const Spacer = styled.div`
+    width: 100%;
+    height: 10vh;
+`
+
+const DropCont = styled.div`
+  @media (min-width: 1200px) {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background:${({bg})=> bg || 'none'};
+    width: 100%;
+    height: 30vh;
+  }
+  display: none;
+`
+
+const Title = styled.h2`
+    display: flex;
+    width: 100vw;
+    text-align: left;
+    color: ${props=>props.color};
+    padding: 20px;
+`
+
+const ButCont = styled.div`
+    padding: 20px;
+`
+
+const CalendarCont = styled.div`
+    display: flex;
+    flex-direction:row;
+    justify-content: center;
+    width: 100vw;
+    height: 100%;
+`
+
+const FavsCont = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 80vw;
+    flex-wrap: wrap;
+`
+
+const MenuCont = styled.div`
+@media (min-width: 1200px) {
+    display: flex;
+    width: 100vw;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+    display: none;
+`
