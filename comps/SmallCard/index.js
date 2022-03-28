@@ -1,13 +1,96 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
-import { comp_themes, themes, view_themes } from "../../utils/variables";
+import { themes } from "../../utils/variables";
 import { useTheme } from "../../utils/provider";
 import { useItemsView } from "../../utils/provider";
-import { colors } from "../../utils/colors";
-import Dietary from "../Dietary";
 import { useDrag, useDrop } from 'react-dnd'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
+
+const SmallCard = ({
+  recipe_name='Recipe Name',
+  recipe_description='This is a description of the recipe blah blah blahhhh',
+  src='plate.png',
+  onCardClick=()=>{},
+  onClose=()=>{},
+  onUpdateRecipes=()=>{},
+  recipepos=null,
+  type='recipes',
+  recipe_id=""
+}) => {
+
+  const {theme, setTheme} = useTheme();
+
+  const [pos, setPos] = useState(recipepos || {
+    left:0,
+    top:0,
+    position: 'relative'
+  })
+
+  useEffect(() => {
+    if (type === 'boardrecipes') {
+      onUpdateRecipes({
+        pos
+      })
+    }
+  }, [pos])
+
+
+  const [{ isDragging, coords }, drag, dragPreview] = useDrag(() => ({
+    type,
+    item: {
+      type:"recipes",
+      recipe_name,
+      recipe_description,
+      recipe_id
+    },
+    end:(item, monitor)=>{
+      if(type === 'boardrecipes'){
+        setPos({
+          left:monitor.getClientOffset().x,
+          top:monitor.getClientOffset().y,
+          position: 'absolute'
+        })
+      }
+    },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+      coords: monitor.getClientOffset()
+    })
+  }))
+
+
+  const sty = {
+    left: type==='boardrecipes' ? pos.left : null,
+    top: type==='boardrecipes' ? pos.top : null,
+    position: type==='boardrecipes' ? pos.position : null
+  }
+
+  if(coords && isDragging){
+    sty.left = coords.x;
+    sty.top = coords.y;
+    sty.position = 'fixed';
+  }
+
+  return <Cont onClick={onCardClick}
+    background={themes[theme].card_bg_color}
+    shadow={themes[theme].shadow}
+  >
+    
+    <Close onClick={onClose}>
+      <AiOutlineCloseCircle color={themes[theme].text} />
+    </Close>
+
+    <Title ref={drag}>{recipe_name}</Title>
+
+    <DescCont>
+      <Description
+        color={themes[theme].text}>
+        {recipe_description}
+      </Description>
+    </DescCont>
+    
+  </Cont>
+}
 
 const Cont = styled.div`
   display:flex;
@@ -58,14 +141,6 @@ const Description = styled.p`
   text-align:center;
 `
 
-const DietCont = styled.div`
-  display:flex;
-  flex-direction:row;
-  width:200px;
-  justify-content:space-between;
-  align-items:center;
-`
-
 const Close = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -75,90 +150,5 @@ const Close = styled.div`
   right:0px;
 `
 
-const SmallCard = ({
-  recipe_name='Recipe Name',
-  recipe_description='This is a description of the recipe blah blah blahhhh',
-  src='plate.png',
-  onCardClick=()=>{},
-  onClose=()=>{},
-  onUpdateRecipes=()=>{},
-  recipepos=null,
-  type='recipes',
-  recipe_id=""
-}) => {
-
-  const {theme, setTheme} = useTheme();
-  const {items_view, setItemsView} = useItemsView();
-
-
-  const [pos, setPos] = useState(recipepos || {
-    left:0,
-    top:0,
-    position: 'relative'
-  })
-
-  useEffect(()=>{
-    if(type === 'boardrecipes'){
-      onUpdateRecipes({
-        pos
-      })
-    }
-  }, [pos])
-
-
-  const [{ isDragging, coords }, drag, dragPreview] = useDrag(() => ({
-    type,
-    item: {
-      type:"recipes",
-      recipe_name,
-      recipe_description,
-      recipe_id
-    },
-    end:(item, monitor)=>{
-      if(type === 'boardrecipes'){
-        setPos({
-          left:monitor.getClientOffset().x,
-          top:monitor.getClientOffset().y,
-          position: 'absolute'
-        })
-      }
-    },
-		// The collect function utilizes a "monitor" instance (see the Overview for what this is)
-		// to pull important pieces of state from the DnD system.
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-      coords: monitor.getClientOffset()
-    })
-  }))
-
-
-  const sty = {
-    left: type==='boardrecipes' ? pos.left : null,
-    top: type==='boardrecipes' ? pos.top : null,
-    position: type==='boardrecipes' ? pos.position : null
-  }
-
-  if(coords && isDragging){
-    sty.left = coords.x;
-    sty.top = coords.y;
-    sty.position = 'fixed';
-  }
-
-  return <Cont onClick={onCardClick}
-    background={themes[theme].card_bg_color}
-    shadow={themes[theme].shadow}
-  >
-    <Close onClick={onClose}>
-        <AiOutlineCloseCircle color={themes[theme].text}/>
-    </Close>
-    <Title ref={drag}>{recipe_name}</Title>
-    <DescCont>
-      <Description 
-      color={themes[theme].text}>
-        {recipe_description}
-      </Description>
-    </DescCont>
-  </Cont>
-}
 
 export default SmallCard;

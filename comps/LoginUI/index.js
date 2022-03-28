@@ -5,8 +5,130 @@ import { motion } from "framer-motion";
 import axios from "axios";
 import { comp_themes, themes } from "../../utils/variables";
 import { useTheme, useItemsView } from "../../utils/provider";
-import { colors } from "../../utils/colors";
 import FormButton from "../FormButton";
+
+export default function LoginUI({
+    onCancelClick=()=>{}
+}) 
+
+{
+    const r = useRouter();
+    const [isCreate, setIsCreate] = useState(false);
+    const {theme, setTheme} = useTheme();
+    const {items_view, setItemsView} = useItemsView();
+    const [currentUser, setCurrentUser] = useState();
+    const [email, setEmail] = useState("");
+    const [pw, setPw] = useState("");
+
+    function getCookie(name) {
+        var cookieArr = document.cookie.split(";");
+    
+        for (var i = 0; i < cookieArr.length; i++) {
+            var cookiePair = cookieArr[i].split("=");
+    
+            if (name == cookiePair[0].trim()) {
+                return decodeURIComponent(cookiePair[1]);
+            }
+        }
+        return null;
+    }
+    
+    useEffect(() => {
+      setCurrentUser(getCookie("user_id"))
+    }, [currentUser])
+
+    if(isCreate === false)
+    {
+        return <>
+            <Cont>
+                <HeadingCont>
+                    <HeadingText>
+                        Sign In
+                    </HeadingText>
+                </HeadingCont>
+
+                <InputCont>
+                    <Input onChange={(e)=>setEmail(e.target.value)} value={email} type="text" placeholder="Email" />
+                    <Input onChange={(e)=>setPw(e.target.value)} value={pw} type="password" placeholder="Password" />
+
+                    <ButtonCont>
+                        <FormButton textColor={"#EF6345"} color={"#EF6345"} buttonText="Cancel" onClick={onCancelClick} />
+                        <FormButton backgroundColor={"#EF6345"} textColor={"white"} color={"white"} onClick={async () => {
+                            try {
+                                const result = await axios.post('https://forage-backend-final.herokuapp.com/login', {
+                                    email: email,
+                                    password: pw
+                                });
+
+                                if (result.status === 200) {
+                                    alert('Sign in Successful!')
+                                    document.cookie = `user_id=${result.data.user._id}`
+
+                                    const set = await axios.get('https://forage-backend-final.herokuapp.com/getsettingsbyuser?user_id='+getCookie("user_id"));
+
+                                    setTheme(set.data.settings[0].mode)
+                                    setItemsView(set.data.settings[0].view)
+                                }
+                                setTimeout(() => {
+                                    r.reload()
+                                }, 500)
+                            } catch (error) {
+                                setTimeout(() => {
+                                    r.reload()
+                                }, 500)
+                            }
+                        }} buttonText="Confirm" />
+                    </ButtonCont>
+                </InputCont>
+
+                <HeadingCont>
+                    <SignUp textColor={themes[theme].sign_color} onClick={()=>setIsCreate(true)}>
+                        Sign Up
+                    </SignUp>
+                </HeadingCont>
+            </Cont>
+        </>
+    }
+
+    if(isCreate === true)
+    {
+        return <>
+            <Cont>
+                <HeadingCont>
+                    <HeadingText>
+                        Sign Up
+                    </HeadingText>
+                </HeadingCont>
+                <ParaText
+                    paraColor={themes[theme].para_color}
+                >
+                    Enter your info below to get started!
+                </ParaText>
+                <InputCont>
+                    <Input type="text" placeholder="Name" />
+                    <Input onChange={(e)=>setEmail(e.target.value)} value={email} type="text" placeholder="Email" />
+                    <Input onChange={(e)=>setPw(e.target.value)} value={pw} type="password" placeholder="Password" />
+
+                    <ButtonCont>
+                        <FormButton textColor={"#EF6345"} color={"#EF6345"} buttonText="Cancel" onClick={onCancelClick}/>
+                        <FormButton backgroundColor={"#EF6345"} textColor={"white"} color={"white"} onClick={async() => {
+                            const result = await axios.post('https://forage-backend-final.herokuapp.com/signup', {
+                                email:email,
+                                password:pw
+                            });
+                        }} buttonText="Confirm"/>
+                    </ButtonCont>
+                </InputCont>
+
+                <HeadingCont>
+                    <SignUp textColor={themes[theme].sign_color} onClick={()=>setIsCreate(false)}>
+                        Sign In
+                    </SignUp>
+                </HeadingCont>
+            </Cont>
+        </>
+    }
+}
 
 const Cont = styled(motion.div)`
     display: flex;
@@ -87,137 +209,3 @@ const SignUp = styled.p`
         cursor: pointer;
     }
 `
-
-export default function LoginUI({
-    onCancelClick=()=>{}
-}) 
-
-{
-    const r = useRouter();
-    const [isCreate, setIsCreate] = useState(false);
-    const {theme, setTheme} = useTheme();
-    const {items_view, setItemsView} = useItemsView();
-    const [currentUser, setCurrentUser] = useState();
-    const [email, setEmail] = useState("");
-    const [pw, setPw] = useState("");
-
-    function getCookie(name) {
-        var cookieArr = document.cookie.split(";");
-    
-        for (var i = 0; i < cookieArr.length; i++) {
-            var cookiePair = cookieArr[i].split("=");
-    
-            if (name == cookiePair[0].trim()) {
-                return decodeURIComponent(cookiePair[1]);
-            }
-        }
-        return null;
-    }
-    
-    useEffect(() => {
-    
-      setCurrentUser(getCookie("user_id"))
-      console.log(currentUser)
-    
-    }, [currentUser])
-
-    if(isCreate === false)
-    {
-        return <>
-            <Cont>
-                <HeadingCont>
-                    <HeadingText>
-                        Sign In
-                    </HeadingText>
-                </HeadingCont>
-
-                <InputCont>
-                    <Input onChange={(e)=>setEmail(e.target.value)} value={email} type="text" placeholder="Email" />
-                    <Input onChange={(e)=>setPw(e.target.value)} value={pw} type="password" placeholder="Password" />
-
-                    <ButtonCont>
-                        <FormButton textColor={"#EF6345"} color={"#EF6345"} buttonText="Cancel" onClick={onCancelClick}/>
-                        <FormButton backgroundColor={"#EF6345"} textColor={"white"} color={"white"} onClick={async() => {
-                            try {
-                                const result = await axios.post('https://forage-backend-final.herokuapp.com/login', {
-                                    email:email,
-                                    password:pw
-                                });
-                                
-                                if(result.status === 200){
-                                    alert('Sign in Successful!')
-                                    localStorage.setItem("user_id", result.data.user._id)
-                                    document.cookie = `user_id=${result.data.user._id}`
-                                    // setCurrentUser
-
-                                    const set = await axios.get('https://forage-backend-final.herokuapp.com/getsettingsbyuser?user_id='+getCookie("user_id"));
-                                    console.log(set.data.settings[0].mode)
-                                    
-                                    setTheme(set.data.settings[0].mode)
-                                    setItemsView(set.data.settings[0].view)
-                                } 
-                                    setTimeout(() => {
-                                        r.reload()
-                                    }, 500)
-                                console.log(result)
-                            } catch (error) {
-                                setTimeout(() => {
-                                    r.reload()
-                                }, 500)
-                                console.log(error)
-                            }
-                        }} buttonText="Confirm"/>
-                    </ButtonCont>
-                </InputCont>
-
-                <HeadingCont>
-                    <SignUp textColor={themes[theme].sign_color} onClick={()=>setIsCreate(true)}>
-                        Sign Up
-                    </SignUp>
-                </HeadingCont>
-            </Cont>
-        </>
-    }
-
-    if(isCreate === true)
-    {
-        return <>
-            <Cont>
-                <HeadingCont>
-                    <HeadingText>
-                        Sign Up
-                    </HeadingText>
-                </HeadingCont>
-                <ParaText
-                    paraColor={themes[theme].para_color}
-                >
-                    Enter your info below to get started!
-                </ParaText>
-                <InputCont>
-                    <Input type="text" placeholder="Name" />
-                    <Input onChange={(e)=>setEmail(e.target.value)} value={email} type="text" placeholder="Email" />
-                    <Input onChange={(e)=>setPw(e.target.value)} value={pw} type="password" placeholder="Password" />
-                    {/* <Input onChange={(e)=>setPw(e.target.value)} type="text" placeholder="Confirm Password" /> */}
-
-                    <ButtonCont>
-                        <FormButton textColor={"#EF6345"} color={"#EF6345"} buttonText="Cancel" onClick={onCancelClick}/>
-                        <FormButton backgroundColor={"#EF6345"} textColor={"white"} color={"white"} onClick={async() => {
-                            const result = await axios.post('https://forage-backend-final.herokuapp.com/signup', {
-                                email:email,
-                                password:pw
-                            });
-
-                            console.log(result)
-                        }} buttonText="Confirm"/>
-                    </ButtonCont>
-                </InputCont>
-
-                <HeadingCont>
-                    <SignUp textColor={themes[theme].sign_color} onClick={()=>setIsCreate(false)}>
-                        Sign In
-                    </SignUp>
-                </HeadingCont>
-            </Cont>
-        </>
-    }
-}

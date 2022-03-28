@@ -1,8 +1,18 @@
 import styled from "styled-components";
-import { useRouter } from "next/router";
-import { comp_themes, themes } from "../../utils/variables";
+import { themes } from "../../utils/variables";
 import { useTheme } from "../../utils/provider";
-import { colors } from "../../utils/colors";
+
+
+const Dietary = ({
+  diet='V'
+}) => {
+
+  const {theme, setTheme} = useTheme();
+
+  return <Cont>
+    <Diet color={themes[theme].text}>{diet}</Diet>
+  </Cont>
+}
 
 const Cont = styled.div`
   display:flex;
@@ -24,16 +34,5 @@ const Diet = styled.h3`
   font-style:italic;
   font-size:14px;
 `
-
-const Dietary = ({
-  diet='V'
-}) => {
-
-  const {theme, setTheme} = useTheme();
-
-  return <Cont>
-    <Diet color={themes[theme].text}>{diet}</Diet>
-  </Cont>
-}
 
 export default Dietary;

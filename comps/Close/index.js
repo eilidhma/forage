@@ -1,9 +1,16 @@
 import styled from "styled-components";
-import { useRouter } from "next/router";
-import { comp_themes, themes } from "../../utils/variables";
 import { useTheme } from "../../utils/provider";
-import { GrClose } from 'react-icons/gr';
 import { AiOutlineClose } from 'react-icons/ai'
+
+
+const Close = () => {
+
+  const {theme, setTheme} = useTheme();
+
+  return <Cont>
+    <AiOutlineClose color="white" size={30}/>
+  </Cont>
+}
 
 const Cont = styled.div`
   display:flex;
@@ -15,14 +22,5 @@ const Cont = styled.div`
   background-color:#8D95A3;
   padding:5px;
 `
-
-const Close = () => {
-
-  const {theme, setTheme} = useTheme();
-
-  return <Cont>
-    <AiOutlineClose color="white" size={30}/>
-  </Cont>
-}
 
 export default Close;

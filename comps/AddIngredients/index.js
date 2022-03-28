@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 import Title from "../Title";
@@ -7,7 +6,78 @@ import Title from "../Title";
 import { themes, comp_themes, view_themes, } from "../../utils/variables";
 import { useTheme } from "../../utils/provider";
 import { colors } from "../../utils/colors";
-import { AiFillDelete } from 'react-icons/ai';
+
+export default function AddIngredients({
+    justify="flex-start",
+    radius="5px",
+    onClickScroll = () => {},
+    showRecipes = () => {},
+    onChangeSearch = () => {},
+    onClickAdd = () => {},
+    onClickDelete = () => {},
+    searchVal,
+    ings
+})
+{   
+    const {theme, setTheme} = useTheme();
+
+    const onDoneClick = () => {
+        showRecipes()
+        onClickScroll()
+    }
+
+    
+
+    return <>
+        <AddIngsCont>
+            <Title title="Let's start by adding ingredients you currently have!" />
+
+            <SearchBarCont>
+                <SearchBar placeholder="Enter a minimum of 3 ingredients" value={searchVal} onChange={onChangeSearch}/>
+                <Button radius="0 10px 10px 0"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    onClick={onClickAdd}
+                >
+                    Add
+                </Button>
+            </SearchBarCont>
+                {ings && ings.map((o, i) => 
+                    <Ingredient
+                        textColor={themes[theme].text_hover}
+                        bgColor={themes[theme].ingredient_hover}
+                        color={themes[theme].text}
+                        borderColor={comp_themes[theme].ingredient_border_color}
+                        key={i}>
+                        <IngCont>
+                            {o}
+                        </IngCont>
+                        <DelCont justify="center"> 
+                            <DeleteButton
+                                whileHover={{ scale: 1.4}}
+                                whileTap={{ scale: 0.9 }}
+                                delColor={themes[theme].delete_color}
+                                data-value={o}
+                                onClick={onClickDelete}
+                                
+                            >
+                                X
+                            </DeleteButton>
+                        </DelCont>
+                    </Ingredient>
+                )}
+
+                <Button radius="10px"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    onClick={()=>onDoneClick()}
+                >
+                    Done
+                </Button>
+        </AddIngsCont>
+    </>
+}
+
 
 const AddIngsCont = styled.div`
     display: flex;
@@ -105,75 +175,3 @@ const DeleteButton = styled(motion.button)`
     };
 `
 
-
-export default function AddIngredients({
-    justify="flex-start",
-    radius="5px",
-    onClickScroll = () => {},
-    showRecipes = () => {},
-    onChangeSearch = () => {},
-    onClickAdd = () => {},
-    onClickDelete = () => {},
-    searchVal,
-    ings,
-    the
-})
-{   
-    const {theme, setTheme} = useTheme();
-
-    const onDoneClick = () => {
-        showRecipes()
-        onClickScroll()
-    }
-
-    
-
-    return <>
-        <AddIngsCont>
-            <Title title="Let's start by adding ingredients you currently have!" />
-
-            <SearchBarCont>
-                <SearchBar placeholder="Enter a minimum of 3 ingredients" value={searchVal} onChange={onChangeSearch}/>
-                <Button radius="0 10px 10px 0"
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    onClick={onClickAdd}
-                >
-                    Add
-                </Button>
-            </SearchBarCont>
-                {ings && ings.map((o, i) => 
-                    <Ingredient
-                        textColor={themes[theme].text_hover}
-                        bgColor={themes[theme].ingredient_hover}
-                        color={themes[theme].text}
-                        borderColor={comp_themes[theme].ingredient_border_color}
-                        key={i}>
-                        <IngCont>
-                            {o}
-                        </IngCont>
-                        <DelCont justify="center"> 
-                            <DeleteButton
-                                whileHover={{ scale: 1.4}}
-                                whileTap={{ scale: 0.9 }}
-                                delColor={themes[theme].delete_color}
-                                data-value={o}
-                                onClick={onClickDelete}
-                                
-                            >
-                                X
-                            </DeleteButton>
-                        </DelCont>
-                    </Ingredient>
-                )}
-
-                <Button radius="10px"
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    onClick={()=>onDoneClick()}
-                >
-                    Done
-                </Button>
-        </AddIngsCont>
-    </>
-}
