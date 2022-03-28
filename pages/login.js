@@ -1,8 +1,6 @@
 import styled from "styled-components";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { comp_themes, themes } from "../utils/variables";
+import { themes } from "../utils/variables";
 import { useTheme } from "../utils/provider";
 import { colors } from "../utils/colors";
 import LoginUI from "../comps/LoginUI"
@@ -30,6 +28,7 @@ const Text = styled.h1`
 export default function Login() {
 
     const {theme, setTheme} = useTheme();
+    
     const [currentUser, setCurrentUser] = useState(null);
     
     useEffect(() => {

@@ -1,32 +1,35 @@
 import styled from 'styled-components'
-import Router, { useRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
-
 import Background from '../../comps/Background'
 import Recipe from '../../comps/Recipe'
-import Card from '../../comps/Card'
 import axios from 'axios'
-// import clientPromise from '../../lib/mongodb'
-import { useCurrentUser, useRecipes } from '../../utils/provider'
-
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items:center;
-  justify-content: center;
-`
-const Spacer = styled.div`
-    width: 100%;
-    height: 20vh;
-`
+import { useRecipes } from '../../utils/provider'
 
 export default function Home({}) {
-
+  
+  const r = useRouter();
+  const { id } = r.query
+  
+  const {favRecipes, setFavRecipes} = useRecipes();
+  
+  const [fav_id, setFavId] = useState()
+  const [fill, setFill] = useState('none')
   const [recipes, setRecipes] = useState([])
   const [currentUser, setCurrentUser] = useState();
+  
+  useEffect(() => {
 
-  // console.log(recipes, "recipes")
+    setCurrentUser(getCookie("user_id"))
+
+    const getData = async() => {
+      const result = await axios.get('https://forage-backend-final.herokuapp.com/recipes');
+      setRecipes(result.data.filter((x) => {return x._id === id}))
+    }
+
+    getData()
+
+  }, [currentUser])
 
   function getCookie(name) {
     var cookieArr = document.cookie.split(";");
@@ -40,7 +43,7 @@ export default function Home({}) {
     }
     return null;
   }
-
+    
   const ImgFilter = (array) => {
     if(array.includes('meat' || 'chicken' || 'fish' || 'beef' || 'pork')){
       return '/meat-gif.gif'
@@ -64,69 +67,6 @@ export default function Home({}) {
       return '/apple-gif.gif'
     }
   }
-  
-  useEffect(() => {
-
-    setCurrentUser(getCookie("user_id"))
-    console.log(currentUser, "da user")
-    const getData = async() => {
-      const result = await axios.get('https://forage-backend-final.herokuapp.com/recipes');
-      setRecipes(result.data.filter((x) => {return x._id === id}))
-      // console.log(result.data, "data")
-      // return result.data
-    }
-      // setRecipes(result.data)
-    getData()
-    // getSpecificRecipe()
-    
-    // const getSpecificRecipe = async() => {
-    //   const curRec = recipes.filter((x) => {return x._id === id})
-    //   setRec(curRec);
-    //   console.log(curRec[0], "current recipe")
-    // }
-    
-    
-    //  console.log(JSON.parse(curRec[0].ingredients.replace(/'/g, '"')))
-    
-    //  const CheckFavorite = () => {
-      //    if(localStorage.getItem("recipe_id", id) === id) {
-        //      setFill("#EF6345")
-        //    }
-        //  }
-        //  CheckFavorite()
-      }, [currentUser])
-      
-  const [rec, setRec] = useState([]);
-  const [isFav, setIsFav] = useState(false);
-  const [fill, setFill] = useState('none')
-  const [fav_id, setFavId] = useState()
-
-  const r = useRouter();
-  const [isToggled, setIsToggled] = useState(false);
-  const introText = `Hungry?\n We can help.`
-
-  const { id } = r.query
-
-  const setFavorite = () => {
-    setIsFav(!isFav)
-    AddFavorite()
-  }
-  
-  const AddFavorite = () => {
-
-    if(currentUser) {
-      if(localStorage.getItem("recipe_id", id) !== id) {
-        localStorage.setItem("recipe_id", id)
-      } else if(localStorage.getItem("recipe_id", id) === id) {
-        localStorage.removeItem("recipe_id", id)
-        console.log("running")
-      }
-    }
-    else {
-      alert('Please Sign up or Sign in to add favourites!')
-    }
-    
-  }
 
   const addFav = async() => {
 
@@ -138,15 +78,11 @@ export default function Home({}) {
           recipe_description: recipes[0].description,
           recipe_ingredients: recipes[0].ingredients
         })
-        console.log(result.data.savedFav._id)
         setFavId(result.data.savedFav._id)
     } else {
       alert('Please Sign up or Sign in to add favourites!')
     }
-  
   }
-
-  const {favRecipes, setFavRecipes} = useRecipes();
 
   const HandleUpdateFavs = (id, favRecipesData) => {
     favRecipes[id] = {
@@ -157,45 +93,52 @@ export default function Home({}) {
     setFavRecipes({
       ...favRecipes
     })
-    console.log(favRecipes)
   }
   
   const Fill = async() => {
 
-    if(fill === 'none' && currentUser){
+    if (fill === 'none' && currentUser) {
       setFill('#EF6345')
     } else {
-      setFill('none')
-      const result = axios.patch('https://forage-backend-final.herokuapp.com/removefav',{
-        _id:fav_id
+        setFill('none')
+        const result = axios.patch('https://forage-backend-final.herokuapp.com/removefav', {
+        _id: fav_id
       })
     }
   }
 
-
   return <>      
     <Background/>
       <Wrapper>
-          <Spacer/>
-      {recipes && recipes.map((o) => (
-        
-        <Recipe
-        onClick={()=>{
-          console.log(JSON.parse(o.ingredients.replace(/'/g, '"')))
-          console.log(o.ingredients)
-        }}
-          key={o.id}
-          recipe_name={o.name}
-          recipe_desc={o.description}
-          recipe_instructions={JSON.parse(o.steps.replace(/'/g, '"')).map(list=> {return <li>{list}</li>})}
-          recipe_ingredients={JSON.parse(o.ingredients.replace(/'/g, '"')).map(list=> {return <li>{list}</li>})}
-          onFavorite={() => addFav()}
-          onClickFill={Fill}
-          fill={fill}
-          src={ImgFilter(o.ingredients)}
-        />
-      ))}
+      <Spacer/>
+      {
+        recipes && recipes.map((o) => (
+
+          <Recipe
+            key={o.id}
+            recipe_name={o.name}
+            recipe_desc={o.description}
+            recipe_instructions={JSON.parse(o.steps.replace(/'/g, '"')).map(list=> {return <li>{list}</li>})}
+            recipe_ingredients={JSON.parse(o.ingredients.replace(/'/g, '"')).map(list=> {return <li>{list}</li>})}
+            onFavorite={() => addFav()}
+            onClickFill={Fill}
+            fill={fill}
+            src={ImgFilter(o.ingredients)}
+          />
+
+        ))
+      }
     </Wrapper>
-    
   </>
 }
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items:center;
+  justify-content: center;
+`
+const Spacer = styled.div`
+    width: 100%;
+    height: 20vh;
+`

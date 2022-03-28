@@ -1,4 +1,3 @@
-
 import { useContext, createContext, useState, useEffect } from 'react'
 import { themes } from './variables';
 
